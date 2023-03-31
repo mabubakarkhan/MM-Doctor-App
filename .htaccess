@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond $1 !^(index\.php|images|asset|uploads|robots\.txt)
+    RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
+
+</IfModule>
+
+
+
+
+<IfModule mod_headers.c>
+	#alow all fonts inside css folder
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>

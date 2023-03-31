@@ -94,6 +94,7 @@ else
 	define('BASEURL', 'https://advicedrs.com/');
 }
 
+define('APP_TITLE', 'ADVICEDRS');
 
 define('ASSET', BASEURL.'asset/');
 define('CSS', BASEURL.'asset/css/');
@@ -101,13 +102,6 @@ define('JS', BASEURL.'asset/js/');
 define('IMG', BASEURL.'asset/images/');
 define('UPLOADS', BASEURL.'uploads/');
 define('GLOBAL_', BASEURL.'asset/global/');
-
-
-
-define('EMAIL_TITLE', 'InsertReveiw');
-define('EMAIL_SERVER', 'mail.smartcompare.pk');
-define('EMAIL_FROM', 'info@smartcompare.pk');
-define('EMAIL_PASSWORD', '48@){@g%CUIa');
 
 
 function redirect($link) {

@@ -91,7 +91,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
 }
 else
 {
-	define('BASEURL', 'http://advicedrs.com/');
+	define('BASEURL', 'https://advicedrs.com/');
 }
 
 

@@ -39,11 +39,27 @@
 */
 $route['translate_uri_dashes'] = TRUE;
 $route['default_controller'] = "home";
-$controller_exceptions = array('admin','company','user','api','temp','cron');
+$controller_exceptions = array('admin','doctor','user','api','temp','cron');
 $route['404_override'] = '';
+
+$route["index"] = 'Home/index';
+
+$route["logout"] = 'Home/logout';
+$route["doctor/logout"] = 'Home/logout';
 
 $route["login"] = 'Home/login';
 $route["register"] = 'Home/register';
+
+//Doctor
+$route["login-doctor"] = 'Home/login_doctor';
+$route["post-login-doctor"] = 'Home/post_login_doctor';
+$route["register-doctor"] = 'Home/register_doctor';
+$route["post-register-doctor"] = 'Home/post_register_doctor';
+
+$route["dashboard"] = 'doctor/index';
+$route["doctor/profile-settings"] = 'doctor/profile_settings';
+
+
 
 
 // Test matter

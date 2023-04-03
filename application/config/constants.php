@@ -96,6 +96,7 @@ else
 
 define('APP_TITLE', 'ADVICEDRS');
 
+define('PLUGINS', BASEURL.'asset/plugins/');
 define('ASSET', BASEURL.'asset/');
 define('CSS', BASEURL.'asset/css/');
 define('JS', BASEURL.'asset/js/');
@@ -112,4 +113,10 @@ function clean_url($url) {
 	$url = preg_replace("(^https?://)", "", $url );
 	$url = preg_replace("(^www?.)", "", $url );
 	return $url;
+}
+function trim_phone($phone) {
+	$phone = ltrim($phone, "0");
+	$phone = ltrim($phone, "92");
+	$phone = ltrim($phone, "+");
+	return $phone;
 }

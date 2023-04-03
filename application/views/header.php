@@ -6,8 +6,9 @@
     <title><?=APP_TITLE?></title>
     <link type="image/x-icon" href="<?=IMG?>favicon.png" rel="icon">
     <link rel="stylesheet" href="<?=CSS?>bootstrap.min.css">
-    <link rel="stylesheet" href="<?=PLUGINS?>fontawesome/css/fontawesome.min.css">
-    <link rel="stylesheet" href="<?=PLUGINS?>fontawesome/css/all.min.css">
+    <!-- <link rel="stylesheet" href="<?=PLUGINS?>fontawesome/css/fontawesome.min.css"> -->
+    <!-- <link rel="stylesheet" href="<?=PLUGINS?>fontawesome/css/all.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="<?=CSS?>bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="<?=PLUGINS?>select2/css/select2.min.css">
     <link rel="stylesheet" href="<?=PLUGINS?>fancybox/jquery.fancybox.min.css">
@@ -131,27 +132,29 @@
                         </li>
                         </ul>
                     </div>
-                    <?php if ($_SESSION['user']): ?>
+                    <?php if ($userSession): ?>
                         <ul class="nav header-navbar-rht">
                             <li class="nav-item dropdown has-arrow logged-item">
                                 <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                                     <span class="user-img">
-                                        <img class="rounded-circle" src="assets/img/doctors/doctor-thumb-02.jpg" width="31" alt="Fred Ortego">
+                                        <img class="rounded-circle" src="<?=UPLOADS.$userSession['img']?>" width="31" alt="<?=$userSession['fname'].' '.$userSession['lname']?>">
                                     </span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <div class="user-header">
-                                        <div class="avatar avatar-sm">
-                                            <img src="assets/img/doctors/doctor-thumb-02.jpg" alt="User Image" class="avatar-img rounded-circle">
-                                        </div>
+                                        <?php if (isset($userSession['img']) && strlen($userSession['img']) > 4): ?>
+                                            <div class="avatar avatar-sm">
+                                                <img src="<?=UPLOADS.$userSession['img']?>" alt="<?=$userSession['fname'].' '.$userSession['lname']?>" class="avatar-img rounded-circle">
+                                            </div>
+                                        <?php endif ?>
                                         <div class="user-text">
-                                            <h6>Darren Elder</h6>
-                                            <p class="text-muted mb-0">Doctor</p>
+                                            <h6><?=$userSession['fname'].' '.$userSession['lname']?></h6>
+                                            <p class="text-muted mb-0"><?=$userSession['controller']?></p>
                                         </div>
                                     </div>
-                                    <a class="dropdown-item" href="doctor-dashboard.html">Dashboard</a>
-                                    <a class="dropdown-item" href="doctor-profile-settings.html">Profile Settings</a>
-                                    <a class="dropdown-item" href="login.html">Logout</a>
+                                    <a class="dropdown-item" href="<?=$userSession['controller']?>/dashboard">Dashboard</a>
+                                    <a class="dropdown-item" href="<?=$userSession['controller']?>/profile-settings">Profile Settings</a>
+                                    <a class="dropdown-item" href="logout">Logout</a>
                                 </div>
                             </li>
                         </ul>

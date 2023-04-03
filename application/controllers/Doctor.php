@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Company extends CI_Controller {
+class Doctor extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -40,40 +40,38 @@ class Company extends CI_Controller {
 	/*     Check LOGIN     */
 	public function check_login($redrc = FALSE)
 	{
-		if(isset($_SESSION['Company']) && $_SESSION['Company']!= "")
+		if(isset($_SESSION['user']) && $_SESSION['user']!= "")
 		{
-			$email = $_SESSION['Company']['email'];
-			$phone = $_SESSION['Company']['phone'];
-			$password = $_SESSION['Company']['password'];
-			$new = $this->model->get_row("SELECT * FROM `company` WHERE (`email` = '$email' OR `phone` = '$phone') AND `password` = '$password';");
-			if($new)
-			{
-				if ($new['status'] == 'pending' && $new['status'] == 'inactive') {
-					redirect('active-account');
+			$userChk = unserialize($_SESSION['user']);
+			if ($userChk['controller'] == 'doctor') {
+				$new = $this->model->get_row("SELECT * FROM `doctor` WHERE `phone` = '".$userChk['phone']."' AND `password` = '".$userChk['password']."';");
+				if($new)
+				{
+					$new['controller'] = 'doctor';
+					return $new;
 				}
-				$_SESSION['Company'] = $new;
-				return $new;
+				else
+				{
+					unset($_SESSION['user']);
+					redirect('login-doctor');
+				}
 			}
-			else
-			{
-				unset($_SESSION['Company']);
-				unset($_SESSION['User']);
-				redirect('company-login');
+			else{
+				redirect($userChk['controller'].'/dashboard');
 			}
 		}
 		else
 		{
-			redirect('company-login');
+			unset($_SESSION['user']);
+			redirect('login-doctor');
 		}
 	}
 	/*     TEMPLATE     */
 	public function template($page = '', $data = '')
 	{
-		$data['company_notifications'] = $this->model->get_notify_by_company($_SESSION['Company']['company_id'],'company');
-		$data['company_alerts'] = $this->model->get_notify_by_company($_SESSION['Company']['company_id'],'all');
-		$this->load->view('company/header',$data);
+		$this->load->view('header',$data);
 		$this->load->view($page,$data);
-		$this->load->view('company/footer',$data);
+		$this->load->view('footer',$data);
 	}
 	/**
 	*
@@ -159,64 +157,23 @@ class Company extends CI_Controller {
 		$user = $this->check_login();
 		$this->index();
 	}
-	public function profile_setup()
-	{
-		$user = $this->check_login();
-		$data['user'] = $user;
-		$data['meta_title'] = 'Dashboard -> Profile Setup';
-		$data['profile_setup_page_active'] = 'active';
-		$this->template('company/profile_setup',$data);
-	}
-	public function notification($type,$id)
-	{
-		$user = $this->check_login();
-		$data['user'] = $user;
-		$data['meta_title'] = 'Notifications';
-		$notification = $this->model->get_notify_by_company_single($user['company_id'],$id,$type);
-		if ($notification) {
-			if ($type == 'all') {
-				$check = $this->model->check_alert_duplication($notification['notify_id'],$user['company_id']);
-				if ($check) {
-					redirect('company/index');
-				}
-				else{
-					$post['notification_id'] = $notification['notification_id'];
-					$post['company_id'] = $user['company_id'];
-					$post['parent'] = $notification['notify_id'];
-					$post['all'] = 'yes';
-					$post['status'] = 'read';
-					$post['at'] = $notification['notify_id'];
-					$this->db->insert('notify',$post);
-				}
-				$data['notification'] = $notification;
-				$data['heading'] = 'Alert';
-			}
-			else{
-				if ($notification['status'] == 'unread') {
-					$this->db->where('notify_id',$notification['notify_id']);
-					$this->db->update('notify',array("status"=>'read'));
-					$data['notification'] = $notification;
-					$data['heading'] = 'Notification';
-				}
-				else{
-					redirect('company/index');
-				}
-			}
-		}
-		else{
-			redirect('company/index');
-		}
-		$this->template('company/notification',$data);
-	}
 	public function index()
 	{
 		$user = $this->check_login();
 		$data['user'] = $user;
-		$data['meta_title'] = 'Dashboard';
-		$data['index_page_active'] = 'active';
-		$data['company_reviews_count_ratio'] = $this->model->get_company_reviews_count_ratio($user['company_id'],$user['company_review_tbl'],'company');
-		$data['email_data'] = $this->model->get_company_reviews_count_ratio($user['company_id'],$user['company_review_tbl'],'company');
-		$this->template('company/index',$data);
+		// $data['meta_title'] = 'Dashboard';
+		$data['profile_settings_active'] = 'active';
+		$data['userSession'] = $user;
+		$this->template('doctor/index',$data);
+	}
+	public function profile_settings()
+	{
+		$user = $this->check_login();
+		$data['user'] = $user;
+		// $data['meta_title'] = 'Dashboard';
+		$data['profile_settings_active'] = 'active';
+		$data['userSession'] = $user;
+		$this->template('doctor/index',$data);
 	}
 	public function your_reviews()
 	{

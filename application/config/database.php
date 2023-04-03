@@ -78,7 +78,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
 {
 	define('_DB_USER', "root");
 	define('_DB_PASS', "");
-	define('_DB_NAME', "noor");
+	define('_DB_NAME', "doctor_app");
 	define('_DB_HOST', "localhost");
 }
 else

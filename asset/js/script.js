@@ -1103,7 +1103,7 @@ Version      : 1.3
 
 	// Inspect keyCode
 
-	$( window ).on( "load", function() {
+	/*$( window ).on( "load", function() {
 		document.onkeydown = function(e) {
 			if(e.keyCode == 123) {
 			 return false;
@@ -1131,6 +1131,46 @@ Version      : 1.3
 			return false; 
 		} 
 		return true; 
-	});
+	});*/
 
 })(jQuery);
+
+
+// ajax button loader fontawesome
+function ajaxBtnLoader(button) {
+	button.html('<i class="fas fa-spinner fa-spin"></i>');
+	return true;
+}
+
+// ajax form error msg handling
+function ajaxErrorMsgShow(form, msg) {
+	form.before('<p class="alert alert-danger show-ajax-form-error">'+msg+'</p>');
+	return true;
+}
+function ajaxErrorMsgHide() {
+	$(".show-ajax-form-error").remove();
+	return true;
+}
+
+// ajax form submit
+function ajaxFormSubmit(form, successCallback, errorCallback) {
+	ajaxErrorMsgHide(form);
+	$.ajax({
+	    url: form.attr('action'),
+	    type: "POST",
+	    dataType: "json",
+	    data: form.serialize(),
+	    success: function(resp) {
+	    	if (resp.status == false) {
+				ajaxErrorMsgShow(form,resp.msg);
+	      		successCallback(false);
+			}
+			else{
+	      		successCallback(resp);
+			}
+	    },
+	    error: function(xhr, status, error) {
+	      	errorCallback(error);
+	    }
+  	});//ajax
+}

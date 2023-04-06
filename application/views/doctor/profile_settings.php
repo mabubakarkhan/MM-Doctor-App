@@ -32,11 +32,11 @@
 								<div class="form-group">
 									<div class="change-avatar pro-setting">
 										<div class="profile-img">
-											<img src="<?=UPLOADS.$userSession['img']?>" alt="User Image">
+											<img src="<?=UPLOADS.$userSession['img']?>" class="user-profile-image" alt="User Image">
 										</div>
 										<div class="custom-file" id="customFile1">
 											<label class="custom-file-upload">
-												<input type="file">
+												<input type="file" id="profile-img">
 												<span class="change-user">
 													<i class="feather-upload"></i> choose-file
 												</span>
@@ -47,151 +47,183 @@
 								</div>
 							</div>
 						</div>
-						<div class="row form-row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Username <span class="text-danger">*</span></label>
-									<input type="text" class="form-control" readonly>
+						<form action="update-profile" method="post">
+							<div class="row form-row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Username <span class="text-danger">*</span></label>
+										<input type="text" value="<?=$userSession['username']?>" class="form-control" readonly>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Email <span class="text-danger">*</span></label>
-									<input type="email" class="form-control" readonly>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Email <span class="text-danger">*</span></label>
+										<input type="email" value="<?=$userSession['email']?>" class="form-control" readonly>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>First Name <span class="text-danger">*</span></label>
-									<input type="text" class="form-control">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>First Name <span class="text-danger">*</span></label>
+										<input type="text" name="lname" value="<?=$userSession['lname']?>" class="form-control" required>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Last Name <span class="text-danger">*</span></label>
-									<input type="text" class="form-control">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Last Name <span class="text-danger">*</span></label>
+										<input type="text" name="lname" value="<?=$userSession['lname']?>" class="form-control" required>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Phone Number</label>
-									<input type="text" class="form-control">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Phone Number <span class="text-danger">*</span></label>
+										<input type="number" name="phone" value="<?=$userSession['phone']?>" class="form-control" required>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6 col-lg-3">
-								<div class="form-group">
-									<label>Gender</label>
-									<select class="form-select form-control">
-										<option>Select</option>
-										<option>Male</option>
-										<option>Female</option>
-									</select>
+								<div class="col-md-6 col-lg-3">
+									<div class="form-group">
+										<label>Gender <span class="text-danger">*</span></label>
+										<select class="form-select form-control" name="gender" required>
+											<option value="">Select</option>
+											<option value="male" <?=($userSession['gender'] == 'male') ? 'selected="selected"' : ''?>>Male</option>
+											<option value="female" <?=($userSession['gender'] == 'female') ? 'selected="selected"' : ''?>>Female</option>
+										</select>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6 col-lg-3">
-								<div class="form-group">
-									<label>Date of Birth</label>
-									<input type="date" class="form-control">
+								<div class="col-md-6 col-lg-3">
+									<div class="form-group">
+										<label>Date of Birth <span class="text-danger">*</span></label>
+										<input type="date" name="dob" value="<?=$userSession['dob']?>" class="form-control" required>
+									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+								<div class="col-md-6 col-lg-3">
+									<div class="form-group">
+										<button class="btn btn-primary doctor-dashboard-submit-btn" type="submit">Save</button>
+									</div>
+								</div>
+							</div><!-- /row -->
+						</form>
+
+					</div><!-- /card-body -->
+				</div><!-- /card -->
 
 
 				<h4 class="sub-heading">About Me</h4>
-				<div class="card">
-					<div class="card-body">
-						<div class="form-group mb-0">
-							<label>Biography</label>
-							<textarea class="form-control" rows="5"></textarea>
+				<form action="update-profile" method="post">
+					<div class="card">
+						<div class="card-body">
+							<div class="form-group mb-3">
+								<label>Biography</label>
+								<textarea class="form-control" name="biography" rows="5"><?=$userSession['biography']?></textarea>
+							</div>
+							<div class="form-group">
+								<button class="btn btn-primary doctor-dashboard-submit-btn" type="submit">Save</button>
+							</div>
 						</div>
-					</div>
-				</div>
+					</div><!-- /card -->
+				</form>
 
 
 				<h4 class="sub-heading">Clinic Info</h4>
-				<div class="card">
-					<div class="card-body">
-						<div class="row form-row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Clinic Name</label>
-									<input type="text" class="form-control">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Clinic Address</label>
-									<input type="text" class="form-control">
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="form-group">
-									<label>Clinic Images</label>
-									<form action="#" class="dropzone"></form>
-								</div>
-								<div class="upload-wrap">
-									<div class="upload-images">
-										<img src="<?=IMG?>icons/feature-01.png" alt="Upload Image">
-										<a href="javascript:void(0);" class="btn btn-icon btn-danger btn-sm"><i
-												class="far fa-trash-alt"></i></a>
+				<form action="update-profile" method="post">
+					<div class="card">
+						<div class="card-body">
+							<div class="row form-row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Clinic Name</label>
+										<input type="text" name="clinic_name" value="<?=$userSession['clinic_name']?>" class="form-control">
 									</div>
-									<div class="upload-images">
-										<img src="<?=IMG?>icons/feature-01.png" alt="Upload Image">
-										<a href="javascript:void(0);" class="btn btn-icon btn-danger btn-sm"><i
-												class="far fa-trash-alt"></i></a>
+								</div><!-- /6 -->
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Clinic Address</label>
+										<input type="text"name="clinic_address" value="<?=$userSession['clinic_address']?>"  class="form-control">
 									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+								</div><!-- /6 -->
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Clinic Images</label>
+										<form action="#" class="dropzone"></form>
+									</div>
+									<div class="upload-wrap">
+										<div class="upload-images">
+											<img src="<?=IMG?>icons/feature-01.png" alt="Upload Image">
+											<a href="javascript:void(0);" class="btn btn-icon btn-danger btn-sm"><i
+													class="far fa-trash-alt"></i></a>
+										</div>
+										<div class="upload-images">
+											<img src="<?=IMG?>icons/feature-01.png" alt="Upload Image">
+											<a href="javascript:void(0);" class="btn btn-icon btn-danger btn-sm"><i
+													class="far fa-trash-alt"></i></a>
+										</div>
+									</div>
+								</div><!-- /12 -->
+								<div class="col-md-6 mt-3">
+									<div class="form-group">
+										<button class="btn btn-primary doctor-dashboard-submit-btn" type="submit">Save</button>
+									</div>
+								</div><!-- /6 -->
+							</div><!-- /row -->
+						</div><!-- /card-body -->
+					</div><!-- /card -->
+				</form>
 
 
 				<h4 class="sub-heading">Contact Details</h4>
-				<div class="card contact-card">
-					<div class="card-body">
-						<div class="row form-row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Address Line 1</label>
-									<input type="text" class="form-control">
+				<form action="update-profile" method="post">
+					<div class="card contact-card">
+						<div class="card-body">
+							<div class="row form-row">
+								<input type="hidden" name="country_id" value="166">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Address Line 1 <span class="text-danger">*</span></label>
+										<input type="text" name="address_line_1" value="<?=$userSession['address_line_1']?>" class="form-control" required>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="control-label">Address Line 2</label>
-									<input type="text" class="form-control">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label">Address Line 2</label>
+										<input type="text" name="address_line_2" value="<?=$userSession['address_line_2']?>" class="form-control">
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="control-label">City</label>
-									<input type="text" class="form-control">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label">State / Province <span class="text-danger">*</span></label>
+										<select name="state_id" class="form-control" required>
+											<option value="">Select State</option>
+											<?php foreach ($states as $key => $state): ?>
+												<option value="<?=$state['state_id']?>" <?=($state['state_id'] == $userSession['state_id']) ? "selected='selected'" : ''?> ><?=$state['name']?></option>
+											<?php endforeach ?>
+										</select>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="control-label">State / Province</label>
-									<input type="text" class="form-control">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label">City <span class="text-danger">*</span></label>
+										<select name="city_id" class="form-control" required>
+											<option value="">Select City</option>
+											<?php foreach ($cities as $key => $city): ?>
+												<option value="<?=$city['city_id']?>" <?=($city['city_id'] == $userSession['city_id']) ? "selected='selected'" : ''?> ><?=$city['name']?></option>
+											<?php endforeach ?>
+										</select>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="control-label">Country</label>
-									<input type="text" class="form-control">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label">Postal Code <span class="text-danger">*</span></label>
+										<input type="text" name="postcode" value="<?=$userSession['postcode']?>" class="form-control" required>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="control-label">Postal Code</label>
-									<input type="text" class="form-control">
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<button class="btn btn-primary doctor-dashboard-submit-btn" type="submit">Save</button>
+									</div>
+								</div><!-- /6 -->
+							</div><!-- /row -->
+						</div><!-- /card-body -->
+					</div><!-- /card -->
+				</form>
 
 
 				<h4 class="sub-heading">Pricing</h4>
@@ -200,14 +232,12 @@
 						<div class="form-group mb-0">
 							<div id="pricing_select">
 								<label class="payment-radio credit-card-option custom-control-inline mb-0">
-									<input type="radio" id="price_free" name="rating_option" value="price_free"
-										checked="">
+									<input type="radio" id="price_free" name="price" value="0" <?=($userSession['price'] == 0) ? 'checked' : ''?> >
 									<span class="checkmark"></span>
 									Free
 								</label>
 								<label class="payment-radio credit-card-option mb-0">
-									<input type="radio" id="price_custom" name="rating_option"
-										value="custom_price">
+									<input type="radio" id="price_custom" name="price" value="1" <?=($userSession['price'] == 1) ? 'checked' : ''?> >
 									<span class="checkmark"></span>
 									Custom Price (per hour)
 								</label>

@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="<?=PLUGINS?>fancybox/jquery.fancybox.min.css">
     <link rel="stylesheet" href="<?=PLUGINS?>sdaterangepicker/daterangepicker.css">
     <link rel="stylesheet" href="<?=CSS?>feather.css">
+    <link rel="stylesheet" href="<?=CSS?>native-toast.css">
     <link rel="stylesheet" href="<?=CSS?>style.css">
     <!--[if lt IE 9]>
 			<script src="assets/js/html5shiv.min.js"></script>
@@ -137,7 +138,7 @@
                             <li class="nav-item dropdown has-arrow logged-item">
                                 <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                                     <span class="user-img">
-                                        <img class="rounded-circle" src="<?=UPLOADS.$userSession['img']?>" width="31" alt="<?=$userSession['fname'].' '.$userSession['lname']?>">
+                                        <img class="rounded-circle user-profile-image" src="<?=UPLOADS.$userSession['img']?>" width="31" alt="<?=$userSession['fname'].' '.$userSession['lname']?>">
                                     </span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
@@ -152,8 +153,8 @@
                                             <p class="text-muted mb-0"><?=$userSession['controller']?></p>
                                         </div>
                                     </div>
-                                    <a class="dropdown-item" href="<?=$userSession['controller']?>/dashboard">Dashboard</a>
-                                    <a class="dropdown-item" href="<?=$userSession['controller']?>/profile-settings">Profile Settings</a>
+                                    <a class="dropdown-item" href="<?=BASEURL.$userSession['controller']?>/dashboard">Dashboard</a>
+                                    <a class="dropdown-item" href="<?=BASEURL.$userSession['controller']?>/profile-settings">Profile Settings</a>
                                     <a class="dropdown-item" href="logout">Logout</a>
                                 </div>
                             </li>

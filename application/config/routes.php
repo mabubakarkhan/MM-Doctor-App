@@ -46,6 +46,7 @@ $route["index"] = 'Home/index';
 
 $route["logout"] = 'Home/logout';
 $route["doctor/logout"] = 'Home/logout';
+$route["doctor/get-city-by-state-ajax"] = 'Home/get_city_by_state_ajax';
 
 $route["login"] = 'Home/login';
 $route["register"] = 'Home/register';

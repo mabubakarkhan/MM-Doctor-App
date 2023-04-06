@@ -107,6 +107,7 @@
     <script src="<?=PLUGINS?>daterangepicker/daterangepicker.js"></script>
     <script src="<?=JS?>bootstrap-datetimepicker.min.js"></script>
     <script src="<?=PLUGINS?>fancybox/jquery.fancybox.min.js"></script>
+    <script src="<?=JS?>native-toast.js"></script>
     <script src="<?=JS?>script.js"></script>
 </body>
 </html>

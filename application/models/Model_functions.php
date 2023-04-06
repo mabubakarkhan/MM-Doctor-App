@@ -36,6 +36,37 @@ class Model_functions extends CI_Model {
 	{
 		return $this->get_row("SELECT * FROM `country` WHERE `country_id` = '$id';");
 	}
+	public function get_state_bycountry($id)
+	{
+		return $this->get_results("SELECT * FROM `state` WHERE `country_id` = '$id' ORDER BY `name` ASC;");
+	}
+	public function get_city_byname($name)
+	{
+		return $this->get_row("SELECT * FROM `city` WHERE LOWER(`name`) = LOWER('$name');");
+	}
+	public function get_pak_cities()
+	{
+		$state = $this->get_state_bycountry(166);
+		foreach ($state as $key => $val) {
+			if ($key == 0) {
+				$id  = $val['state_id'];
+			}
+			else {
+				$id .= ','.$val['state_id'];
+			}
+		}
+		if (strlen($id) > 0) {
+			return $this->get_results("SELECT * FROM `city` WHERE `state_id` IN ($id) ORDER BY `name` ASC;");
+		}
+		else {
+			return false;
+		}
+		
+	}
+	public function get_city_bystate($id)
+	{
+		return $this->get_results("SELECT * FROM `city` WHERE `state_id` = '$id' ORDER BY `name` ASC;");
+	}
 	public function check_dublicate_phone($phone,$tbl)
 	{
 		return $this->get_row("SELECT `phone` FROM `$tbl` WHERE `phone`= '$phone';");

@@ -133,6 +133,26 @@ class Home extends CI_Controller {
 	
 	/**
 		
+		AJAX
+
+	*
+	*/
+	public function get_city_by_state_ajax()
+	{
+		$city = $this->model->get_city_bystate($_POST['id']);
+		if ($city) {
+			$resp = '<option value="">Select City</option>';
+			foreach ($city as $ckey => $c) {
+				$resp .= '<option value="'.$c['city_id'].'">'.$c['name'].'</option>';
+			}
+			echo json_encode(array("status"=>true,"type"=>"success","html"=>$resp,"msg"=>"cities loaded"));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"No data found","type"=>"error"));
+		}
+	}
+	/**
+		
 		Site
 
 	*

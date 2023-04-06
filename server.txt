@@ -7,3 +7,16 @@ advicedrs
 advicedrs_db
 advicedrs_user
 %ye?-1(W5Po1
+
+
+
+
+
+
+nativeToast({
+	message: resp.msg,
+	edge: true,
+	position: 'bottom',
+	type: resp.type
+})
+type: 'warning' // success warning info error

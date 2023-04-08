@@ -167,13 +167,41 @@ class Doctor extends CI_Controller {
 	{
 		$user = $this->check_login();
 		// $data['meta_title'] = 'Dashboard';
+		$data['page_title'] = 'Profile Setting';
 		$data['profile_settings_active'] = 'active';
 		$data['userSession'] = $user;
+		$data['services'] = $this->model->services();
+		$data['specializations'] = $this->model->specializations();
+		$data['educations'] = $this->model->all_education_by_doctor($user['doctor_id']);
+		$data['experiences'] = $this->model->all_experience_by_doctor($user['doctor_id']);
+		$data['awards'] = $this->model->all_award_by_doctor($user['doctor_id']);
+		$data['memberships'] = $this->model->all_membership_by_doctor($user['doctor_id']);
+		$data['registrations'] = $this->model->all_registration_by_doctor($user['doctor_id']);
+		$data['doctor_hospitals'] = $this->model->doctor_hospitals($user['doctor_id']);
+		$data['hospitals'] = $this->model->hospitals();
 		$data['states'] = $this->model->get_state_bycountry(166);
 		if (isset($user['state_id'])) {
 			$data['cities'] = $this->model->get_city_bystate($user['state_id']);
 		}
 		$this->template('doctor/profile_settings',$data, 'profile_settings');
+	}
+	public function social_links()
+	{
+		$user = $this->check_login();
+		// $data['meta_title'] = 'Dashboard';
+		$data['page_title'] = 'Social Media';
+		$data['social_links_active'] = 'active';
+		$data['userSession'] = $user;
+		$this->template('doctor/social_links',$data, 'profile_settings');
+	}
+	public function change_password()
+	{
+		$user = $this->check_login();
+		// $data['meta_title'] = 'Dashboard';
+		$data['page_title'] = 'Change Password';
+		$data['change_password_active'] = 'active';
+		$data['userSession'] = $user;
+		$this->template('doctor/change_password',$data, 'change_password');
 	}
 	/**
 	*
@@ -227,6 +255,30 @@ class Doctor extends CI_Controller {
 	public function update_profile()
 	{
 		$user = $this->check_login();
+		if (isset($_POST['services'])) {
+			$_POST['service_ids'] = '';
+			$_POST['service_titles'] = '';
+			foreach ($_POST['services'] as $q) {
+				$temp = explode('%',$q);
+				$_POST['service_ids'] .= ','.$temp[0];	
+				$_POST['service_titles'] .= ','.$temp[1];	
+			}
+			unset($_POST['services']);
+			$_POST['service_ids'] = trim($_POST['service_ids'],",");
+			$_POST['service_titles'] = trim($_POST['service_titles'],",");
+		}
+		if (isset($_POST['specializations'])) {
+			$_POST['specialization_ids'] = '';
+			$_POST['specialization_titles'] = '';
+			foreach ($_POST['specializations'] as $q) {
+				$temp = explode('%',$q);
+				$_POST['specialization_ids'] .= ','.$temp[0];	
+				$_POST['specialization_titles'] .= ','.$temp[1];	
+			}
+			unset($_POST['specializations']);
+			$_POST['service_ids'] = trim($_POST['service_ids'],",");
+			$_POST['service_titles'] = trim($_POST['service_titles'],",");
+		}
 		$this->db->where('doctor_id',$user['doctor_id']);
 		$resp = $this->db->update('doctor',$_POST);
 		if ($resp) {
@@ -235,6 +287,206 @@ class Doctor extends CI_Controller {
 		else{
 			echo json_encode(array("status"=>false,"msg"=>"not updated, please try again.","type"=>"error"));
 		}
+	}
+	public function update_password()
+	{
+		$user = $this->check_login();
+		if (md5($_POST['old']) != $user['password']) {
+			echo json_encode(array("status"=>false,"msg"=>"wrong old password.","type"=>"error"));
+		}
+		else if ($_POST['confirm'] != $_POST['new']) {
+			echo json_encode(array("status"=>false,"msg"=>"new/confirm must matched.","type"=>"error"));
+		}
+		else{
+			$resp = $this->db->set('password',md5($_POST['new']))->where('doctor_id',$user['doctor_id'])->update('doctor');
+			if ($resp) {
+				echo json_encode(array("status"=>true,"msg"=>"password updated, now your redirecting in while.","type"=>"success"));
+			}
+			else{
+				echo json_encode(array("status"=>false,"msg"=>"password not updated, please try again or reload your web page.","type"=>"error"));
+			}
+		}
+	}
+	public function update_education()
+	{
+		$user = $this->check_login();
+		$ids = array();
+		foreach ($_POST['id'] as $key => $q) {
+			if ($q > 0 && $_POST['delete'][$key] == 'no') {
+				$update['degree'] = $_POST['degree'][$key];
+				$update['institute'] = $_POST['institute'][$key];
+				$update['year'] = $_POST['year'][$key];
+				$this->db->where('education_id',$q)->where('doctor_id',$user['doctor_id'])->update('education',$update);
+				$ids[] = $q;
+			}
+			else if ($q == 0 && $_POST['delete'][$key] == 'no') {
+				$insert['doctor_id'] = $user['doctor_id'];
+				$insert['degree'] = $_POST['degree'][$key];
+				$insert['institute'] = $_POST['institute'][$key];
+				$insert['year'] = $_POST['year'][$key];
+				$this->db->insert('education',$insert);
+				$ids[] = $this->db->insert_id();
+			}
+			else{
+				$this->db->where('education_id',$q)->where('doctor_id',$user['doctor_id'])->delete('education');
+			}
+		}
+		echo json_encode(array("status"=>true,"msg"=>"Education updated.","type"=>"success","ids"=>$ids));
+	}
+	public function update_experience()
+	{
+		$user = $this->check_login();
+		$ids = array();
+		foreach ($_POST['id'] as $key => $q) {
+			if ($q > 0 && $_POST['delete'][$key] == 'no') {
+				$update['hospital'] = $_POST['hospital'][$key];
+				$update['designation'] = $_POST['designation'][$key];
+				$update['from'] = $_POST['from'][$key];
+				$update['to'] = $_POST['to'][$key];
+				$this->db->where('experience_id',$q)->where('doctor_id',$user['doctor_id'])->update('experience',$update);
+				$ids[] = $q;
+			}
+			else if ($q == 0 && $_POST['delete'][$key] == 'no') {
+				$insert['doctor_id'] = $user['doctor_id'];
+				$insert['hospital'] = $_POST['hospital'][$key];
+				$insert['designation'] = $_POST['designation'][$key];
+				$insert['from'] = $_POST['from'][$key];
+				$insert['to'] = $_POST['to'][$key];
+				$this->db->insert('experience',$insert);
+				$ids[] = $this->db->insert_id();
+			}
+			else{
+				$this->db->where('experience_id',$q)->where('doctor_id',$user['doctor_id'])->delete('experience');
+			}
+		}
+		echo json_encode(array("status"=>true,"msg"=>"Experience updated.","type"=>"success","ids"=>$ids));
+	}
+	public function update_award()
+	{
+		$user = $this->check_login();
+		$ids = array();
+		foreach ($_POST['id'] as $key => $q) {
+			if ($q > 0 && $_POST['delete'][$key] == 'no') {
+				$update['title'] = $_POST['title'][$key];
+				$update['year'] = $_POST['to'][$key];
+				$this->db->where('award_id',$q)->where('doctor_id',$user['doctor_id'])->update('award',$update);
+				$ids[] = $q;
+			}
+			else if ($q == 0 && $_POST['delete'][$key] == 'no') {
+				$insert['doctor_id'] = $user['doctor_id'];
+				$insert['title'] = $_POST['title'][$key];
+				$insert['year'] = $_POST['year'][$key];
+				$this->db->insert('award',$insert);
+				$ids[] = $this->db->insert_id();
+			}
+			else{
+				$this->db->where('award_id',$q)->where('doctor_id',$user['doctor_id'])->delete('award');
+			}
+		}
+		echo json_encode(array("status"=>true,"msg"=>"Award updated.","type"=>"success","ids"=>$ids));
+	}
+	public function update_registration()
+	{
+		$user = $this->check_login();
+		$ids = array();
+		foreach ($_POST['id'] as $key => $q) {
+			if ($q > 0 && $_POST['delete'][$key] == 'no') {
+				$update['title'] = $_POST['title'][$key];
+				$update['year'] = $_POST['year'][$key];
+				$this->db->where('registration_id',$q)->where('doctor_id',$user['doctor_id'])->update('registration',$update);
+				$ids[] = $q;
+			}
+			else if ($q == 0 && $_POST['delete'][$key] == 'no') {
+				$insert['doctor_id'] = $user['doctor_id'];
+				$insert['title'] = $_POST['title'][$key];
+				$insert['year'] = $_POST['year'][$key];
+				$this->db->insert('registration',$insert);
+				$ids[] = $this->db->insert_id();
+			}
+			else{
+				$this->db->where('registration_id',$q)->where('doctor_id',$user['doctor_id'])->delete('registration');
+			}
+		}
+		echo json_encode(array("status"=>true,"msg"=>"Registration updated.","type"=>"success","ids"=>$ids));
+	}
+	public function update_membership()
+	{
+		$user = $this->check_login();
+		$ids = array();
+		foreach ($_POST['id'] as $key => $q) {
+			if ($q > 0 && $_POST['delete'][$key] == 'no') {
+				$update['title'] = $_POST['title'][$key];
+				$this->db->where('membership_id',$q)->where('doctor_id',$user['doctor_id'])->update('membership',$update);
+				$ids[] = $q;
+			}
+			else if ($q == 0 && $_POST['delete'][$key] == 'no') {
+				$insert['doctor_id'] = $user['doctor_id'];
+				$insert['title'] = $_POST['title'][$key];
+				$this->db->insert('membership',$insert);
+				$ids[] = $this->db->insert_id();
+			}
+			else{
+				$this->db->where('membership_id',$q)->where('doctor_id',$user['doctor_id'])->delete('membership');
+			}
+		}
+		echo json_encode(array("status"=>true,"msg"=>"Membership updated.","type"=>"success","ids"=>$ids));
+	}
+	public function add_clinic()
+	{
+		$user = $this->check_login();
+		if (isset($_POST['hospital_id']) && intval($_POST['hospital_id']) > 0) {
+			$chk = $this->model->get_row("SELECT * FROM `doctor_hospital` WHERE `doctor_id` = '' AND `hospital_id` = '';");
+			if (!($chk)) {
+				$insert['hospital_id'] = $_POST['hospital_id'];
+				$insert['doctor_id'] = $user['doctor_id'];
+				$this->db->insert('doctor_hospital',$insert);
+				$resp = $this->model->get_doctor_hospital_by_ids($user['doctor_id'],$_POST['hospital_id']);
+				$hospitalChk = 'old';
+			}
+		}
+		else{
+			$_POST['doctor_id'] = $user['doctor_id'];
+			$this->db->insert('hospital',$_POST);
+			$hospitalId = $this->db->insert_id();
+			$insert['hospital_id'] = $hospitalId;
+			$insert['doctor_id'] = $user['doctor_id'];
+			$this->db->insert('doctor_hospital',$insert);
+			$resp = $this->model->get_doctor_hospital_by_ids($user['doctor_id'],$hospitalId);
+			$hospitalChk = 'new';
+		}
+		if ($resp) {
+			$html = '<tr>';
+                $html .= '<td>'.$resp['name'].'</td>';
+                $html .= '<td>'.$resp['address'].'</td>';
+                $html .= '<td>'.$resp['cityName'].'</td>';
+                $html .= '<td>';
+                    $html .= '<div class="table-action">';
+                    	$html .= '<a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital" data-id="'.$resp['doctor_hospital_id'].'" data-hospital-id="'.$resp['hospital_id'].'" data-name="'.$resp['name'].'">';
+                        $html .= '    <i class="feather-x-circle"></i>';
+                        $html .= '</a>';
+                    $html .= '</div>';
+                $html .= '</td>';
+            $html .= '</tr>';
+			echo json_encode(array("status"=>true,"msg"=>"Clinic added.","type"=>"success","html"=>$html,"hospitalChk"=>$hospitalChk));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"Clinic not added, please try again or reload your web page.","type"=>"error"));
+		}
+	}
+	public function delete_doctor_hospital()
+	{
+		$user = $this->check_login();
+		$this->db->where('doctor_hospital_id',$_POST['id']);
+		$this->db->where('doctor_id',$user['doctor_id']);
+		$resp = $this->db->delete('doctor_hospital');
+		if ($resp) {
+			$option = '<option value="'.$_POST['hospital_id'].'">'.$_POST['name'].'</option>';
+			echo json_encode(array("status"=>true,"msg"=>"Clinic deleted.","type"=>"success","option"=>$option));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"Clinic not deleted, please try again or reload your web page.","type"=>"error"));
+		}
+
 	}
 	/**
 	*

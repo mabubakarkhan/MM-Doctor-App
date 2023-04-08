@@ -76,20 +76,20 @@
 							<i class="feather-user"></i>
 						</a>
 					</li>
-					<li>
-						<a href="social-media.html">
+					<li class="<?=$social_links_active?>">
+						<a href="social-links">
 							<span>Social Media</span>
 							<i class="feather-share-2"></i>
 						</a>
 					</li>
-					<li>
-						<a href="doctor-change-password.html">
+					<li class="<?=$change_password_active?>">
+						<a href="change-password">
 							<span>Change Password</span>
 							<i class="feather-lock"></i>
 						</a>
 					</li>
 					<li>
-						<a href="index.html">
+						<a href="logout">
 							<span>Logout</span>
 							<i class="feather-log-out"></i>
 						</a>

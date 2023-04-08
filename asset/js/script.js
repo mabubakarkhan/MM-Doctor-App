@@ -1179,13 +1179,12 @@ function ajaxFormSubmit(form, successCallback, errorCallback) {
 $(document).on('change', 'select[name="state_id"]', function(event) {
 	event.preventDefault();
 	$this = $(this);
-	$("select[name='city_id']").html("<option value=''>Select City</option>");
+	$("."+$this.attr('data-city')).html("<option value=''>Select City</option>");
 	if ($this.val().length > 0) {
 		$.post('get-city-by-state-ajax', {id: $this.val()}, function(resp) {
 			resp = $.parseJSON(resp);
 			if (resp.status == true) {
-				console.log(resp.html);
-				$("select[name='city_id']").html(resp.html);
+				$("."+$this.attr('data-city')).html(resp.html);
 			}
 			nativeToast({
 				message: resp.msg,

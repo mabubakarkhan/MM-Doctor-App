@@ -100,6 +100,9 @@
     <script src="<?=JS?>jquery-3.6.0.min.js"></script>
     <script src="<?=JS?>bootstrap.bundle.min.js"></script>
     <script src="<?=JS?>slick.js"></script>
+    <script src="<?=JS?>profile-settings.js"></script>
+    <script src="<?=PLUGINS?>dropzone/dropzone.min.js"></script>
+    <script src="<?=PLUGINS?>bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
     <script src="<?=PLUGINS?>theia-sticky-sidebar/ResizeSensor.js"></script>
     <script src="<?=PLUGINS?>theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
     <script src="<?=PLUGINS?>select2/js/select2.min.js"></script>

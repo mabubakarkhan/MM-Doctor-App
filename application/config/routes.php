@@ -59,6 +59,15 @@ $route["post-register-doctor"] = 'Home/post_register_doctor';
 
 $route["dashboard"] = 'doctor/index';
 $route["doctor/profile-settings"] = 'doctor/profile_settings';
+$route["doctor/social-links"] = 'doctor/social_links';
+$route["doctor/change-password"] = 'doctor/change_password';
+$route["doctor/update-education"] = 'doctor/update_education';
+$route["doctor/update-experience"] = 'doctor/update_experience';
+$route["doctor/update-award"] = 'doctor/update_award';
+$route["doctor/update-membership"] = 'doctor/update_membership';
+$route["doctor/update-registration"] = 'doctor/update_registration';
+$route["doctor/add-clinic"] = 'doctor/add_clinic';
+$route["doctor/delete-doctor-hospital"] = 'doctor/delete_doctor_hospital';
 
 
 

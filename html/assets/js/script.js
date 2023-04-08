@@ -1103,7 +1103,7 @@ Version      : 1.3
 
 	// Inspect keyCode
 
-	$( window ).on( "load", function() {
+	/*$( window ).on( "load", function() {
 		document.onkeydown = function(e) {
 			if(e.keyCode == 123) {
 			 return false;
@@ -1131,6 +1131,6 @@ Version      : 1.3
 			return false; 
 		} 
 		return true; 
-	});
+	});*/
 
 })(jQuery);

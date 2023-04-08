@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="<?=PLUGINS?>select2/css/select2.min.css">
     <link rel="stylesheet" href="<?=PLUGINS?>fancybox/jquery.fancybox.min.css">
     <link rel="stylesheet" href="<?=PLUGINS?>sdaterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="<?=PLUGINS?>bootstrap-tagsinput/css/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="<?=PLUGINS?>dropzone/dropzone.min.css">
     <link rel="stylesheet" href="<?=CSS?>feather.css">
     <link rel="stylesheet" href="<?=CSS?>native-toast.css">
     <link rel="stylesheet" href="<?=CSS?>style.css">

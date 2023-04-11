@@ -176,6 +176,7 @@
                                         <th>Name</th>
                                         <th>Address</th>
                                         <th>City</th>
+                                        <th>Fee</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -183,12 +184,16 @@
                                 	<?php if ($doctor_hospitals): ?>
                                 		<?php foreach ($doctor_hospitals as $key => $doctor_hospital): ?>
                                 				<?php $hospital_ids[] = $doctor_hospital['hospital_id']; ?>
-			                                    <tr>
+			                                    <tr id="doctor_hospital_<?=$doctor_hospital['doctor_hospital_id']?>">
 			                                        <td><?=$doctor_hospital['name']?></td>
 			                                        <td><?=$doctor_hospital['address']?></td>
 			                                        <td><?=$doctor_hospital['cityName']?></td>
+			                                        <td><?=$doctor_hospital['fee']?></td>
 			                                        <td>
 			                                            <div class="table-action">
+			                                            	<a href="javascript://" class="btn btn-sm bg-info-light edit-clinic" data-id="<?=$doctor_hospital['doctor_hospital_id']?>" data-name="<?=$doctor_hospital['name']?>" data-fee="<?=$doctor_hospital['fee']?>">
+			                                            		<i class="feather-edit"></i>
+			                                            	</a>
 			                                                <a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital" data-id="<?=$doctor_hospital['doctor_hospital_id']?>" data-hospital-id="<?=$doctor_hospital['hospital_id']?>" data-name="<?=$doctor_hospital['name']?>">
 			                                                    <i class="feather-x-circle"></i>
 			                                                </a>
@@ -203,7 +208,7 @@
 
 						<form action="add-clinic" method="post" class="profile-form-3">
 							<div class="row form-row">
-								<div class="col-md-9">
+								<div class="col-md-6">
 									<div class="form-group">
 										<label>Clinic</label>
 										<select name="hospital_id" class="form-control select22" required>
@@ -214,6 +219,12 @@
 												<?php endif ?>
 											<?php endforeach ?>
 										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>Fee <span class="text-danger">*</span></label>
+										<input type="text" name="fee" class="form-control" required>
 									</div>
 								</div>
 								<div class="col-md-3">
@@ -235,11 +246,17 @@
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
+										<label>Fee <span class="text-danger">*</span></label>
+										<input type="text" name="fee" class="form-control" required>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
 										<label class="control-label">Address <span class="text-danger">*</span></label>
 										<input type="text" name="address" value="<?=$userSession['address']?>" class="form-control" required>
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-4">
 									<div class="form-group">
 										<label class="control-label">State / Province <span class="text-danger">*</span></label>
 										<select name="state_id" data-city="city_id_clinic_wrap" class="form-control select22" required>
@@ -250,7 +267,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-4">
 									<div class="form-group">
 										<label class="control-label">City <span class="text-danger">*</span></label>
 										<select name="city_id" class="form-control city_id_clinic_wrap select22" required>
@@ -772,3 +789,6 @@
 		</div><!-- /row -->
 	</div><!-- /container-fluid -->
 </div><!-- /content -->
+
+
+

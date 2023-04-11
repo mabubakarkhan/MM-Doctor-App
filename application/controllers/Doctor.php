@@ -437,6 +437,7 @@ class Doctor extends CI_Controller {
 		if (isset($_POST['hospital_id']) && intval($_POST['hospital_id']) > 0) {
 			$chk = $this->model->get_row("SELECT * FROM `doctor_hospital` WHERE `doctor_id` = '' AND `hospital_id` = '';");
 			if (!($chk)) {
+				$insert['fee'] = $_POST['fee'];
 				$insert['hospital_id'] = $_POST['hospital_id'];
 				$insert['doctor_id'] = $user['doctor_id'];
 				$this->db->insert('doctor_hospital',$insert);
@@ -445,22 +446,28 @@ class Doctor extends CI_Controller {
 			}
 		}
 		else{
+			$fee = $_POST['fee'];unset($_POST['fee']);
 			$_POST['doctor_id'] = $user['doctor_id'];
 			$this->db->insert('hospital',$_POST);
 			$hospitalId = $this->db->insert_id();
 			$insert['hospital_id'] = $hospitalId;
 			$insert['doctor_id'] = $user['doctor_id'];
+			$insert['fee'] = $fee;
 			$this->db->insert('doctor_hospital',$insert);
 			$resp = $this->model->get_doctor_hospital_by_ids($user['doctor_id'],$hospitalId);
 			$hospitalChk = 'new';
 		}
 		if ($resp) {
-			$html = '<tr>';
+			$html = '<tr id="doctor_hospital_'.$resp['doctor_hospital_id'].'">';
                 $html .= '<td>'.$resp['name'].'</td>';
                 $html .= '<td>'.$resp['address'].'</td>';
                 $html .= '<td>'.$resp['cityName'].'</td>';
+                $html .= '<td>'.$resp['fee'].'</td>';
                 $html .= '<td>';
                     $html .= '<div class="table-action">';
+	                    $html .= '<a href="javascript://" class="btn btn-sm bg-info-light edit-clinic" data-id="'.$doctor_hospital['doctor_hospital_id'].'" data-name="'.$resp['name'].'" data-fee="'.$resp['fee'].'">';
+	                		$html .= '<i class="feather-edit"></i>';
+	                	$html .= '</a>';
                     	$html .= '<a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital" data-id="'.$resp['doctor_hospital_id'].'" data-hospital-id="'.$resp['hospital_id'].'" data-name="'.$resp['name'].'">';
                         $html .= '    <i class="feather-x-circle"></i>';
                         $html .= '</a>';
@@ -487,6 +494,35 @@ class Doctor extends CI_Controller {
 			echo json_encode(array("status"=>false,"msg"=>"Clinic not deleted, please try again or reload your web page.","type"=>"error"));
 		}
 
+	}
+	public function update_clinic()
+	{
+		$user = $this->check_login();
+		$this->db->where('doctor_id',$user['doctor_id']);
+		$this->db->where('doctor_hospital_id',$_POST['id']);
+		$this->db->set('fee',$_POST['fee']);
+		$resp = $this->db->update('doctor_hospital');
+		if ($resp) {
+			$resp = $this->model->get_doctor_hospital_by_id($user['doctor_id'],$_POST['id']);
+            $html = '<td>'.$resp['name'].'</td>';
+            $html .= '<td>'.$resp['address'].'</td>';
+            $html .= '<td>'.$resp['cityName'].'</td>';
+            $html .= '<td>'.$resp['fee'].'</td>';
+            $html .= '<td>';
+                $html .= '<div class="table-action">';
+                	$html .= '<a href="javascript://" class="btn btn-sm bg-info-light edit-clinic" data-id="'.$doctor_hospital['doctor_hospital_id'].'" data-name="'.$resp['name'].'" data-fee="'.$resp['fee'].'">';
+                		$html .= '<i class="feather-edit"></i>';
+                	$html .= '</a>';
+                	$html .= '<a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital" data-id="'.$resp['doctor_hospital_id'].'" data-hospital-id="'.$resp['hospital_id'].'" data-name="'.$resp['name'].'">';
+                    $html .= '    <i class="feather-x-circle"></i>';
+                    $html .= '</a>';
+                $html .= '</div>';
+            $html .= '</td>';
+			echo json_encode(array("status"=>true,"msg"=>"Clinic updated.","type"=>"success","html"=>$html,"id"=>$_POST['id']));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"Clinic not updated, please try again or reload your web page.","type"=>"error"));
+		}
 	}
 	/**
 	*

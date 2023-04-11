@@ -9,10 +9,6 @@ advicedrs_user
 %ye?-1(W5Po1
 
 
-
-
-
-
 nativeToast({
 	message: resp.msg,
 	edge: true,
@@ -20,3 +16,6 @@ nativeToast({
 	type: resp.type
 })
 type: 'warning' // success warning info error
+
+
+1.	ALTER TABLE `doctor_hospital` ADD `fee` INT NOT NULL DEFAULT '0' AFTER `hospital_id`, ADD INDEX (`fee`);

@@ -68,6 +68,7 @@ $route["doctor/update-membership"] = 'doctor/update_membership';
 $route["doctor/update-registration"] = 'doctor/update_registration';
 $route["doctor/add-clinic"] = 'doctor/add_clinic';
 $route["doctor/delete-doctor-hospital"] = 'doctor/delete_doctor_hospital';
+$route["doctor/update-clinic"] = 'doctor/update_clinic';
 
 
 

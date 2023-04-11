@@ -118,7 +118,7 @@ class Model_functions extends CI_Model {
 	public function doctor_hospitals($doctor)
 	{
 		return $this->get_results("
-			SELECT dh.doctor_hospital_id, dh.hospital_id, h.name, h.address, c.name AS cityName 
+			SELECT dh.doctor_hospital_id, dh.hospital_id, dh.fee, h.name, h.address, c.name AS cityName 
 			FROM `doctor_hospital` AS dh 
 			INNER JOIN `hospital` AS h ON dh.hospital_id = h.hospital_id 
 			INNER JOIN `city` AS c ON h.city_id = c.city_id 
@@ -129,11 +129,22 @@ class Model_functions extends CI_Model {
 	public function get_doctor_hospital_by_ids($doctor,$hospital)
 	{
 		return $this->get_row("
-			SELECT dh.doctor_hospital_id, h.name, h.address, c.name AS cityName 
+			SELECT dh.doctor_hospital_id, dh.fee, h.name, h.address, c.name AS cityName 
 			FROM `doctor_hospital` AS dh 
 			INNER JOIN `hospital` AS h ON dh.hospital_id = h.hospital_id 
 			INNER JOIN `city` AS c ON h.city_id = c.city_id 
 			WHERE dh.doctor_id = '$doctor' AND dh.hospital_id = '$hospital' 
+			ORDER BY h.name ASC 
+		;");
+	}
+	public function get_doctor_hospital_by_id($doctor,$doctor_hospital)
+	{
+		return $this->get_row("
+			SELECT dh.doctor_hospital_id, dh.fee, h.name, h.address, c.name AS cityName 
+			FROM `doctor_hospital` AS dh 
+			INNER JOIN `hospital` AS h ON dh.hospital_id = h.hospital_id 
+			INNER JOIN `city` AS c ON h.city_id = c.city_id 
+			WHERE dh.doctor_id = '$doctor' AND dh.doctor_hospital_id = '$doctor_hospital' 
 			ORDER BY h.name ASC 
 		;");
 	}

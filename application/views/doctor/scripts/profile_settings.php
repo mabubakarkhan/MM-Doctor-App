@@ -114,9 +114,74 @@ $(document).on('click', '.delete-doctor-hospital', function(event) {
 });
 
 
+$(document).on('click', '.edit-clinic', function(event) {
+	event.preventDefault();
+	$("#modal-edit-client input[name='id']").val($(this).attr('data-id'));
+	$("#modal-edit-client input[name='fee']").val($(this).attr('data-fee'));
+	$("#modal-edit-client .modal-title").text($(this).attr('data-name'));
+	$("#modal-edit-client").modal('show');
+});
+
+$(document).on('submit', 'form.clinic_editing', function(event) {
+	event.preventDefault();
+	let form = $(this);
+	ajaxBtnLoader(form.find("button"));
+	ajaxFormSubmit(form, function(resp) {	
+		form.find("button").html('Update');
+		if (resp.status == true) {
+			$("#doctor_hospital_"+resp.id).html(resp.html);
+		}
+		nativeToast({
+			message: resp.msg,
+			edge: true,
+			position: 'bottom',
+			type: resp.type
+		})
+	}, function(error) {
+		console.error(error);
+	});//ajax function call back
+});//profile-form-3
+
+$(document).on('click', '.close-modal-edit-client', function(event) {
+	event.preventDefault();
+	$("#modal-edit-client").modal('hide');
+});
+
 $(".select2").select2({
     tags: true
 })
 $(".select22").select2()
 
 </script>
+
+
+<div id="modal-edit-client" class="modal fade custom-modal" tabindex="-1" role="dialog" aria-modal="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close close-modal-edit-client" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title">Modal title</h4>
+			</div><!-- /modal-header -->
+			<div class="modal-body">
+				
+				<form class="clinic_editing" action="update-clinic" method="post">
+					<input type="hidden" name="id">
+					<div class="form-group">
+						<label for="">Fee</label>
+						<input type="text" name="fee" required class="form-control">
+					</div><!-- /form-group -->
+					<div class="form-group">
+						<button class="btn btn-primary ">Update</button>
+					</div><!-- /form-group -->
+				</form>
+
+			</div><!-- /modal-body -->
+			<div class="modal-footer text-center">
+				<button type="button" class="btn btn-secondary close-modal-edit-client" data-dismiss="modal">Close</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- #modal-edit-client -->

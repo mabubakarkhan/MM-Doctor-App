@@ -66,6 +66,7 @@ $(document).on('click', '.delete_schedule', function(event) {
 		resp = $.parseJSON(resp);
 		if (resp.status == true) {
 			$this.parent('.doc-slot-list').remove();
+			$("#add_time_slot .hours-cont-runtime").remove();
 		}
 		else{
 			$this.html('<i class="fa fa-times"></i>');

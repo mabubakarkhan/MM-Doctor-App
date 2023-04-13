@@ -34,8 +34,8 @@
 							<i class="fas fa-user-injured"></i>
 						</a>
 					</li>
-					<li>
-						<a href="schedule-timings.html">
+					<li class="<?=$schedule_timings_active?>">
+						<a href="schedule-timings">
 							<span>Schedule Timings</span>
 							<i class="far fa-hourglass"></i>
 						</a>

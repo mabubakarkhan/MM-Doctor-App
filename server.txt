@@ -18,4 +18,4 @@ nativeToast({
 type: 'warning' // success warning info error
 
 
-1.	ALTER TABLE `doctor_hospital` ADD `fee` INT NOT NULL DEFAULT '0' AFTER `hospital_id`, ADD INDEX (`fee`);
+1.	ALTER TABLE `doctor` ADD `timing_slot_duration` INT NOT NULL DEFAULT '30' AFTER `fee`, ADD INDEX (`timing_slot_duration`);

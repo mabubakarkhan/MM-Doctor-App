@@ -58,6 +58,7 @@ $route["register-doctor"] = 'Home/register_doctor';
 $route["post-register-doctor"] = 'Home/post_register_doctor';
 
 $route["dashboard"] = 'doctor/index';
+
 $route["doctor/profile-settings"] = 'doctor/profile_settings';
 $route["doctor/social-links"] = 'doctor/social_links';
 $route["doctor/change-password"] = 'doctor/change_password';
@@ -70,6 +71,10 @@ $route["doctor/add-clinic"] = 'doctor/add_clinic';
 $route["doctor/delete-doctor-hospital"] = 'doctor/delete_doctor_hospital';
 $route["doctor/update-clinic"] = 'doctor/update_clinic';
 
+$route["doctor/schedule-timings"] = 'doctor/schedule_timings';
+$route["doctor/submit-time-slots"] = 'doctor/submit_time_slots';
+$route["doctor/submit-time-slots/(.*)"] = 'doctor/submit_time_slots/$1';
+$route["doctor/delete-schedule"] = 'doctor/delete_schedule';
 
 
 

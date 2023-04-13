@@ -203,6 +203,18 @@ class Doctor extends CI_Controller {
 		$data['userSession'] = $user;
 		$this->template('doctor/change_password',$data, 'change_password');
 	}
+	public function schedule_timings($activeDay = '1')
+	{
+		$user = $this->check_login();
+		// $data['meta_title'] = 'Dashboard';
+		$data['page_title'] = 'Schedule Timings';
+		$data['schedule_timings_active'] = 'active';
+		$data['userSession'] = $user;
+		$data['activeDay'] = $activeDay;
+		$data['slots'] = $this->model->get_all_slots_for_doctor($user['doctor_id']);
+		// var_dump($data['slots']);die;
+		$this->template('doctor/schedule_timings',$data, 'schedule_timings');
+	}
 	/**
 	*
 	*
@@ -522,6 +534,40 @@ class Doctor extends CI_Controller {
 		}
 		else{
 			echo json_encode(array("status"=>false,"msg"=>"Clinic not updated, please try again or reload your web page.","type"=>"error"));
+		}
+	}
+	public function submit_time_slots()
+	{
+		$user = $this->check_login();
+		$dates = array("", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+		$insert['doctor_id'] = $user['doctor_id'];
+		$insert['day_number'] = $_POST['day_number'];
+		$insert['day_name'] = $dates[$_POST['day_number']];
+		foreach ($_POST['start'] as $key => $q) {
+			$insert['time_start'] = $q;
+			$insert['time_end'] = $_POST['end'][$key];
+			$this->db->insert('time_slot',$insert);
+		}
+		$slots = $this->model->get_slots_by_day_number($user['doctor_id'],$_POST['day_number']);
+		$html = '';
+		foreach ($slots as $key => $slot){
+			$html .= '<div class="doc-slot-list">';
+				$html .=date("h:i a",strtotime($slot['time_start'])).' - '.date("h:i a",strtotime($slot['time_end']));
+				$html .= '<a href="javascript:void(0)" class="delete_schedule doctor-dashboard-submit-btn" data-id="'.$slot['time_slot_id'].'"><i class="fa fa-times"></i></a>';
+			$html .= '</div>';
+		}
+		$divID = "#slot_".$insert['day_name'];
+		echo json_encode(array("status"=>true,"msg"=>"Time slot(s) added.","type"=>"success","html"=>$html,"divID"=>$divID));
+	}
+	public function delete_schedule()
+	{
+		$user = $this->check_login();
+		$resp = $this->db->where('doctor_id',$user['doctor_id'])->where('time_slot_id',$_POST['id'])->delete('time_slot');
+		if ($resp) {
+			echo json_encode(array("status"=>true,"msg"=>"Time slot deleted.","type"=>"success"));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"Time slot not deleted, please try again or reload your web page.","type"=>"error"));
 		}
 	}
 	/**

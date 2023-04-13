@@ -148,4 +148,12 @@ class Model_functions extends CI_Model {
 			ORDER BY h.name ASC 
 		;");
 	}
+	public function get_all_slots_for_doctor($doctor)
+	{
+		return $this->get_results("SELECT * FROM `time_slot` WHERE `doctor_id` = '$doctor' ORDER BY `day_number`,`time_start` ASC");
+	}
+	public function get_slots_by_day_number($doctor,$day_number)
+	{
+		return $this->get_results("SELECT * FROM `time_slot` WHERE `doctor_id` = '$doctor' AND `day_number` = '$day_number' ORDER BY `day_number`,`time_start` ASC");
+	}
 }

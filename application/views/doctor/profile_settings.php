@@ -363,10 +363,20 @@
 							</div>
 							<div class="row custom_price_cont" id="custom_price_cont" <?=($userSession['fee_type'] == 'free') ? 'style="display: none;"' : ''?> >
 								<div class="col-md-4">
-									<input type="text" class="form-control" id="custom_rating_input"
-										name="fee" value="<?=$userSession['fee']?>" placeholder="Enter Custom Fee">
+									<input type="text" class="form-control" id="custom_rating_input" name="fee" value="<?=$userSession['fee']?>" placeholder="Enter Custom Fee">
 									<small class="form-text text-muted">Custom price you can add</small>
 								</div>
+							</div>
+							<div class="form-group mt-3">
+								<label>Timing Slot Duration <span class="text-danger">*</span></label>
+								<select class="form-select form-control mb-0" name="timing_slot_duration">
+									<option value="15" <?=('5' == $userSession['timing_slot_duration']) ? 'selected' : ''?> >5 mins</option>
+									<option value="15" <?=('10' == $userSession['timing_slot_duration']) ? 'selected' : ''?> >10 mins</option>
+									<option value="15" <?=('15' == $userSession['timing_slot_duration']) ? 'selected' : ''?> >15 mins</option>
+									<option value="30" <?=('30' == $userSession['timing_slot_duration']) ? 'selected' : ''?> >30 mins</option>
+									<option value="45" <?=('45' == $userSession['timing_slot_duration']) ? 'selected' : ''?> >45 mins</option>
+									<option value="60" <?=('60' == $userSession['timing_slot_duration']) ? 'selected' : ''?> >1 Hour</option>
+								</select>
 							</div>
 							<div class="form-group mt-3">
 								<button class="btn btn-primary doctor-dashboard-submit-btn" type="submit">Save</button>

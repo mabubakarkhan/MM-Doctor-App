@@ -48,6 +48,7 @@ $(document).on('submit', 'form.time-slot-form', function(event) {
 	ajaxFormSubmit(form, function(resp) {	
 		form.find(".doctor-dashboard-submit-btn").html('Save Changes');
 		$(resp.divID).children('.doc-times').html(resp.html);
+		$(".hours-cont-runtime").remove();
 		nativeToast({
 			message: resp.msg,
 			edge: true,
@@ -66,7 +67,6 @@ $(document).on('click', '.delete_schedule', function(event) {
 		resp = $.parseJSON(resp);
 		if (resp.status == true) {
 			$this.parent('.doc-slot-list').remove();
-			$("#add_time_slot .hours-cont-runtime").remove();
 		}
 		else{
 			$this.html('<i class="fa fa-times"></i>');

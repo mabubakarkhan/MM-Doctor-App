@@ -275,7 +275,7 @@ class Home extends CI_Controller {
 	}
 	public function checkout($id,$date)
 	{
-		$data['user'] = $this->check_login_patient(BASEURL.'checkout/'.$id);
+		$data['user'] = $this->check_login_patient(BASEURL.'checkout/'.$id.'/'.$date);
 		$data['slot'] = $this->model->get_slot_byid($id);
 		$data['date'] = $date;
 		$data['doctor'] = $this->model->get_doctor_profile($data['slot']['doctor_id']);
@@ -286,7 +286,7 @@ class Home extends CI_Controller {
 	}
 	public function submit_checkout()
 	{
-		error_reporting(E_ALL);
+		// error_reporting(E_ALL);
 		$user  = $this->check_login_patient();
 		if ($user) {
 			parse_str($_POST['data'],$post);

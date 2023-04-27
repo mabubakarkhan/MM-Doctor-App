@@ -1,4 +1,8 @@
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <script>
+CKEDITOR.replace( 'timing_note_ck_id' );
+CKEDITOR.replace( 'timing_note_ck_id_2' );
+CKEDITOR.replace( 'timing_note_ck_id_4' );
 $("#profile-img").on('change',function(){
 	var data = new FormData();
 	data.append('img', $(this).prop('files')[0]);
@@ -118,12 +122,17 @@ $(document).on('click', '.edit-clinic', function(event) {
 	event.preventDefault();
 	$("#modal-edit-client input[name='id']").val($(this).attr('data-id'));
 	$("#modal-edit-client input[name='fee']").val($(this).attr('data-fee'));
+	// $("#modal-edit-client textarea[name='timing_note_3']").val($(this).attr('data-timing_note'));
 	$("#modal-edit-client .modal-title").text($(this).attr('data-name'));
 	$("#modal-edit-client").modal('show');
+
+	CKEDITOR.replace('timing_note_ck_id_3');
+	CKEDITOR.instances['timing_note_ck_id_3'].setData($(this).attr('data-timing_note'));
 });
 
 $(document).on('submit', 'form.clinic_editing', function(event) {
 	event.preventDefault();
+	$("form.clinic_editing textarea[name='timing_note']").val(CKEDITOR.instances.timing_note_ck_id_3.getData());
 	let form = $(this);
 	ajaxBtnLoader(form.find("button"));
 	ajaxFormSubmit(form, function(resp) {	
@@ -173,6 +182,11 @@ $(".select22").select2()
 						<label for="">Fee</label>
 						<input type="text" name="fee" required class="form-control">
 					</div><!-- /form-group -->
+					<div class="form-group">
+						<label for="">Timing Note</label>
+						<textarea id="timing_note_ck_id_3" class="form-control" required></textarea>
+					</div><!-- /form-group -->
+					<textarea name="timing_note" style="display:none;"></textarea>
 					<div class="form-group">
 						<button class="btn btn-primary ">Update</button>
 					</div><!-- /form-group -->

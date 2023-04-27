@@ -212,7 +212,7 @@ class Doctor extends CI_Controller {
 		$data['userSession'] = $user;
 		$data['activeDay'] = $activeDay;
 		$data['slots'] = $this->model->get_all_slots_for_doctor($user['doctor_id']);
-		// var_dump($data['slots']);die;
+		$data['doctor_hospitals'] = $this->model->doctor_hospitals($user['doctor_id']);
 		$this->template('doctor/schedule_timings',$data, 'schedule_timings');
 	}
 	/**
@@ -268,24 +268,30 @@ class Doctor extends CI_Controller {
 	{
 		$user = $this->check_login();
 		if (isset($_POST['services'])) {
-			$_POST['service_ids'] = '';
-			$_POST['service_titles'] = '';
-			foreach ($_POST['services'] as $q) {
+			foreach ($_POST['services'] as $key => $q) {
 				$temp = explode('%',$q);
-				$_POST['service_ids'] .= ','.$temp[0];	
-				$_POST['service_titles'] .= ','.$temp[1];	
+				if ($key == 0) {
+					$_POST['service_ids'] = $temp[0];	
+					$_POST['service_titles'] = $temp[1];
+				}
+				else{
+					$_POST['service_ids'] .= ','.$temp[0];	
+					$_POST['service_titles'] .= ','.$temp[1];
+				}
 			}
 			unset($_POST['services']);
-			$_POST['service_ids'] = trim($_POST['service_ids'],",");
-			$_POST['service_titles'] = trim($_POST['service_titles'],",");
 		}
 		if (isset($_POST['specializations'])) {
-			$_POST['specialization_ids'] = '';
-			$_POST['specialization_titles'] = '';
-			foreach ($_POST['specializations'] as $q) {
+			foreach ($_POST['specializations'] as $key => $q) {
 				$temp = explode('%',$q);
-				$_POST['specialization_ids'] .= ','.$temp[0];	
-				$_POST['specialization_titles'] .= ','.$temp[1];	
+				if ($key == 0) {
+					$_POST['specialization_ids'] = $temp[0];
+					$_POST['specialization_titles'] = $temp[1];
+				}
+				else{
+					$_POST['specialization_ids'] .= ','.$temp[0];
+					$_POST['specialization_titles'] .= ','.$temp[1];
+				}
 			}
 			unset($_POST['specializations']);
 			$_POST['service_ids'] = trim($_POST['service_ids'],",");
@@ -380,7 +386,7 @@ class Doctor extends CI_Controller {
 		foreach ($_POST['id'] as $key => $q) {
 			if ($q > 0 && $_POST['delete'][$key] == 'no') {
 				$update['title'] = $_POST['title'][$key];
-				$update['year'] = $_POST['to'][$key];
+				$update['year'] = $_POST['year'][$key];
 				$this->db->where('award_id',$q)->where('doctor_id',$user['doctor_id'])->update('award',$update);
 				$ids[] = $q;
 			}
@@ -475,9 +481,10 @@ class Doctor extends CI_Controller {
                 $html .= '<td>'.$resp['address'].'</td>';
                 $html .= '<td>'.$resp['cityName'].'</td>';
                 $html .= '<td>'.$resp['fee'].'</td>';
+                $html .= '<td>'.$resp['timing_note'].'</td>';
                 $html .= '<td>';
                     $html .= '<div class="table-action">';
-	                    $html .= '<a href="javascript://" class="btn btn-sm bg-info-light edit-clinic" data-id="'.$doctor_hospital['doctor_hospital_id'].'" data-name="'.$resp['name'].'" data-fee="'.$resp['fee'].'">';
+	                    $html .= '<a href="javascript://" class="btn btn-sm bg-info-light edit-clinic" data-id="'.$doctor_hospital['doctor_hospital_id'].'" data-name="'.$resp['name'].'" data-fee="'.$resp['fee'].'" data-timing_note="'.$resp['timing_note'].'">';
 	                		$html .= '<i class="feather-edit"></i>';
 	                	$html .= '</a>';
                     	$html .= '<a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital" data-id="'.$resp['doctor_hospital_id'].'" data-hospital-id="'.$resp['hospital_id'].'" data-name="'.$resp['name'].'">';
@@ -499,6 +506,7 @@ class Doctor extends CI_Controller {
 		$this->db->where('doctor_id',$user['doctor_id']);
 		$resp = $this->db->delete('doctor_hospital');
 		if ($resp) {
+			$this->db->where('doctor_id',$user['doctor_id'])->where('hospital_id',$_POST['hospital_id'])->delete('time_slot');
 			$option = '<option value="'.$_POST['hospital_id'].'">'.$_POST['name'].'</option>';
 			echo json_encode(array("status"=>true,"msg"=>"Clinic deleted.","type"=>"success","option"=>$option));
 		}
@@ -513,6 +521,7 @@ class Doctor extends CI_Controller {
 		$this->db->where('doctor_id',$user['doctor_id']);
 		$this->db->where('doctor_hospital_id',$_POST['id']);
 		$this->db->set('fee',$_POST['fee']);
+		$this->db->set('timing_note',$_POST['timing_note']);
 		$resp = $this->db->update('doctor_hospital');
 		if ($resp) {
 			$resp = $this->model->get_doctor_hospital_by_id($user['doctor_id'],$_POST['id']);
@@ -520,9 +529,10 @@ class Doctor extends CI_Controller {
             $html .= '<td>'.$resp['address'].'</td>';
             $html .= '<td>'.$resp['cityName'].'</td>';
             $html .= '<td>'.$resp['fee'].'</td>';
+            $html .= '<td>'.$resp['timing_note'].'</td>';
             $html .= '<td>';
                 $html .= '<div class="table-action">';
-                	$html .= '<a href="javascript://" class="btn btn-sm bg-info-light edit-clinic" data-id="'.$doctor_hospital['doctor_hospital_id'].'" data-name="'.$resp['name'].'" data-fee="'.$resp['fee'].'">';
+                	$html .= '<a href="javascript://" class="btn btn-sm bg-info-light edit-clinic" data-id="'.$doctor_hospital['doctor_hospital_id'].'" data-name="'.$resp['name'].'" data-fee="'.$resp['fee'].'" data-timing_note="'.$resp['timing_note'].'">';
                 		$html .= '<i class="feather-edit"></i>';
                 	$html .= '</a>';
                 	$html .= '<a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital" data-id="'.$resp['doctor_hospital_id'].'" data-hospital-id="'.$resp['hospital_id'].'" data-name="'.$resp['name'].'">';
@@ -543,6 +553,7 @@ class Doctor extends CI_Controller {
 		$insert['doctor_id'] = $user['doctor_id'];
 		$insert['day_number'] = $_POST['day_number'];
 		$insert['day_name'] = $dates[$_POST['day_number']];
+		$insert['hospital_id'] = $_POST['hospital_id'];
 		foreach ($_POST['start'] as $key => $q) {
 			$insert['time_start'] = $q;
 			$insert['time_end'] = $_POST['end'][$key];
@@ -572,173 +583,12 @@ class Doctor extends CI_Controller {
 	}
 	/**
 	*
-	*
-	*	@Domestic Functions
-	*
-	*
-	**/
-	protected function order_mail($post,$orderId)
-	{
-		$planName = $this->model->get_row("SELECT `title` FROM `plan` WHERE `plan_id` = '".$post['plan_id']."';");
-		$planName = $planName['title'];
-		$order = $this->model->get_order_byid($orderId);
-		$mail = '<!DOCTYPE html>
-				<html lang="en">
-				<head>
-				  <title>Smart Review</title>
-				  <meta charset="utf-8">
-				  <meta name="viewport" content="width=device-width, initial-scale=1">
-				  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-				</head>
-				<body>
-
-					<table style="max-width: 650px; background: #f6f6f6; border-collapse: collapse; margin: 0 auto 10px; border: 1px solid #acacac; box-sizing: border-box; padding: 0 0 30px; display: block;">
-						<tbody style="width: 100%; display: block;">
-							<tr style="width: 100%; display: block;">
-								<td style="width: 90%; display: block; margin: 0 auto; text-align: center; padding: 20px;">
-									<img src="'.IMG.'logo-2.png" alt="logo">
-								</td>
-							</tr>
-
-							<tr style="background: #283749;width: 94%;margin: 0 auto; border-bottom: 1px solid #999999; overflow: hidden; display: block;">
-								<td style="color: #fff; font-size: 15px; padding: 12px 18px; box-sizing: border-box; font-family: \'Open Sans\' , sans-serif; width: 70%;">Invoice 270901</td>
-								<td style="color: #fff; font-size: 15px; box-sizing: border-box; padding: 12px 18px; font-family: \'Open Sans\' , sans-serif;">Billed On '.date('M d, Y',strtotime($order['at'])).'</td>
-							</tr>
-
-							<tr style="width: 100%; display: block;">
-								<td style="text-align: center; width: 90%; margin: 0 auto; background: #323232; padding: 12px; display: block;">
-									<span style="display: block; color: #fff; font-size: 14px; padding: 2px; font-family: \'Open Sans\' , sans-serif;">'.$post['bill_fname'].' '.$post['bill_lname'].'</span><span style="display: block; color: #fff; font-size: 14px; padding: 2px; font-family: \'Open Sans\' , sans-serif;">'.$post['bill_address_line_1'].'</span>
-									<span style="display: block; color: #fff; font-size: 14px; padding: 2px; font-family: \'Open Sans\' , sans-serif;">';
-										if(strlen($post['bill_address_line_1']) > 1){
-											$mail .= $post['bill_address_line_1'];
-										}
-									$mail .= ' '.$post['bill_city'].'.</span>
-								</td>
-							</tr>
-
-							<tr style="width: 100%; display: block;">
-								<td style="text-align: center; width: 90%; margin: 0 auto; background: #transparent; padding: 20px 10px; display: block;">
-									<span style="display: block; color: #000; font-size: 18px; font-weight: bold; padding: 2px; font-family: \'Open Sans\' , sans-serif;">We received your payment</span>
-									<span style="display: block; color: #000; font-size: 12px; padding: 2px; font-family: \'Open Sans\' , sans-serif;">Thank you for your business. Enclosed is an invoice receipt for your records.</span>
-									<span style="display: block; color: #000; font-size: 12px; padding: 2px; font-family: \'Open Sans\' , sans-serif; margin: 0 0 14px;">This email confirms your recent payment of $'.$post['amount'].'. Here are the details of your payment:</span>
-									<a href="#" style="font-size: 12px; color: #000; font-family: \'Open Sans\' , sans-serif;">View your invoice online</a>
-								</td>
-							</tr>
-
-							<tr style="padding: 0 20px; display: flex; justify-content: space-between;">
-								<td style="background: #fff;box-sizing: border-box; border: 1px solid #999; text-align: center; padding: 20px 5px; width: 49%;">
-									<span style="color: #000; font-size: 14px; font-weight: bold; display: block; font-family: \'Open Sans\' , sans-serif;">Your plan:</span>
-									<span style="color: #000; font-size: 14px; font-weight: bold; display: block; font-family: \'Open Sans\' , sans-serif;">'.$planName.'</span>
-								</td>
-								<td style="background: #fff;box-sizing: border-box; border: 1px solid #999; text-align: center; padding: 10px 5px; width: 49%;">
-									<span style="color: #000; font-size: 14px; font-weight: bold; display: block; font-family: \'Open Sans\' , sans-serif; padding: 16px 0 3px;">Next invoice date:</span>
-									<span style="color: #000; font-size: 14px; font-weight: bold; display: block; font-family: \'Open Sans\' , sans-serif; padding: 3px 0;">July 1, 2021</span>
-								</td>
-							</tr>
-
-							<tr style="width: 94%; margin: 0 auto; display: block; box-sizing: border-box;">
-								<td style="width: 100%; display: block; box-sizing: border-box;">
-									<table style="width: 100%; margin: 20px 0 0; border-collapse: collapse;">
-										<thead style="background: #323232;">
-											<th style="color: #fff; font-size: 14px; font-weight: bold; padding: 10px 20px; font-family: \'Open Sans\' , sans-serif; text-align: left	; border-right: 4px solid #fff;">Date</th>
-											<th style="color: #fff; border-right: 4px solid #fff; font-size: 14px; font-weight: bold; padding: 10px 20px; font-family: \'Open Sans\' , sans-serif; text-align: left	;">Description</th>
-											<th style="color: #fff; font-size: 14px; font-weight: bold; padding: 10px 20px; font-family: \'Open Sans\' , sans-serif; text-align: right;">Amount</th>
-										</thead>
-										<tbody>
-											<tr>
-												<td style="background: #fff; font-size: 12px; color: #000; font-family: \'Open Sans\' , sans-serif; padding: 0 15px;">
-													<span style=" border-bottom: 1px solid #ebebeb; padding: 10px 0; display: block;">'.date('M d, Y',strtotime($order['at'])).'</span>
-												</td>
-												<td style="background: #fff; font-size: 12px; color: #000; font-family: \'Open Sans\' , sans-serif; padding: 0 15px;">
-													<span style=" border-bottom: 1px solid #ebebeb; padding: 10px 0; display: block;">'.$planName.'</span>
-												</td>
-												<td style="background: #fff; font-size: 13px; color: #000; font-family: \'Open Sans\' , sans-serif; padding: 0 15px;">
-													<span style=" border-bottom: 1px solid #ebebeb; padding: 10px 0; display: block; text-align: right; font-weight: bold;">$'.$order['amount'].'</span>
-												</td>
-											</tr>
-											<tr>
-												<td style="background: #fff; font-size: 12px; color: #000; font-family: \'Open Sans\' , sans-serif; padding: 0 15px;">
-													<span style=" border-bottom: 1px solid #ebebeb; padding: 10px 0; display: block;"></span>
-												</td>
-												<td style="background: #fff; font-size: 12px; color: #000; font-family: \'Open Sans\' , sans-serif; padding: 0 15px;">
-													<span style=" border-bottom: 1px solid #ebebeb; padding: 10px 0; display: block;"></span>
-												</td>
-												<td style="background: #fff; font-size: 13px; color: #000; font-family: \'Open Sans\' , sans-serif; padding: 0 15px;">
-													<span style=" border-bottom: 1px solid #ebebeb; padding: 10px 0; display: block; text-align: right; font-weight: bold;">Subtotal: $'.$order['amount'].'</span>
-												</td>
-											</tr>
-
-											<tr>
-												<td style="background: #fff; font-size: 12px; color: #000; font-family: \'Open Sans\' , sans-serif; padding: 0 15px;">
-													<span style=" border-bottom: 1px solid #ebebeb; padding: 10px 0; display: block;"></span>
-												</td>
-												<td style="background: #fff; font-size: 12px; color: #000; font-family: \'Open Sans\' , sans-serif; padding: 0 15px;">
-													<span style=" border-bottom: 1px solid #ebebeb; padding: 10px 0; display: block;"></span>
-												</td>
-												<td style="background: #fff; font-size: 13px; color: #000; font-family: \'Open Sans\' , sans-serif; padding: 0 15px;">
-													<span style=" border-bottom: 1px solid #ebebeb; padding: 10px 0; display: block; text-align: right; font-weight: bold;">Total: $'.$order['amount'].'</span>
-												</td>
-											</tr>
-											<tr>
-												<td style="background: #fff; font-size: 12px; color: #000; font-family: \'Open Sans\' , sans-serif; padding: 0 15px;">
-													<span style=" border-bottom: 1px solid #ebebeb; padding: 10px 0; display: block;"></span>
-												</td>
-												<td style="background: #fff; font-size: 12px; color: #000; font-family: \'Open Sans\' , sans-serif; padding: 0 15px;">
-													<span style=" border-bottom: 1px solid #ebebeb; padding: 10px 0; display: block;"></span>
-												</td>
-												<td style="background: #fff; font-size: 13px; color: #000; font-family: \'Open Sans\' , sans-serif; padding: 0 15px;">
-													<span style=" border-bottom: 1px solid #ebebeb; padding: 10px 0; display: block; text-align: right; font-weight: bold;">Paid: $13.96</span>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</td>
-							</tr>
-						</tbody>
-
-					</table>
-
-					<table style="max-width: 650px; padding: 20px; border-collapse: collapse; margin: 0 auto; border: 1px solid #acacac; box-sizing: border-box; display: block; background: #283749;">
-							<tbody style="width: 100%; display: block;">
-								<tr style="display: block; width: 100%; overflow: hidden;">
-									<td style="float: left;">
-										<span style="color: #fff; font-size: 14px; font-family: \'Open Sans\' , sans-serif; display: block;">Contact</span>
-										<a href="tel:03455555613" style="text-decoration: none; color: #fff; font-size: 20px; font-weight: bold; font-family: \'Open Sans\' , sans-serif; display: block;"><img src="'.IMG.'bg-phone.png" alt="image" style="display: inline-block; margin: 10px 10px 0 0;">0345 5555 613</a>
-										<a href="mailto:info@sms2connect" style="text-decoration: none; color: #fff; font-size: 20px; font-weight: bold; font-family: \'Open Sans\' , sans-serif; display: block;"><img src="'.IMG.'bg-mail.png" alt="image" style="display: inline-block; margin: 10px 10px 0 0;">info@sms2connect</a>
-									</td>
-									<td style="float: right;">
-										<img src="'.IMG.'bg-sms.png" alt="image">
-									</td>
-								</tr>
-							</tbody>
-					</table>
-
-				</body>	
-				</html>
-				';
-		$to      = $post['bill_email'];
-		$subject = 'Payment On Review';
-		$from = EMAIL_FROM;
-
-		$headers = '';
-	    $headers .= "From: ".$from."" ."\r\n" .
-		$headers .= "MIME-Version: 1.0\r\n";
-		$headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
-		$headers .= "X-Priority: 3\r\n";
-		$headers .= "X-Mailer: PHP". phpversion() ."\r\n" ;
-
-		//mail($to, $subject, $mail, $headers);
-		$this->send_mail($subject,$mail,$to,false);
-		return true;
-	}
-	/**
-	*
 
 	@Send Mail
 		
 	*
 	*/
-	public function send_mail($subject,$content,$email,$file = false)
+	protected function send_mail($subject,$content,$email,$file = false)
 	{
 		$this->load->library("phpmailer_library");
         $mail = $this->phpmailer_library->load();

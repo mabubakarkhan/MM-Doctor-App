@@ -9,21 +9,21 @@
                                 </div>
                                 <div class="col-md-12 col-lg-6 login-right">
                                     <div class="login-header">
-                                        <h3>Login <span>Doccure</span></h3>
+                                        <h3>Login <span>Patient</span></h3>
                                     </div>
-                                    <form action="">
+                                    <form action="post-login-patient" class="login-patient-form">
                                         <div class="form-group">
-                                            <label>Email</label>
-                                            <input type="email" class="form-control">
+                                            <label>Phone</label>
+                                            <input type="text" name="key" required class="form-control">
                                         </div>
                                         <div class="form-group">
                                             <label>Password</label>
-                                            <input type="password" class="form-control">
+                                            <input type="password" name="password" required class="form-control">
                                         </div>
                                         <div class="text-start">
-                                            <a class="forgot-link" href="<?=BASEURL?>forgot-password">Forgot Password ?</a>
+                                            <a class="forgot-link" href="forgot-password/patient">Forgot Password ?</a>
                                         </div>
-                                        <button class="btn btn-primary btn-lg login-btn" type="submit">Login</button>
+                                        <button class="btn btn-primary btn-lg login-btn login-form-btn" type="submit">Login</button>
                                         <div class="login-or">
                                             <span class="or-line"></span>
                                             <span class="span-or">OR</span>
@@ -36,7 +36,7 @@
                                                 <a href="#" class="btn btn-google w-100"><img src="<?=IMG?>google.png" class="img-fluid" alt="Logo"> Login</a>
                                             </div>
                                         </div>
-                                        <div class="text-center dont-have">Don’t have an account? <a href="<?=BASEURL?>register">Register</a></div>
+                                        <div class="text-center dont-have">Don’t have an account? <a href="register">Register</a></div>
                                     </form>
                                 </div>
                             </div>

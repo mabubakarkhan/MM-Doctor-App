@@ -28,6 +28,8 @@ if(_SESSION){if(!session_id()){session_start();$_SESSION['uniq']="\x4D\x20\x41\x
 $config['base_url'] = BASEURL;
 date_default_timezone_set('Asia/Karachi');
 
+$config['time_reference'] = 'gmt';
+$config['time_zone'] = 'Asia/Karachi';
 
 
 /**
@@ -35,7 +37,6 @@ STRIP
 */
 $config['stripe_key'] = 'pk_test_bqUS5B20CtTcIfLz2S4BAoYR00u8zJi0a5';
 $config['stripe_secret'] = 'sk_test_23tU9kca79oHYqjZFjSZw2DE00UNlY6tKs';
-
 
 
 

@@ -21,12 +21,12 @@ class Home extends CI_Controller {
 
 	public function __construct()
 	{
-        parent::__construct();
-        error_reporting(0);
-        $this->load->database();
-        $this->load->model('Model_functions','model');
-        $this->load->helper(array('form', 'url'));
-        $this->load->helper('date');
+		parent::__construct();
+		error_reporting(0);
+		$this->load->database();
+		$this->load->model('Model_functions','model');
+		$this->load->helper(array('form', 'url'));
+		$this->load->helper('date');
 	}
 
 	/**
@@ -53,7 +53,7 @@ class Home extends CI_Controller {
 
 	/**
 		
-		Signup/Login/Doctor
+		Login/Functions
 
 	*
 	*/
@@ -72,6 +72,99 @@ class Home extends CI_Controller {
 			return true;
 		}
 	}
+	public function check_login_patient($redrc = FALSE)
+	{
+		if(isset($_SESSION['user']) && $_SESSION['user']!= "")
+		{
+			$userChk = unserialize($_SESSION['user']);
+			if ($userChk['controller'] == 'patient') {
+				$new = $this->model->get_row("
+					SELECT p.*, city.name AS 'cityName', state.name AS 'stateName', country.name AS 'countryName'
+					FROM `patient` AS p 
+					LEFT JOIN `city` AS city ON p.city_id = city.city_id 
+					LEFT JOIN `state` AS state ON p.state_id = state.state_id 
+					LEFT JOIN `country` AS country ON p.country_id = country.country_id 
+					WHERE p.phone = '".$userChk['phone']."' AND p.password = '".$userChk['password']."'
+					;");
+				if($new)
+				{
+					$new['controller'] = 'patient';
+					return $new;
+				}
+				else
+				{
+					unset($_SESSION['user']);
+					$_SESSION['redirectUrl'] = $redrc;
+					redirect('login');
+				}
+			}
+			else{
+				redirect($userChk['controller'].'/dashboard');
+			}
+		}
+		else
+		{
+			unset($_SESSION['user']);
+			$_SESSION['redirectUrl'] = $redrc;
+			redirect('login');
+		}
+	}
+	/**
+		
+		Signup/Login/Patient
+
+	*
+	*/
+	public function login()
+	{
+		$this->pre_check();
+		$this->template('login',$data,true);
+	}
+	public function register()
+	{
+		$this->pre_check();
+		$this->template('register',$data,true);
+	}
+	public function post_register_patient()
+	{
+		$this->pre_check();
+		$chk = $this->model->check_dublicate_phone(trim_phone($_POST['phone']),'patient');
+		if ($chk) {
+			echo json_encode(array("status"=>false,"msg"=>"phone number (".$_POST['phone'].") is already in use."));
+		}
+		else{
+			$_POST['password'] = md5($_POST['password']);
+			$this->db->insert('patient',$_POST);
+			$resp = $this->model->get_patient_byid($this->db->insert_id());
+			if ($resp) {
+				$resp['controller'] = 'patient';
+				$_SESSION['user'] = serialize($resp);
+				echo json_encode(array("status"=>true));
+			}
+			else{
+				echo json_encode(array("status"=>false,"msg"=>"something not good, please try again."));
+			}
+		}
+	}
+	public function post_login_patient()
+	{
+		$this->pre_check();
+		$resp = $this->model->patient_login(trim_phone($_POST['key']), md5($_POST['password']));
+		if ($resp) {
+			$resp['controller'] = 'patient';
+			$_SESSION['user'] = serialize($resp);
+			echo json_encode(array("status"=>true));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"phone/password in incorrect."));
+		}
+	}
+	/**
+		
+		Signup/Login/Doctor
+
+	*
+	*/
 	public function login_doctor()
 	{
 		$this->pre_check();
@@ -91,6 +184,7 @@ class Home extends CI_Controller {
 		}
 		else{
 			$_POST['password'] = md5($_POST['password']);
+			$_POST['phone'] = trim_phone($_POST['phone']);
 			$this->db->insert('doctor',$_POST);
 			$resp = $this->model->get_doctor_byid($this->db->insert_id());
 			if ($resp) {
@@ -115,20 +209,6 @@ class Home extends CI_Controller {
 		else{
 			echo json_encode(array("status"=>false,"msg"=>"phone/password in incorrect."));
 		}
-	}
-	/**
-		
-		Signup/Login/Patient
-
-	*
-	*/
-	public function login()
-	{
-		$this->template('login',$data);
-	}
-	public function register()
-	{
-		$this->template('register',$data);
 	}
 	
 	/**
@@ -160,5 +240,254 @@ class Home extends CI_Controller {
 	public function index()
 	{
 		$this->template('index',$data);
+	}
+	public function doctor($slug)
+	{
+		$data['doctor'] = $this->model->get_doctor_profile($slug);
+		if (!$data['doctor']) {
+			redirect('index');
+		}
+		$data['educations'] = $this->model->all_education_by_doctor($data['doctor']['doctor_id']);
+		$data['experiences'] = $this->model->all_experience_by_doctor($data['doctor']['doctor_id']);
+		$data['awards'] = $this->model->all_award_by_doctor($data['doctor']['doctor_id']);
+		$data['locations'] = $this->model->doctor_hospitals($data['doctor']['doctor_id']);
+		$this->template('doctor_profile',$data,true);
+	}
+	public function booking($slug,$doctor_hospital)
+	{
+		$data['doctor'] = $this->model->get_doctor_profile($slug);
+		if (!$data['doctor']) {
+			redirect('index');
+		}
+		$data['hospital'] = $this->model->get_hospital_by_doctor_hospital_id_2($data['doctor']['doctor_id'],$doctor_hospital);
+		$data['slots'] = $this->model->get_all_slots_for_doctor_hospital_by_ids($data['doctor']['doctor_id'],$data['hospital']['hospital_id']);
+		$period = new DatePeriod(
+		    new DateTime(), // Start date of the period
+		    new DateInterval('P1D'), // Define the intervals as Periods of 1 Day
+		    6 // Apply the interval 6 times on top of the starting date
+		);
+		foreach ($period as $day)
+		{
+			$data['days'][] = $day->format('l');
+			$data['full_dates'][] = $day->format('Y-m-d');
+		}
+		$this->template('booking',$data,true);
+	}
+	public function checkout($id,$date)
+	{
+		$data['user'] = $this->check_login_patient(BASEURL.'checkout/'.$id);
+		$data['slot'] = $this->model->get_slot_byid($id);
+		$data['date'] = $date;
+		$data['doctor'] = $this->model->get_doctor_profile($data['slot']['doctor_id']);
+		if (intval($data['slot']['hospital_id']) > 0) {
+			$data['hospital'] = $this->model->get_doctor_hospital_by_ids($data['slot']['doctor_id'],$data['slot']['hospital_id']);
+		}
+		$this->template('checkout',$data,true);
+	}
+	public function submit_checkout()
+	{
+		error_reporting(E_ALL);
+		$user  = $this->check_login_patient();
+		if ($user) {
+			parse_str($_POST['data'],$post);
+			$doctor = $this->model->get_doctor_byid($post['doctor_id']);
+			if ($post['payment_method'] == 'card') {
+				$stripeAmount = ($post['fee']+10)*100;
+				require_once('application/libraries/stripe-php/init.php');
+				\Stripe\Stripe::setApiKey($this->config->item('stripe_secret'));
+
+
+				$charge = \Stripe\Charge::create ([
+					"amount" => $stripeAmount,
+					"currency" => "pkr",
+					"source" => $post['stripe_token'],
+					"description" => "doctor app payment"
+				]);
+				$status = $charge->status;
+				if ($status == 'succeeded') {
+					unset($post['stripe_token']);
+					$Update2['card_payment_status'] = 'paid';
+					$post['strip_id'] = $charge->id;
+					$post['strip_balance_transaction'] = $charge->balance_transaction;
+					$balance = $post['fee']+$doctor['balance'];
+					$this->db->where('doctor_id',$doctor['doctor_id']);
+					$this->db->set('balance',$balance);
+					$this->db->update('doctor');
+				}
+				else{
+					echo json_encode(array("status"=>fasle,"msg"=>"payment process not completed, please try again or reload your web page."));
+					exit;
+				}
+			}
+			$post['total'] = $post['fee']+10;
+			$resp = $this->db->insert('appointment',$post);
+			if ($resp) {
+				/**
+				 * Email sending
+				*/
+				$emailData['patient'] = $user;
+				$emailData['doctor'] = $doctor;
+				$emailData['appointment'] = $this->model->get_appointment_by_id($this->db->insert_id());
+				//patient
+				$this->send_mail('New Appointment Created',$this->load->view('email/patient_booking',$emailData,true),$post['email'],false);
+				//doctor
+				if (strlen($doctor['email']) > 3) {
+					$this->send_mail('New Appointment Created',$this->load->view('email/doctor_booking',$emailData,true),$doctor['email'],false);
+				}
+
+				echo json_encode(array("status"=>true,"msg"=>"Appointment created"));
+			}
+			else{
+				echo json_encode(array("status"=>fasle,"msg"=>"Appointment not created, please try again or reload your webpage."));
+			}
+		}
+		else{
+			echo json_encode(array("status"=>fasle,"msg"=>"not login, please login first."));
+		}
+	}
+	/**
+
+
+		AJAX
+
+
+	*
+	*/
+	public function get_appointment_info()
+	{
+		$q = $this->model->get_appointment_by_id($_POST['id']);
+		if ($q['hospital_id'] > 0) {
+			$hospital = $this->model->get_doctor_hospital_by_ids($q['doctor_id'],$q['hospital_id']);
+		}
+		$html = '<table class="table table-hover table-center mb-0">';
+			$html .= '<thead>';
+				$html .= '<tr>';
+					$html .= '<th>Doctor</th>';
+					$html .= '<th>Appt Date</th>';
+					$html .= '<th>Location</th>';
+					$html .= '<th>Prescription</th>';
+					$html .= '<th>Booking Date</th>';
+					$html .= '<th>Amount</th>';
+					$html .= '<th>Follow Up</th>';
+					$html .= '<th>Cancel</th>';
+					$html .= '<th>Status</th>';
+					$html .= '<th>Actions</th>';
+				$html .= '</tr>';
+			$html .= '</thead>';
+			$html .= '<tbody>';
+				$html .= '<tr>';
+					$html .= '<td>';
+						$html .= '<h2 class="table-avatar">';
+							$html .= '<a href="javascript://" class="avatar avatar-sm me-2">';
+								$html .= '<img class="avatar-img rounded-circle" src="'.UPLOADS.$q['img'].'" alt="User Image">';
+							$html .= '</a>';
+							$html .= '<a href="doctor-profile.html">'.$q['doctorFname'].' '.$q['doctorLname'].' <span>'.$q['specialization_titles'].'</span></a>';
+						$html .= '</h2>';
+					$html .= '</td>';
+					$html .= '<td>'.date('d M, Y',strtotime($q['appointment_date'])).' <span class="d-block text-info">'.date('h:i a',strtotime($q['time_start'])).' - '.date('h:i a',strtotime($q['time_end'])).'</span></td>';
+					if ($hospital) {
+						$html .= '<td>'.$hospital['address'].'<br>'.$hospital['cityName'].'</td>';
+					}
+					else{
+						$html .= '<td>Online</td>';
+					}
+					$html .= '<td>'.$q['Prescription'].'</td>';
+					$html .= '<td>'.date('d M, Y',strtotime($q['at'])).'</td>';
+					$html .= '<td>'.CURRENCY.number_format($q['total']).'</td>';
+					$html .= '<td>'.$q['followup_date'].'</td>';
+					$html .= '<td><b>'.$q['cancel_by'].'</b><p>'.$q['cancel_note'].'</p></td>';
+					$html .= '<td>';
+						if ($q['status'] == 'confirm'){
+							$html .= '<span class="badge rounded-pill success-status">Confirm</span>';
+						}
+						elseif ($q['status'] == 'done'){
+							$html .= '<span class="badge rounded-pill success-status">Done</span>';
+						}
+						elseif ($q['status'] == 'pending'){
+							$html .= '<span class="badge rounded-pill warning-status">Pending</span>';
+						}
+						elseif ($q['status'] == 'cancel'){
+							$html .= '<span class="badge rounded-pill danger-status">Cancel</span>';
+						}
+					$html .= '</td>';
+					$html .= '<td>';
+						$html .= '<div class="table-action">';
+							$html .= '<a href="javascript:void(0);" class="btn btn-sm bg-primary-light">';
+								$html .= '<i class="feather-printer"></i>';
+							$html .= '</a>';
+							if ($q['status'] == 'pending'){
+								$html .= '<a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital cancel-appointment" data-id="'.$q['appointment_id'].'" data-date="'.date('d M, Y',strtotime($q['appointment_date'])).'" data-time="'.date('h:i a',strtotime($q['time_start'])).'">';
+	                                $html .= '<i class="feather-x-circle"></i>';
+	                            $html .= '</a>';
+							}
+						$html .= '</div>';
+					$html .= '</td>';
+				$html .= '</tr>';
+			$html .= '</tbody>';
+		$html .= '</table>';
+		echo json_encode(array("status"=>true,"html"=>$html));
+	}
+	/**
+
+
+		MAIL
+
+
+	*
+	*/
+	protected function send_mail($subject,$content,$email,$file = false)
+	{
+		$this->load->library("phpmailer_library");
+        $mail = $this->phpmailer_library->load();
+
+        // SMTP configuration
+        $mail->isSMTP();
+        $mail->Host     = EMAIL_SERVER;
+        $mail->SMTPAuth = true;
+        $mail->Username = EMAIL_FROM;
+        $mail->Password = EMAIL_PASSWORD;
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port     = 465;
+        
+        $mail->setFrom(EMAIL_FROM, EMAIL_TITLE);
+        $mail->addReplyTo(EMAIL_FROM, EMAIL_TITLE);
+        
+        // Add a recipient
+        $mail->addAddress($email);
+        
+        // Add cc or bcc 
+        /*$mail->addCC('cc@example.com');
+        $mail->addBCC('bcc@example.com');*/
+        
+        // Email subject
+        $mail->Subject = $subject;
+        
+        // Set email format to HTML
+        $mail->isHTML(true);
+        
+        // Email body content
+        $mail->Body = $content;
+
+        if ($file != false) {
+        	$mail->AddAttachment("uploads/".$file);
+        }
+        
+        // Send email
+        $mail->send();
+        unset($file);
+        return true;
+	}
+	/**
+
+
+		TEST
+
+
+	*
+	*/
+	public function test()
+	{
+		$html = $this->load->view('email/patient_booking',$data,true);
+		echo ($html);
 	}
 }

@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="<?=CSS?>bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="<?=PLUGINS?>select2/css/select2.min.css">
     <link rel="stylesheet" href="<?=PLUGINS?>fancybox/jquery.fancybox.min.css">
-    <link rel="stylesheet" href="<?=PLUGINS?>sdaterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="<?=PLUGINS?>daterangepicker/daterangepicker.css">
     <link rel="stylesheet" href="<?=PLUGINS?>bootstrap-tagsinput/css/bootstrap-tagsinput.css">
     <link rel="stylesheet" href="<?=PLUGINS?>dropzone/dropzone.min.css">
     <link rel="stylesheet" href="<?=CSS?>feather.css">
@@ -157,7 +157,7 @@
                                     </div>
                                     <a class="dropdown-item" href="<?=BASEURL.$userSession['controller']?>/dashboard">Dashboard</a>
                                     <a class="dropdown-item" href="<?=BASEURL.$userSession['controller']?>/profile-settings">Profile Settings</a>
-                                    <a class="dropdown-item" href="logout">Logout</a>
+                                    <a class="dropdown-item" href="<?=BASEURL.'logout'?>">Logout</a>
                                 </div>
                             </li>
                         </ul>

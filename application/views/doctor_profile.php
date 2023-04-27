@@ -1,42 +1,46 @@
 <div class="breadcrumb-bar">
-            <div class="container-fluid">
-                <div class="row align-items-center">
-                    <div class="col-md-12 col-12">
-                        <h2 class="breadcrumb-title">Doctor Profile</h2>
-                        <nav aria-label="breadcrumb" class="page-breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Doctor Profile</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+                <h2 class="breadcrumb-title">Doctor Profile</h2>
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Doctor Profile</li>
+                    </ol>
+                </nav>
             </div>
         </div>
-        <div class="content">
-            <div class="container">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="doctor-widget">
-                            <div class="doc-info-left">
-                                <div class="doctor-img">
-                                    <img src="<?=IMG?>doctors/doctor-thumb-02.jpg" class="img-fluid" alt="User Image">
-                                </div>
-                                <div class="doc-info-cont">
-                                    <h4 class="doc-name">Dr. Darren Elder</h4>
-                                    <p class="doc-speciality">BDS, MDS - Oral & Maxillofacial Surgery</p>
-                                    <p class="doc-department"><img src="<?=IMG?>specialities/specialities-05.png" class="img-fluid" alt="Speciality">Dentist</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <div class="clinic-details">
-                                        <p class="doc-location"><i class="feather-map-pin"></i> Newyork, USA - <a href="javascript:void(0);">Get Directions</a></p>
-                                        <ul class="clinic-gallery">
+    </div>
+</div>
+<div class="content">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="doctor-widget">
+                    <div class="doc-info-left">
+                        <div class="doctor-img">
+                            <img src="<?=UPLOADS.$doctor['img']?>" class="img-fluid" alt="<?=$doctor['fname'].' '.$doctor['lname']?>">
+                        </div>
+                        <div class="doc-info-cont">
+                            <h4 class="doc-name"><?=$doctor['fname'].' '.$doctor['lname']?></h4>
+                            <?php if (isset($doctor['specialization_titles']) && strlen($doctor['specialization_titles']) > 1): ?>
+                            <p class="doc-speciality"><?=$doctor['specialization_titles']?></p>
+                        <?php endif ?>
+                        <!-- <p class="doc-department"><img src="<?=IMG?>specialities/specialities-05.png" class="img-fluid" alt="Speciality">Dentist</p> -->
+                        <div class="rating">
+                            <i class="fas fa-star filled"></i>
+                            <i class="fas fa-star filled"></i>
+                            <i class="fas fa-star filled"></i>
+                            <i class="fas fa-star filled"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="d-inline-block average-rating">4.9 ( 82 )</span>
+                        </div>
+                        <div class="clinic-details">
+                            <?php if (strlen($doctor['cityName']) > 1): ?>
+                                <p class="doc-location"><i class="feather-map-pin"></i> <?=$doctor['cityName']?>, <?=$doctor['countryName']?><!--  - <a href="javascript:void(0);">Get Directions</a> --></p>
+                            <?php endif ?>
+                                        <!-- <ul class="clinic-gallery">
                                             <li>
                                                 <a href="<?=IMG?>features/feature-01.jpg" data-fancybox="gallery">
                                                     <img src="<?=IMG?>features/feature-01.jpg" alt="Feature">
@@ -57,19 +61,27 @@
                                                     <img src="<?=IMG?>features/feature-04.jpg" alt="Feature">
                                                 </a>
                                             </li>
-                                        </ul>
+                                        </ul> -->
                                     </div>
-                                    <div class="clinic-services">
-                                        <span>Dental Fillings</span>
-                                        <span>Teeth Whitneing</span>
-                                    </div>
+                                    <?php if (strlen($doctor['service_titles']) > 1): ?>
+                                        <div class="clinic-services">
+                                            <?php
+                                            $services = explode(',', $doctor['service_titles']);
+                                            foreach($services as $service){
+                                                echo '<span>'.$service.'</span>';
+                                            }
+                                            ?>
+                                        </div>
+                                    <?php endif ?>
                                 </div>
                             </div>
                             <div class="doc-info-right">
-                                <div class="clini-infos">
+                                <!-- <div class="clini-infos">
                                     <ul>
                                         <li><i class="far fa-thumbs-up"></i> 99%</li>
-                                        <li><i class="feather-map-pin"></i> Florida, USA</li>
+                                        <?php if (strlen($doctor['cityName']) > 1): ?>
+                                            <li><i class="feather-map-pin"></i> <?=$doctor['cityName']?>, <?=$doctor['countryName']?></li>
+                                        <?php endif ?>
                                         <li><i class="feather-calendar"></i> Available on Fri, 20 Mar</li>
                                         <li><i class="far fa-money-bill-alt"></i> $300 - $1000 <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i> </li>
                                     </ul>
@@ -77,8 +89,8 @@
                                 <div class="clinic-booking">
                                     <a class="view-pro-btn" href="doctor-profile">View Profile</a>
                                     <a class="apt-btn" href="booking">Book Now</a>
-                                </div>
-                            </div>
+                                </div> -->
+                            </div><!-- /doc-info-right -->
                         </div>
                     </div>
                 </div>
@@ -104,146 +116,122 @@
                             <div role="tabpanel" id="doc_overview" class="tab-pane fade show active">
                                 <div class="row">
                                     <div class="col-md-12 col-lg-12">
-                                        <div class="widget about-widget">
-                                            <h4 class="widget-title">About Me</h4>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                        </div>
-                                        <div class="widget education-widget">
-                                            <h4 class="widget-title">Education</h4>
-                                            <div class="experience-box">
-                                                <ul class="experience-list">
-                                                    <li>
-                                                        <div class="experience-user">
-                                                            <div class="before-circle"></div>
-                                                        </div>
-                                                        <div class="experience-content">
-                                                            <div class="timeline-content">
-                                                                <a href="#/" class="name">American Dental Medical University</a>
-                                                                <div>BDS</div>
-                                                                <span class="time">1998 - 2003</span>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="experience-user">
-                                                            <div class="before-circle"></div>
-                                                        </div>
-                                                        <div class="experience-content">
-                                                            <div class="timeline-content">
-                                                                <a href="#/" class="name">American Dental Medical University</a>
-                                                                <div>MDS</div>
-                                                                <span class="time">2003 - 2005</span>
-                                                            </div>
-                                                        </div>
-                                                    </li>
+                                        <?php if (strlen($doctor['biography']) > 2): ?>
+
+                                            <div class="widget about-widget">
+                                                <h4 class="widget-title">About Me</h4>
+                                                <p><?=$doctor['biography']?></p>
+                                            </div>
+                                        <?php endif ?>
+
+                                        <?php if ($educations): ?>
+                                            <div class="widget education-widget">
+                                                <h4 class="widget-title">Education</h4>
+                                                <div class="experience-box">
+                                                    <ul class="experience-list">
+                                                        <?php foreach ($educations as $key => $education): ?>
+                                                            <li>
+                                                                <div class="experience-user">
+                                                                    <div class="before-circle"></div>
+                                                                </div>
+                                                                <div class="experience-content">
+                                                                    <div class="timeline-content">
+                                                                        <a href="javascript://" class="name"><?=$education['institute']?></a>
+                                                                        <div><?=$education['degree']?></div>
+                                                                        <span class="time"><?=$education['year']?></span>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        <?php endforeach ?>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
+
+                                        <?php if ($experiences): ?>
+                                            <div class="widget experience-widget">
+                                                <h4 class="widget-title">Work & Experience</h4>
+                                                <div class="experience-box">
+                                                    <ul class="experience-list">
+                                                        <?php foreach ($experiences as $key => $experience): ?>
+                                                            <li>
+                                                                <div class="experience-user">
+                                                                    <div class="before-circle"></div>
+                                                                </div>
+                                                                <div class="experience-content">
+                                                                    <div class="timeline-content">
+                                                                        <a href="javascript://" class="name"><?=$experience['hospital']?></a>
+                                                                        <span class="time"><?=$experience['from'].' - '.$experience['to']?></span>
+                                                                        <p><?=$experience['designation']?></p>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        <?php endforeach ?>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
+
+                                        <?php if ($awards): ?>
+                                            <div class="widget awards-widget">
+                                                <h4 class="widget-title">Awards</h4>
+                                                <div class="experience-box">
+                                                    <ul class="experience-list">
+                                                        <?php foreach ($awards as $key => $award): ?>
+                                                            <li>
+                                                                <div class="experience-user">
+                                                                    <div class="before-circle"></div>
+                                                                </div>
+                                                                <div class="experience-content">
+                                                                    <div class="timeline-content">
+                                                                        <p class="exp-year"><?=$award['year']?></p>
+                                                                        <h4 class="exp-title"><?=$award['title']?></h4>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        <?php endforeach ?>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
+
+                                        <?php
+                                        $services = explode(',', $doctor['service_titles']);
+                                        if ($services) {
+                                            ?>
+                                            <div class="service-list">
+                                                <h4>Services</h4>
+                                                <ul class="clearfix">
+                                                    <?php
+                                                    foreach($services as $service){
+                                                        echo '<li>'.$service.'</li>';
+                                                    }
+                                                    ?>
                                                 </ul>
                                             </div>
-                                        </div>
-                                        <div class="widget experience-widget">
-                                            <h4 class="widget-title">Work & Experience</h4>
-                                            <div class="experience-box">
-                                                <ul class="experience-list">
-                                                    <li>
-                                                        <div class="experience-user">
-                                                            <div class="before-circle"></div>
-                                                        </div>
-                                                        <div class="experience-content">
-                                                            <div class="timeline-content">
-                                                                <a href="#/" class="name">Glowing Smiles Family Dental Clinic</a>
-                                                                <span class="time">2010 - Present (5 years)</span>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="experience-user">
-                                                            <div class="before-circle"></div>
-                                                        </div>
-                                                        <div class="experience-content">
-                                                            <div class="timeline-content">
-                                                                <a href="#/" class="name">Comfort Care Dental Clinic</a>
-                                                                <span class="time">2007 - 2010 (3 years)</span>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="experience-user">
-                                                            <div class="before-circle"></div>
-                                                        </div>
-                                                        <div class="experience-content">
-                                                            <div class="timeline-content">
-                                                                <a href="#/" class="name">Dream Smile Dental Practice</a>
-                                                                <span class="time">2005 - 2007 (2 years)</span>
-                                                            </div>
-                                                        </div>
-                                                    </li>
+                                            <?php
+                                        }
+                                        ?>
+
+                                        <?php
+                                        $specializations = explode(',', $doctor['specialization_titles']);
+                                        if ($specializations) {
+                                            ?>
+                                            <div class="service-list">
+                                                <h4>Specializations</h4>
+                                                <ul class="clearfix">
+                                                    <?php
+                                                    foreach($specializations as $specialization){
+                                                        echo '<li>'.$specialization.'</li>';
+                                                    }
+                                                    ?>
                                                 </ul>
                                             </div>
-                                        </div>
-                                        <div class="widget awards-widget">
-                                            <h4 class="widget-title">Awards</h4>
-                                            <div class="experience-box">
-                                                <ul class="experience-list">
-                                                    <li>
-                                                        <div class="experience-user">
-                                                            <div class="before-circle"></div>
-                                                        </div>
-                                                        <div class="experience-content">
-                                                            <div class="timeline-content">
-                                                                <p class="exp-year">July 2019</p>
-                                                                <h4 class="exp-title">Humanitarian Award</h4>
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="experience-user">
-                                                            <div class="before-circle"></div>
-                                                        </div>
-                                                        <div class="experience-content">
-                                                            <div class="timeline-content">
-                                                                <p class="exp-year">March 2011</p>
-                                                                <h4 class="exp-title">Certificate for International Volunteer Service</h4>
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="experience-user">
-                                                            <div class="before-circle"></div>
-                                                        </div>
-                                                        <div class="experience-content">
-                                                            <div class="timeline-content">
-                                                                <p class="exp-year">May 2008</p>
-                                                                <h4 class="exp-title">The Dental Professional of The Year Award</h4>
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="service-list">
-                                            <h4>Services</h4>
-                                            <ul class="clearfix">
-                                                <li>Tooth cleaning </li>
-                                                <li>Root Canal Therapy</li>
-                                                <li>Implants</li>
-                                                <li>Composite Bonding</li>
-                                                <li>Fissure Sealants</li>
-                                                <li>Surgical Extractions</li>
-                                            </ul>
-                                        </div>
-                                        <div class="service-list">
-                                            <h4>Specializations</h4>
-                                            <ul class="clearfix">
-                                                <li>Children Care</li>
-                                                <li>Dental Care</li>
-                                                <li>Oral and Maxillofacial Surgery </li>
-                                                <li>Orthodontist</li>
-                                                <li>Periodontist</li>
-                                                <li>Prosthodontics</li>
-                                            </ul>
-                                        </div>
+                                            <?php
+                                        }
+                                        ?>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -252,8 +240,8 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="clinic-content">
-                                                <h4 class="clinic-name"><a href="#">Smile Cute Dental Care Center</a></h4>
-                                                <p class="doc-speciality">MDS - Periodontology and Oral Implantology, BDS</p>
+                                                <h4 class="clinic-name"><a href="javascript://">Online Consultancy</a></h4>
+                                                <p class="doc-speciality"><?=$doctor['service_titles']?></p>
                                                 <div class="rating">
                                                     <i class="fas fa-star filled"></i>
                                                     <i class="fas fa-star filled"></i>
@@ -263,8 +251,8 @@
                                                     <span class="d-inline-block average-rating">(4)</span>
                                                 </div>
                                                 <div class="clinic-details mb-0">
-                                                    <h5 class="clinic-direction"> <i class="feather-map-pin"></i> 2286 Sundown Lane, Austin, Texas 78749, USA <br><a href="javascript:void(0);">Get Directions</a></h5>
-                                                    <ul>
+                                                    <h5 class="clinic-direction"> <i class="feather-map-pin"></i> Online</h5>
+                                                    <!-- <ul>
                                                         <li>
                                                             <a href="<?=IMG?>features/feature-01.jpg" data-fancybox="gallery2">
                                                                 <img src="<?=IMG?>features/feature-01.jpg" alt="Feature Image">
@@ -285,109 +273,68 @@
                                                                 <img src="<?=IMG?>features/feature-04.jpg" alt="Feature Image">
                                                             </a>
                                                         </li>
-                                                    </ul>
+                                                    </ul> -->
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="clinic-timing">
-                                                <div>
-                                                    <p class="timings-days">
-                                                        <span> Mon - Sat </span>
-                                                    </p>
-                                                    <p class="timings-times">
-                                                        <span>10:00 AM - 2:00 PM</span>
-                                                        <span>4:00 PM - 9:00 PM</span>
-                                                    </p>
-                                                </div>
-                                                <div>
-                                                    <p class="timings-days">
-                                                        <span>Sun</span>
-                                                    </p>
-                                                    <p class="timings-times">
-                                                        <span>10:00 AM - 2:00 PM</span>
-                                                    </p>
-                                                </div>
+                                                <?=$doctor['online_consulting_timiing_note']?>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="consult-price">
-                                                $250
+                                                <?php if ($doctor['fee_type'] == 'free'): ?>
+                                                    free
+                                                <?php else: ?>
+                                                    <?=CURRENCY?><?=$doctor['fee']?>
+                                                <?php endif ?>
+                                            </div>
+                                            <div class="clinic-booking">
+                                                <a class="apt-btn" href="<?=BASEURL?>booking/<?=(strlen($doctor['username']) > 0) ? $doctor['username'] : $doctor['doctor_id'] ?>/0">Book Now</a>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="location-list">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="clinic-content">
-                                                <h4 class="clinic-name"><a href="#">The Family Dentistry Clinic</a></h4>
-                                                <p class="doc-speciality">MDS - Periodontology and Oral Implantology, BDS</p>
-                                                <div class="rating">
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <span class="d-inline-block average-rating">(4)</span>
+                                </div><!-- /location-list -->
+                                <?php if ($locations): ?>
+                                    <?php foreach ($locations as $key => $location): ?>
+                                        <div class="location-list">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="clinic-content">
+                                                        <h4 class="clinic-name"><a href="javascript://"><?=$location['name']?></a></h4>
+                                                        <p class="doc-speciality"><?=$doctor['service_titles']?></p>
+                                                        <div class="rating">
+                                                            <i class="fas fa-star filled"></i>
+                                                            <i class="fas fa-star filled"></i>
+                                                            <i class="fas fa-star filled"></i>
+                                                            <i class="fas fa-star filled"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <span class="d-inline-block average-rating">(4)</span>
+                                                        </div>
+                                                        <div class="clinic-details mb-0">
+                                                            <h5 class="clinic-direction"> <i class="feather-map-pin"></i> <?=$location['address_line_1'].' '.$location['cityName'].', '.$location['countryName']?></h5>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="clinic-details mb-0">
-                                                    <p class="clinic-direction"> <i class="feather-map-pin"></i> 2883 University Street, Seattle, Texas Washington, 98155 <br><a href="javascript:void(0);">Get Directions</a></p>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="<?=IMG?>features/feature-01.jpg" data-fancybox="gallery2">
-                                                                <img src="<?=IMG?>features/feature-01.jpg" alt="Feature Image">
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="<?=IMG?>features/feature-02.jpg" data-fancybox="gallery2">
-                                                                <img src="<?=IMG?>features/feature-02.jpg" alt="Feature Image">
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="<?=IMG?>features/feature-03.jpg" data-fancybox="gallery2">
-                                                                <img src="<?=IMG?>features/feature-03.jpg" alt="Feature Image">
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="<?=IMG?>features/feature-04.jpg" data-fancybox="gallery2">
-                                                                <img src="<?=IMG?>features/feature-04.jpg" alt="Feature Image">
-                                                            </a>
-                                                        </li>
-                                                    </ul>
+                                                <div class="col-md-4">
+                                                    <div class="clinic-timing">
+                                                        <?=$location['timing_note']?>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="consult-price">
+                                                        <?=CURRENCY?><?=$location['fee']?>
+                                                    </div>
+                                                    <div class="clinic-booking">
+                                                        <a class="apt-btn" href="<?=BASEURL?>booking/<?=(strlen($doctor['username']) > 0) ? $doctor['username'] : $doctor['doctor_id'] ?>/<?=$location['doctor_hospital_id']?>">Book Now</a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="clinic-timing">
-                                                <div>
-                                                    <p class="timings-days">
-                                                        <span> Tue - Fri </span>
-                                                    </p>
-                                                    <p class="timings-times">
-                                                        <span>11:00 AM - 1:00 PM</span>
-                                                        <span>6:00 PM - 11:00 PM</span>
-                                                    </p>
-                                                </div>
-                                                <div>
-                                                    <p class="timings-days">
-                                                        <span>Sat - Sun</span>
-                                                    </p>
-                                                    <p class="timings-times">
-                                                        <span>8:00 AM - 10:00 AM</span>
-                                                        <span>3:00 PM - 7:00 PM</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="consult-price">
-                                                $350
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                        </div><!-- /location-list -->
+                                    <?php endforeach ?>
+                                <?php endif ?>
+                            </div><!-- #doc_locations -->
                             <div role="tabpanel" id="doc_reviews" class="tab-pane fade">
                                 <div class="widget review-listing">
                                     <ul class="comments-list">
@@ -637,29 +584,22 @@
             </div>
         </div>
 
-
-
-
-
-
-
-
-
-    <div class="modal fade call-modal" id="voice_call">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="call-box incoming-box">
-                        <div class="call-wrapper">
-                            <div class="call-inner">
-                                <div class="call-user">
-                                    <img alt="User Image" src="<?=IMG?>doctors/doctor-thumb-02.jpg" class="call-avatar">
-                                    <h4>Dr. Darren Elder</h4>
-                                    <span>Connecting...</span>
-                                </div>
-                                <div class="call-items">
-                                    <a href="javascript:void(0);" class="btn call-item call-end" data-bs-dismiss="modal" aria-label="Close"><i class="material-icons">call_end</i></a>
-                                    <a href="voice-call" class="btn call-item call-start"><i class="material-icons">call</i></a>
+        <div class="modal fade call-modal" id="voice_call">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="call-box incoming-box">
+                            <div class="call-wrapper">
+                                <div class="call-inner">
+                                    <div class="call-user">
+                                        <img alt="User Image" src="<?=IMG?>doctors/doctor-thumb-02.jpg" class="call-avatar">
+                                        <h4>Dr. Darren Elder</h4>
+                                        <span>Connecting...</span>
+                                    </div>
+                                    <div class="call-items">
+                                        <a href="javascript:void(0);" class="btn call-item call-end" data-bs-dismiss="modal" aria-label="Close"><i class="material-icons">call_end</i></a>
+                                        <a href="voice-call" class="btn call-item call-start"><i class="material-icons">call</i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -667,22 +607,22 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade call-modal" id="video_call">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="call-box incoming-box">
-                        <div class="call-wrapper">
-                            <div class="call-inner">
-                                <div class="call-user">
-                                    <img class="call-avatar" src="<?=IMG?>doctors/doctor-thumb-02.jpg" alt="User Image">
-                                    <h4>Dr. Darren Elder</h4>
-                                    <span>Calling ...</span>
-                                </div>
-                                <div class="call-items">
-                                    <a href="javascript:void(0);" class="btn call-item call-end" data-bs-dismiss="modal" aria-label="Close"><i class="material-icons">call_end</i></a>
-                                    <a href="video-call" class="btn call-item call-start"><i class="material-icons">videocam</i></a>
+        <div class="modal fade call-modal" id="video_call">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="call-box incoming-box">
+                            <div class="call-wrapper">
+                                <div class="call-inner">
+                                    <div class="call-user">
+                                        <img class="call-avatar" src="<?=IMG?>doctors/doctor-thumb-02.jpg" alt="User Image">
+                                        <h4>Dr. Darren Elder</h4>
+                                        <span>Calling ...</span>
+                                    </div>
+                                    <div class="call-items">
+                                        <a href="javascript:void(0);" class="btn call-item call-end" data-bs-dismiss="modal" aria-label="Close"><i class="material-icons">call_end</i></a>
+                                        <a href="video-call" class="btn call-item call-start"><i class="material-icons">videocam</i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -690,4 +630,3 @@
                 </div>
             </div>
         </div>
-    </div>

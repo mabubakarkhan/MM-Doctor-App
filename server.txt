@@ -16,6 +16,3 @@ nativeToast({
 	type: resp.type
 })
 type: 'warning' // success warning info error
-
-
-1.	ALTER TABLE `doctor` ADD `timing_slot_duration` INT NOT NULL DEFAULT '30' AFTER `fee`, ADD INDEX (`timing_slot_duration`);

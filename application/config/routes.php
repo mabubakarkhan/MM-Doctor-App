@@ -39,25 +39,45 @@
 */
 $route['translate_uri_dashes'] = TRUE;
 $route['default_controller'] = "home";
-$controller_exceptions = array('admin','doctor','user','api','temp','cron');
+$controller_exceptions = array('admin','doctor','patient','StripeController');
 $route['404_override'] = '';
 
+
 $route["index"] = 'Home/index';
+$route["doctor-profile/(.*)"] = 'Home/doctor/$1';
+$route["booking/(.*)"] = 'Home/booking/$1';
+$route["checkout/(.*)"] = 'Home/checkout/$1';
+$route["submit-checkout"] = 'Home/submit_checkout';
+
 
 $route["logout"] = 'Home/logout';
+$route["patient/logout"] = 'Home/logout';
 $route["doctor/logout"] = 'Home/logout';
+$route["patient/get-city-by-state-ajax"] = 'Home/get_city_by_state_ajax';
 $route["doctor/get-city-by-state-ajax"] = 'Home/get_city_by_state_ajax';
 
+
+//patient
 $route["login"] = 'Home/login';
 $route["register"] = 'Home/register';
+$route["post-login-patient"] = 'Home/post_login_patient';
+$route["register-patient"] = 'Home/register_patient';
+$route["post-register-patient"] = 'Home/post_register_patient';
+$route["get-appointment-info"] = 'Home/get_appointment_info';
 
+$route["patient/dashboard"] = 'patient/dashboard';
+$route["patient/index"] = 'patient/dashboard';
+$route["cancel-appointment"] = 'patient/cancel_appointment';
+
+$route["patient/profile-settings"] = 'patient/profile_settings';
+$route["patient/change-password"] = 'patient/change_password';
 //Doctor
 $route["login-doctor"] = 'Home/login_doctor';
 $route["post-login-doctor"] = 'Home/post_login_doctor';
 $route["register-doctor"] = 'Home/register_doctor';
 $route["post-register-doctor"] = 'Home/post_register_doctor';
 
-$route["dashboard"] = 'doctor/index';
+$route["doctor/dashboard"] = 'doctor/index';
 
 $route["doctor/profile-settings"] = 'doctor/profile_settings';
 $route["doctor/social-links"] = 'doctor/social_links';

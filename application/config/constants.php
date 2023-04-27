@@ -104,6 +104,12 @@ define('IMG', BASEURL.'asset/images/');
 define('UPLOADS', BASEURL.'uploads/');
 define('GLOBAL_', BASEURL.'asset/global/');
 
+define('CURRENCY', '$');
+
+define('EMAIL_TITLE', 'InsertReveiw');
+define('EMAIL_SERVER', 'mail.smartcompare.pk');
+define('EMAIL_FROM', 'info@smartcompare.pk');
+define('EMAIL_PASSWORD', '48@){@g%CUIa');
 
 function redirect($link) {
 	header("location:".BASEURL . trim($link));

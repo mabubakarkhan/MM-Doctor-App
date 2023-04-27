@@ -177,6 +177,7 @@
                                         <th>Address</th>
                                         <th>City</th>
                                         <th>Fee</th>
+                                        <th>Timing Note</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -189,9 +190,10 @@
 			                                        <td><?=$doctor_hospital['address']?></td>
 			                                        <td><?=$doctor_hospital['cityName']?></td>
 			                                        <td><?=$doctor_hospital['fee']?></td>
+			                                        <td><?=$doctor_hospital['timing_note']?></td>
 			                                        <td>
 			                                            <div class="table-action">
-			                                            	<a href="javascript://" class="btn btn-sm bg-info-light edit-clinic" data-id="<?=$doctor_hospital['doctor_hospital_id']?>" data-name="<?=$doctor_hospital['name']?>" data-fee="<?=$doctor_hospital['fee']?>">
+			                                            	<a href="javascript://" class="btn btn-sm bg-info-light edit-clinic" data-id="<?=$doctor_hospital['doctor_hospital_id']?>" data-name="<?=$doctor_hospital['name']?>" data-fee="<?=$doctor_hospital['fee']?>" data-timing_note="<?=$doctor_hospital['timing_note']?>">
 			                                            		<i class="feather-edit"></i>
 			                                            	</a>
 			                                                <a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital" data-id="<?=$doctor_hospital['doctor_hospital_id']?>" data-hospital-id="<?=$doctor_hospital['hospital_id']?>" data-name="<?=$doctor_hospital['name']?>">
@@ -208,7 +210,7 @@
 
 						<form action="add-clinic" method="post" class="profile-form-3">
 							<div class="row form-row">
-								<div class="col-md-6">
+								<div class="col-md-9">
 									<div class="form-group">
 										<label>Clinic</label>
 										<select name="hospital_id" class="form-control select22" required>
@@ -227,6 +229,12 @@
 										<input type="text" name="fee" class="form-control" required>
 									</div>
 								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Timing Note <span class="text-danger">*</span></label>
+										<textarea name="timing_note" id="timing_note_ck_id_2" class="form-control" rows="2" required></textarea>
+									</div>
+								</div>
 								<div class="col-md-3">
 									<div class="form-group mt-4">
 										<button class="btn btn-primary doctor-dashboard-submit-btn">Add</button>
@@ -238,16 +246,22 @@
 						<form action="add-clinic" method="post" class="profile-form-3">
 							<div class="row form-row">
 								<input type="hidden" name="country_id" value="166">
-								<div class="col-md-6">
+								<div class="col-md-9">
 									<div class="form-group">
 										<label>Clinic Name (add new)</label>
 										<input type="text" name="name" class="form-control" required>
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-3">
 									<div class="form-group">
 										<label>Fee <span class="text-danger">*</span></label>
 										<input type="text" name="fee" class="form-control" required>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Timing Note <span class="text-danger">*</span></label>
+										<textarea name="timing_note" id="timing_note_ck_id" class="form-control" rows="2" required></textarea>
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -343,7 +357,7 @@
 				</form>
 
 
-				<h4 class="sub-heading">Pricing</h4>
+				<h4 class="sub-heading">Online Consulting Fee</h4>
 				<form action="update-profile" method="post" class="profile-form">
 					<div class="card">
 						<div class="card-body">
@@ -357,7 +371,7 @@
 									<label class="payment-radio credit-card-option mb-0">
 										<input type="radio" id="price_custom" name="fee_type" value="custom" <?=($userSession['fee_type'] == 'custom') ? 'checked' : ''?> >
 										<span class="checkmark"></span>
-										Custom Price (per hour)
+										Custom Price (per slot)
 									</label>
 								</div>
 							</div>
@@ -377,6 +391,14 @@
 									<option value="45" <?=('45' == $userSession['timing_slot_duration']) ? 'selected' : ''?> >45 mins</option>
 									<option value="60" <?=('60' == $userSession['timing_slot_duration']) ? 'selected' : ''?> >1 Hour</option>
 								</select>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Online Consulting Timiing Note <span class="text-danger">*</span></label>
+										<textarea name="online_consulting_timiing_note" id="timing_note_ck_id_4" class="form-control" rows="2" required><?=$userSession['online_consulting_timiing_note']?></textarea>
+									</div>
+								</div>
 							</div>
 							<div class="form-group mt-3">
 								<button class="btn btn-primary doctor-dashboard-submit-btn" type="submit">Save</button>
@@ -799,6 +821,3 @@
 		</div><!-- /row -->
 	</div><!-- /container-fluid -->
 </div><!-- /content -->
-
-
-

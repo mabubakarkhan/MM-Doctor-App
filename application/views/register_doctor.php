@@ -31,7 +31,7 @@
                                         <div class="text-start">
                                             <a class="forgot-link" href="login-doctor">Already have an account?</a>
                                         </div>
-                                        <button class="btn btn-primary btn-lg login-btn doctor-register-form-btn" type="submit">Submit</button>
+                                        <button class="btn btn-primary btn-lg login-btn register-form-btn" type="submit">Submit</button>
                                         <div class="login-or">
                                             <span class="or-line"></span>
                                             <span class="span-or">or</span>

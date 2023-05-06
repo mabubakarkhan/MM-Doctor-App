@@ -16,8 +16,8 @@
 		<div class="dashboard-widget">
 			<nav class="dashboard-menu">
 				<ul>
-					<li>
-						<a href="doctor-dashboard.html">
+					<li class="<?=$dashboard_active?>">
+						<a href="dashboard">
 							<span>Dashboard</span>
 							<i class="feather-airplay"></i>
 						</a>

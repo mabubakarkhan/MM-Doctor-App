@@ -1,4 +1,48 @@
 <script>
+
+	// Date Range Picker
+	if($('.bookingrange').length > 0) {
+		var start = moment().add(6, 'days');
+		var end = moment();
+
+		function booking_range(start, end) {
+			$('.bookingrange span').html(end.format('MMMM D, YYYY') + ' - ' + start.format('MMMM D, YYYY'));
+			$newDate = end.format('MMMM D, YYYY') + ' - ' + start.format('MMMM D, YYYY');
+			$("#booking-schedule-section").html('<p style="text-align: center;"><i class="fas fa-spinner fa-spin"></i></p>');
+			$.post('<?=BASEURL."booking-filter"?>', {
+				date: $newDate,
+				doctor: "<?=$doctor['doctor_id']?>",
+				hospital: "<?=$hospital['hospital_id']?>"
+			}, function(resp) {
+				resp = $.parseJSON(resp);
+				$(".bookingPageSelectedDateHeading").text(resp.bookingPageSelectedDateHeading);
+				$(".bookingPageSelectedDayHeading").text(resp.bookingPageSelectedDayHeading);
+				$("#booking-schedule-section").html(resp.html);
+			});
+		}
+
+		$('.bookingrange').daterangepicker({
+			startDate: start,
+			endDate: end,
+			ranges: {
+				'Today': [moment(), moment()],
+				'Tomorrow': [moment().add(1, 'days'), moment().add(1, 'days')],
+				'Next 7 Days': [moment().add(6, 'days'), moment()],
+				'Next 14 Days': [moment().add(13, 'days'), moment()],
+				'Next 21 Days': [moment().add(20, 'days'), moment()],
+				'Next 30 Days': [moment().add(29, 'days'), moment()],
+				// 'This Month': [moment().startOf('month'), moment().endOf('month')],
+			}
+		}, booking_range);
+
+		booking_range(start, end);
+	}
+
+
+	$(document).on('click', '.bookingPageDaySelectTabBtn', function () {
+		$(".bookingPageSelectedDateHeading").text($(this).attr('data-date'));
+		$(".bookingPageSelectedDayHeading").text($(this).attr('data-day'));
+	});
 	$(document).on('click', '.timeSlotIdSelect', function(event) {
 		event.preventDefault();
 		$(".timeSlotIdSelect").removeClass('selected');

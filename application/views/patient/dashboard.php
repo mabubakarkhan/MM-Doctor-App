@@ -218,11 +218,11 @@
 																	<a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
 																		<i class="feather-printer"></i>
 																	</a>
-																	<a href="javascript:void(0);" class="btn btn-sm bg-info-light get-appointment-info" data-id="<?=$q['appointment_id']?>">
+																	<a href="javascript:void(0);" class="btn btn-sm bg-info-light get-appointment-info" data-id="<?=$q['appointment_id']?>" title="Detail View">
 																		<i class="feather-eye"></i>
 																	</a>
 																	<?php if ($q['status'] == 'pending'): ?>
-																		<a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital cancel-appointment" data-id="<?=$q['appointment_id']?>" data-date="<?=date('d M, Y',strtotime($q['appointment_date']))?>" data-time="<?=date('h:i a',strtotime($q['time_start']))?>">
+																		<a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital cancel-appointment" data-id="<?=$q['appointment_id']?>" data-date="<?=date('d M, Y',strtotime($q['appointment_date']))?>" data-time="<?=date('h:i a',strtotime($q['time_start']))?>" title="Cancel This Appointment ?">
 						                                                    <i class="feather-x-circle"></i>
 						                                                </a>
 																	<?php endif ?>
@@ -381,11 +381,11 @@
 																	<a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
 																		<i class="feather-printer"></i>
 																	</a>
-																	<a href="javascript:void(0);" class="btn btn-sm bg-info-light get-appointment-info" data-id="<?=$q['appointment_id']?>">
+																	<a href="javascript:void(0);" class="btn btn-sm bg-info-light get-appointment-info" data-id="<?=$q['appointment_id']?>" title="Detail View">
 																		<i class="feather-eye"></i>
 																	</a>
 																	<?php if ($q['status'] == 'pending'): ?>
-																		<a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital cancel-appointment" data-id="<?=$q['appointment_id']?>" data-date="<?=date('d M, Y',strtotime($q['appointment_date']))?>" data-time="<?=date('h:i a',strtotime($q['time_start']))?>">
+																		<a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital cancel-appointment" data-id="<?=$q['appointment_id']?>" data-date="<?=date('d M, Y',strtotime($q['appointment_date']))?>" data-time="<?=date('h:i a',strtotime($q['time_start']))?>" title="Cancel This Appointment ?">
 						                                                    <i class="feather-x-circle"></i>
 						                                                </a>
 																	<?php endif ?>

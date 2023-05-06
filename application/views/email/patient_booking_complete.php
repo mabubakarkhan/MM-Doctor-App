@@ -312,20 +312,21 @@ ul.social li{
 							<tr>
 								<td style="padding: 0 2.5em; text-align: center; padding-bottom: 3em;">
 									<div class="text">
-										<h2>Appointment Created - <?=$appointment['appointment_date']?> at <?=$appointment['time_star']?></h2>
-										<p><b>Dear <?=$patient['fname'].' '.$patient['lname']?>,</b></p>
+										<h2>Appointment Completion</h2>
+										<p><strong>Dear <?=$patient['fname'].' '.$patient['lname']?>,</strong></p>
 
-										<p>I am writing to confirm that we have received your request to cancel your upcoming appointment with <?=$doctort['fname'].' '.$doctort['lname']?> on <b><?=$appointment['appointment_date']?></b> at <b><?=$appointment['time_star']?></b>. We are sorry to hear that you won't be able to make it and hope that everything is okay.</p>
+										<p>We are writing to thank you for attending your appointment with <b><?=$doctor['fname'].' '.$doctor['lname']?></b> on <b><?=$appointment['appointment_date']?></b> at <b><?=$appointment['time_star']?></b>. We hope that the appointment was successful and that you received the care and attention you needed.</p>
 
-										<p>If you would like to reschedule your appointment at a later time, please don't hesitate to contact us, and we will be happy to accommodate your needs. Your health and well-being are our top priority, and we are committed to making sure that you receive the care you need in a timely and convenient manner.</p>
+										<p>If there are any further steps or follow-up appointments that are required, please let us know as soon as possible. We are always here to support you and provide you with the necessary medical care and attention.</p>
 
-										<p>If you have any questions or concerns regarding your health, please do not hesitate to contact us. Our team of medical professionals is always here to provide you with the care and support you need.</p>
+										<p>We value the relationship we have with you as a patient and we appreciate the trust you have placed in us to provide you with quality healthcare. If you have any feedback or suggestions for us on how we can improve our services, please don't hesitate to let us know.</p>
 
-										<p>Thank you for letting us know about the change in your schedule. We appreciate your understanding and look forward to the opportunity to serve you in the future.</p>
+										<p>Thank you again for choosing us as your healthcare provider. We look forward to seeing you soon.</p>
 
 										<p>Sincerely,</p>
 
-										<p><?=APP_TITLE?></p>
+										<?=APP_TITLE?>
+
 									</div>
 								</td>
 							</tr>

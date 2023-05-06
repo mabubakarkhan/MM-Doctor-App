@@ -71,6 +71,10 @@ class Model_functions extends CI_Model {
 	{
 		return $this->get_row("SELECT `phone` FROM `$tbl` WHERE `phone`= '$phone';");
 	}
+	public function check_dublicate($phone,$email,$tbl)
+	{
+		return $this->get_row("SELECT `phone` FROM `$tbl` WHERE `phone`= '$phone' OR `email`= '$email';");
+	}
 	public function get_doctor_byid($id)
 	{
 		return $this->get_row("SELECT * FROM  `doctor` WHERE `doctor_id` = '$id';");
@@ -209,19 +213,33 @@ class Model_functions extends CI_Model {
 	public function get_appointments_by_patient($patient)
 	{
 		return $this->get_results("
-			SELECT a.*, d.fname AS doctorFname, d.lname AS 'doctorLname', d.img, d.specialization_titles, d.username 
+			SELECT a.*, d.fname AS doctorFname, d.lname AS 'doctorLname', d.img, d.specialization_titles, d.username, p.fname AS 'patientFname', p.lname AS 'patientLname', p.img AS 'patientImg' 
 			FROM `appointment` AS a 
 			INNER JOIN `doctor` AS d ON a.doctor_id = d.doctor_id 
+			INNER JOIN `patient` AS p ON a.patient_id = p.patient_id 
 			WHERE a.patient_id = '$patient' 
+			ORDER BY a.appointment_date, a.time_start, a.time_end ASC
+		;");
+	}
+	public function get_appointments_by_doctor($doctor)
+	{
+		return $this->get_results("
+			SELECT a.*, d.fname AS doctorFname, d.lname AS 'doctorLname', d.img, d.specialization_titles, d.username, p.fname AS 'patientFname', p.lname AS 'patientLname', p.img AS 'patientImg', h.name AS 'hospitalName'
+			FROM `appointment` AS a 
+			INNER JOIN `doctor` AS d ON a.doctor_id = d.doctor_id 
+			INNER JOIN `patient` AS p ON a.patient_id = p.patient_id 
+			LEFT JOIN `hospital` AS h ON a.hospital_id = h.hospital_id 
+			WHERE a.doctor_id = '$doctor' 
 			ORDER BY a.appointment_date, a.time_start, a.time_end ASC
 		;");
 	}
 	public function get_appointment_by_id($id)
 	{
 		return $this->get_row("
-			SELECT a.*, d.fname AS doctorFname, d.lname AS 'doctorLname', d.img, d.specialization_titles, d.username 
+			SELECT a.*, d.fname AS doctorFname, d.lname AS 'doctorLname', d.img, d.specialization_titles, d.username, p.fname AS 'patientFname', p.lname AS 'patientLname', p.img AS 'patientImg' 
 			FROM `appointment` AS a 
 			INNER JOIN `doctor` AS d ON a.doctor_id = d.doctor_id 
+			INNER JOIN `patient` AS p ON a.patient_id = p.patient_id 
 			WHERE a.appointment_id = '$id' 
 		;");
 	}

@@ -128,9 +128,9 @@ class Home extends CI_Controller {
 	public function post_register_patient()
 	{
 		$this->pre_check();
-		$chk = $this->model->check_dublicate_phone(trim_phone($_POST['phone']),'patient');
+		$chk = $this->model->check_dublicate(trim_phone($_POST['phone']),$_POST['email'],'patient');
 		if ($chk) {
-			echo json_encode(array("status"=>false,"msg"=>"phone number (".$_POST['phone'].") is already in use."));
+			echo json_encode(array("status"=>false,"msg"=>"phone number (".$_POST['phone'].") OR email (".$_POST['email'].") is already in use."));
 		}
 		else{
 			$_POST['password'] = md5($_POST['password']);
@@ -139,6 +139,8 @@ class Home extends CI_Controller {
 			if ($resp) {
 				$resp['controller'] = 'patient';
 				$_SESSION['user'] = serialize($resp);
+				$emailData['q'] = $resp;
+				$this->send_mail('Welcome to '.APP_TITLE.'!',$this->load->view('email/patient_register',$emailData,true),$resp['email'],false);
 				echo json_encode(array("status"=>true));
 			}
 			else{
@@ -178,9 +180,9 @@ class Home extends CI_Controller {
 	public function post_register_doctor()
 	{
 		$this->pre_check();
-		$chk = $this->model->check_dublicate_phone(trim_phone($_POST['phone']),'doctor');
+		$chk = $this->model->check_dublicate(trim_phone($_POST['phone']),$_POST['email'],'doctor');
 		if ($chk) {
-			echo json_encode(array("status"=>false,"msg"=>"phone number (".$_POST['phone'].") is already in use."));
+			echo json_encode(array("status"=>false,"msg"=>"phone number (".$_POST['phone'].") OR email (".$_POST['email'].") is already in use."));
 		}
 		else{
 			$_POST['password'] = md5($_POST['password']);
@@ -190,6 +192,8 @@ class Home extends CI_Controller {
 			if ($resp) {
 				$resp['controller'] = 'doctor';
 				$_SESSION['user'] = serialize($resp);
+				$emailData['q'] = $resp;
+				$this->send_mail('Welcome to '.APP_TITLE.'!',$this->load->view('email/doctor_register',$emailData,true),$resp['email'],false);
 				echo json_encode(array("status"=>true));
 			}
 			else{
@@ -260,18 +264,39 @@ class Home extends CI_Controller {
 			redirect('index');
 		}
 		$data['hospital'] = $this->model->get_hospital_by_doctor_hospital_id_2($data['doctor']['doctor_id'],$doctor_hospital);
-		$data['slots'] = $this->model->get_all_slots_for_doctor_hospital_by_ids($data['doctor']['doctor_id'],$data['hospital']['hospital_id']);
-		$period = new DatePeriod(
-		    new DateTime(), // Start date of the period
-		    new DateInterval('P1D'), // Define the intervals as Periods of 1 Day
-		    6 // Apply the interval 6 times on top of the starting date
-		);
-		foreach ($period as $day)
-		{
-			$data['days'][] = $day->format('l');
-			$data['full_dates'][] = $day->format('Y-m-d');
-		}
 		$this->template('booking',$data,true);
+	}
+	public function booking_filter()
+	{
+		$dates = $_POST['date'];
+		$dates = explode('-', $dates);
+		$date1 = new DateTime($dates[0]);
+		$date2 = new DateTime($dates[1]);
+		$interval = $date1->diff($date2);
+		$days = $interval->days;
+		$bookingData['slots'] = $this->model->get_all_slots_for_doctor_hospital_by_ids($_POST['doctor'],$_POST['hospital']);
+		if (date('Y-m-d',strtotime($dates[0])) > date('Y-m-d',strtotime($dates[1]))) {
+			$startDate = $dates[1];
+		}
+		else{
+			$startDate = $dates[0];
+		}
+		$period = new DatePeriod(
+		    new DateTime($startDate), // Start date of the period
+		    new DateInterval('P1D'), // Define the intervals as Periods of 1 Day
+		    $days // Apply the interval 6 times on top of the starting date
+		);
+		foreach ($period as $key => $day)
+		{
+			if ($key == 0) {
+				$bookingPageSelectedDateHeading = $day->format('d F Y');
+				$bookingPageSelectedDayHeading = $day->format('l');
+			}
+			$bookingData['days'][] = $day->format('l');
+			$bookingData['full_dates'][] = $day->format('Y-m-d');
+		}
+		$booking = $this->load->view('html/booking',$bookingData, TRUE);
+		echo json_encode(array("bookingPageSelectedDateHeading"=>$bookingPageSelectedDateHeading,"bookingPageSelectedDayHeading"=>$bookingPageSelectedDayHeading,"html"=>$booking));
 	}
 	public function checkout($id,$date)
 	{
@@ -305,7 +330,6 @@ class Home extends CI_Controller {
 				]);
 				$status = $charge->status;
 				if ($status == 'succeeded') {
-					unset($post['stripe_token']);
 					$Update2['card_payment_status'] = 'paid';
 					$post['strip_id'] = $charge->id;
 					$post['strip_balance_transaction'] = $charge->balance_transaction;
@@ -319,6 +343,7 @@ class Home extends CI_Controller {
 					exit;
 				}
 			}
+			unset($post['stripe_token']);
 			$post['total'] = $post['fee']+10;
 			$resp = $this->db->insert('appointment',$post);
 			if ($resp) {
@@ -331,9 +356,7 @@ class Home extends CI_Controller {
 				//patient
 				$this->send_mail('New Appointment Created',$this->load->view('email/patient_booking',$emailData,true),$post['email'],false);
 				//doctor
-				if (strlen($doctor['email']) > 3) {
-					$this->send_mail('New Appointment Created',$this->load->view('email/doctor_booking',$emailData,true),$doctor['email'],false);
-				}
+				$this->send_mail('New Appointment Created',$this->load->view('email/doctor_booking',$emailData,true),$doctor['email'],false);
 
 				echo json_encode(array("status"=>true,"msg"=>"Appointment created"));
 			}
@@ -355,6 +378,7 @@ class Home extends CI_Controller {
 	*/
 	public function get_appointment_info()
 	{
+		$user = unserialize($_SESSION['user']);
 		$q = $this->model->get_appointment_by_id($_POST['id']);
 		if ($q['hospital_id'] > 0) {
 			$hospital = $this->model->get_doctor_hospital_by_ids($q['doctor_id'],$q['hospital_id']);
@@ -368,6 +392,7 @@ class Home extends CI_Controller {
 					$html .= '<th>Prescription</th>';
 					$html .= '<th>Booking Date</th>';
 					$html .= '<th>Amount</th>';
+					$html .= '<th>Method</th>';
 					$html .= '<th>Follow Up</th>';
 					$html .= '<th>Cancel</th>';
 					$html .= '<th>Status</th>';
@@ -394,6 +419,7 @@ class Home extends CI_Controller {
 					$html .= '<td>'.$q['Prescription'].'</td>';
 					$html .= '<td>'.date('d M, Y',strtotime($q['at'])).'</td>';
 					$html .= '<td>'.CURRENCY.number_format($q['total']).'</td>';
+					$html .= '<td>'.$q['payment_method'].'</td>';
 					$html .= '<td>'.$q['followup_date'].'</td>';
 					$html .= '<td><b>'.$q['cancel_by'].'</b><p>'.$q['cancel_note'].'</p></td>';
 					$html .= '<td>';
@@ -415,8 +441,18 @@ class Home extends CI_Controller {
 							$html .= '<a href="javascript:void(0);" class="btn btn-sm bg-primary-light">';
 								$html .= '<i class="feather-printer"></i>';
 							$html .= '</a>';
+							if ($q['status'] == 'pending' && $user['doctor_id'] > 0){
+								$html .= '<a href="javascript:void(0);" class="btn btn-sm bg-success-light make-appointment-confirm" data-id="'.$q['appointment_id'].'" title="Confirm This Appointment ?">';
+									$html .= '<i class="feather-check-circle"></i>';
+								$html .= '</a>';
+							}
 							if ($q['status'] == 'pending'){
-								$html .= '<a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital cancel-appointment" data-id="'.$q['appointment_id'].'" data-date="'.date('d M, Y',strtotime($q['appointment_date'])).'" data-time="'.date('h:i a',strtotime($q['time_start'])).'">';
+								$html .= '<a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital cancel-appointment" data-id="'.$q['appointment_id'].'" data-date="'.date('d M, Y',strtotime($q['appointment_date'])).'" data-time="'.date('h:i a',strtotime($q['time_start'])).'" title="Cancel This Appointment ?">';
+	                                $html .= '<i class="feather-x-circle"></i>';
+	                            $html .= '</a>';
+							}
+							elseif ($q['status'] != 'done' &&  $user['doctor_id'] > 0) {
+								$html .= '<a href="javascript://" class="btn btn-sm bg-danger-light delete-doctor-hospital cancel-appointment" data-id="'.$q['appointment_id'].'" data-date="'.date('d M, Y',strtotime($q['appointment_date'])).'" data-time="'.date('h:i a',strtotime($q['time_start'])).'" title="Cancel This Appointment ?">';
 	                                $html .= '<i class="feather-x-circle"></i>';
 	                            $html .= '</a>';
 							}

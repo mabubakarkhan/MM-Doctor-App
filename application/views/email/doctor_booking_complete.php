@@ -312,30 +312,31 @@ ul.social li{
 							<tr>
 								<td style="padding: 0 2.5em; text-align: center; padding-bottom: 3em;">
 									<div class="text">
-										<h2>Appointment Created - <?=$appointment['appointment_date']?> at <?=$appointment['time_star']?></h2>
-										<p><b>Dear <?=$patient['fname'].' '.$patient['lname']?>,</b></p>
+										<h2>Appointment Completion</h2>
 
-										<p>I am writing to confirm that we have received your request to cancel your upcoming appointment with <?=$doctort['fname'].' '.$doctort['lname']?> on <b><?=$appointment['appointment_date']?></b> at <b><?=$appointment['time_star']?></b>. We are sorry to hear that you won't be able to make it and hope that everything is okay.</p>
+										<p><strong>Dear <?=$doctor['fname'].' '.$doctor['lname']?>,</strong></p>
 
-										<p>If you would like to reschedule your appointment at a later time, please don't hesitate to contact us, and we will be happy to accommodate your needs. Your health and well-being are our top priority, and we are committed to making sure that you receive the care you need in a timely and convenient manner.</p>
+										<p>We are writing to thank you for meeting with <b><?=$patient['fname'].' '.$patient['lname']?></b> on <b><?=$appointment['appointment_date']?></b> at <b><?=$appointment['time_star']?></b>. We appreciate the time and effort you put into providing them with the necessary medical attention and care.</p>
 
-										<p>If you have any questions or concerns regarding your health, please do not hesitate to contact us. Our team of medical professionals is always here to provide you with the care and support you need.</p>
+										<p>We hope that the appointment was successful and that our patient received the care and attention they needed. If there are any further steps or follow-up appointments that are required, please let us know as soon as possible.</p>
 
-										<p>Thank you for letting us know about the change in your schedule. We appreciate your understanding and look forward to the opportunity to serve you in the future.</p>
+										<p>We appreciate your dedication to providing quality healthcare and we value the relationship we have with you as a healthcare provider. If you have any feedback or suggestions for us on how we can improve our services, please don't hesitate to let us know.</p>
+
+										<p>Thank you again for choosing to work with us as a healthcare provider. We look forward to continuing our partnership in the future.</p>
 
 										<p>Sincerely,</p>
 
-										<p><?=APP_TITLE?></p>
+										<p><strong>Team <?=APP_TITLE?></strong></p>
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td style="text-align: center;">
 									<div class="text-author">
-										<img src="<?=UPLOADS.$patient['img']?>" alt="" style="width: 100px; max-width: 600px; height: auto; margin: auto; display: block;">
-										<h3 class="name"><?=$patient['fname'].' '.$patient['lname']?></h3>
-										<!-- <span class="position">CEO, Founder at e-Verify</span> -->
-										<p><a href="<?=BASEURL.'patient/dashboard'?>" class="btn btn-primary">Your All Appointments</a></p>
+										<img src="<?=UPLOADS.$doctor['img']?>" alt="" style="width: 100px; max-width: 600px; height: auto; margin: auto; display: block;">
+										<h3 class="name"><?=$doctor['fname'].' '.$doctor['lname']?></h3>
+										<span class="position"><?=$doctor['specialization_titles']?></span>
+										<p><a href="<?=BASEURL.'doctor/dashboard'?>" class="btn btn-primary">Your All Appointments</a></p>
 									</div>
 								</td>
 							</tr>

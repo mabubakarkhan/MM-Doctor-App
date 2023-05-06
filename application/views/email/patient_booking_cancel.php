@@ -312,10 +312,10 @@ ul.social li{
 							<tr>
 								<td style="padding: 0 2.5em; text-align: center; padding-bottom: 3em;">
 									<div class="text">
-										<h2>Appointment Created - <?=$appointment['appointment_date']?> at <?=$appointment['time_star']?></h2>
-										<p><b>Dear <?=$patient['fname'].' '.$patient['lname']?>,</b></p>
+										<h2>Ronald would like to be your friend on e-Verify</h2>
+										<p><strong>Dear <?=$patient['fname'].' '.$patient['lname']?>,</strong></p>
 
-										<p>I am writing to confirm that we have received your request to cancel your upcoming appointment with <?=$doctort['fname'].' '.$doctort['lname']?> on <b><?=$appointment['appointment_date']?></b> at <b><?=$appointment['time_star']?></b>. We are sorry to hear that you won't be able to make it and hope that everything is okay.</p>
+										<p>We are writing to confirm that we have received request to cancel your upcoming appointment with <b><?=$doctor['fname'].' '.$doctor['lname']?></b> on <b><?=$appointment['appointment_date']?></b> at <b><?=$appointment['time_star']?></b>. We are sorry to hear that you won't be able to make it and hope that everything is okay.</p>
 
 										<p>If you would like to reschedule your appointment at a later time, please don't hesitate to contact us, and we will be happy to accommodate your needs. Your health and well-being are our top priority, and we are committed to making sure that you receive the care you need in a timely and convenient manner.</p>
 
@@ -325,7 +325,7 @@ ul.social li{
 
 										<p>Sincerely,</p>
 
-										<p><?=APP_TITLE?></p>
+										<?=APP_TITLE?>
 									</div>
 								</td>
 							</tr>

@@ -110,8 +110,8 @@
                                     <li><a href="about-us">About Us</a></li>
                                     <li><a href="contact-us">Contact Us</a></li>
                                 </li>
-                                <li><a href="login">Login</a></li>
-                                <li><a href="register">Register</a></li>
+                                <li><a href="<?=BASEURL?>login">Login</a></li>
+                                <li><a href="<?=BASEURL?>register">Register</a></li>
                                 <li><a href="forgot-password">Forgot Password</a></li>
                             </ul>
                         </li>
@@ -164,10 +164,10 @@
                     <?php else: ?>
                         <ul class="nav header-navbar-rht">
                             <li class="nav-item">
-                                <a class="nav-link header-login" href="login">Login</a>
+                                <a class="nav-link header-login" href="<?=BASEURL?>login">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link header-login login" href="register">Sign Up</a>
+                                <a class="nav-link header-login login" href="<?=BASEURL?>register">Sign Up</a>
                             </li>
                         </ul>
                     <?php endif ?>

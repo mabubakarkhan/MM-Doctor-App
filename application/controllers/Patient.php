@@ -83,77 +83,6 @@ class Patient extends CI_Controller {
 			$this->load->view('patient/scripts/'.$jsScript);
 		}
 	}
-	/**
-	*
-
-	@Strip Payment
-		
-	*
-	*/
-	public function submit_payment()
-	{
-		$user = $this->check_login();
-		$plan = $this->model->get_plan_byid($_POST['plan_id']);
-		$_POST['company_id'] = $user['company_id'];
-		if ($_POST['price_type'] == 'year') {
-			$_POST['amount'] = $plan['yearly'];
-			$_POST['emails'] = $plan['emails']*12;
-		}
-		else{
-			$_POST['amount'] = $plan['price'];
-			$_POST['emails'] = $plan['emails'];
-		}
-		if ($plan) {
-			require_once('application/libraries/stripe-php/init.php');
-			\Stripe\Stripe::setApiKey($this->config->item('stripe_secret'));
-	    	$charge = \Stripe\Charge::create ([
-	                "amount" => $_POST['amount']*100,
-	                "currency" => "usd",
-	                "source" => $_POST['stripe_token'],
-	                "description" => "review payment" 
-	        ]);
-	        $status = $charge->status;
-	        if ($status == 'succeeded') {
-	        	$_POST['card_payment_status'] = 'paid';
-	        	$_POST['strip_id'] = $charge->id;
-	        	$_POST['strip_balance_transaction'] = $charge->balance_transaction;
-	        	$this->db->insert('order',$_POST);
-	        	$orderID = $this->db->insert_id();
-	        	$update['plan_id'] = $plan['plan_id'];
-	        	$update['varified_company_review'] = $plan['varified_company_review'];
-	        	$update['product_review_allow'] = $plan['product_review_allow'];
-	        	$update['services_allow'] = $plan['services_allow'];
-	        	$update['multi_reviews'] = $plan['multi_reviews'];
-	        	if ($_POST['price_type'] == 'month') {
-	        		$update['expiry'] = date('Y-m-d H:i:s', strtotime('+1 months'));
-	        	}
-	        	else{
-	        		$update['expiry'] = date('Y-m-d H:i:s', strtotime('+1 years'));
-	        	}
-	        	$update['account_type'] = 'paid';
-	        	$update['product_review_allow'] = 'yes';
-	        	$update['gallery_allow'] = 'yes';
-	        	$update['ask_user_ref'] = 'yes';
-	        	$update['email_balance'] = $_POST['emails']+$user['email_balance'];
-	        	$this->db->where('company_id',$user['company_id']);
-	        	$this->db->update('company',$update);
-	        	$this->order_mail($_POST,$orderID);
-				$data['msg'] = 'success: Payment made successfully :)';
-				$data['error'] = false;
-	        }
-	        else{
-	        	$data['msg'] = 'fail: Payment not submitted successfully :(';
-				$data['error'] = true;
-	        }
-		}
-		else{
-			$data['msg'] = 'fail: something wrong :( please try again';
-			$data['error'] = true;
-		}
-		$data['meta_title'] = 'Submit Payment';
-		$data['index_page_active'] = 'active';
-		$this->template('company/submit_payment',$data);
-	}
 
 	/**
 	*
@@ -295,7 +224,17 @@ class Patient extends CI_Controller {
 				$this->db->set('balance',$balance);
 				$this->db->update('doctor');
 			}
-			//email/sms
+			/**
+			 * Email sending
+			*/
+			$emailData['patient'] = $user;
+			$emailData['doctor'] = $doctor;
+			$emailData['appointment'] = $this->model->get_appointment_by_id($_POST['id']);
+			//patient
+			$this->send_mail('Appointment canceled',$this->load->view('email/patient_booking_cancel',$emailData,true),$user['email'],false);
+			//doctor
+			$this->send_mail('Appointment canceled',$this->load->view('email/doctor_booking_cancel',$emailData,true),$doctor['email'],false);
+			
 			echo json_encode(array("status"=>true,"msg"=>"appointment canceled.","type"=>"success"));
 		}
 		else{

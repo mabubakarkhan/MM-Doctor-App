@@ -67,10 +67,10 @@
                 <div class="date-booking">
                     <div class="row align-items-center">
                         <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                            <h4 class="mb-0"><?=date('d F Y')?></h4>
+                            <h4 class="mb-0 bookingPageSelectedDateHeading"><?=date('d F Y')?></h4>
                         </div>
                         <div class="col-12 col-sm-6 col-md-2 col-lg-4 text-sm-center">
-                            <p class="text-muted mb-0"><?=date('l')?></p>
+                            <p class="text-muted mb-0 bookingPageSelectedDayHeading"><?=date('l')?></p>
                         </div>
                         <div class="col-12 col-sm-8 col-md-6 col-lg-4 text-md-end">
                             <div class="bookingrange btn btn-white btn-sm">
@@ -82,64 +82,15 @@
                     </div>
                 </div>
             </div>
-            <div class="schedule-cont">
-                <div class="row">
-                    <div class="col-md-12">
+            <div class="schedule-cont" id="booking-schedule-section">
 
+                <!-- BOOKING -->
+                <!-- //loading booking slots.. -->
+                <!-- BOOKING -->
 
+            </div><!-- /schedule-cont -->
+        </div><!-- /card -->
 
-                        <div class="card schedule-widget mb-0">
-
-                            <div class="schedule-header">
-
-                                <div class="schedule-nav">
-                                    <ul class="nav nav-tabs nav-justified">
-                                        <?php foreach ($days as $key => $day): ?>
-                                            <li class="nav-item">
-                                                <a class="nav-link <?=(date('l') == $day) ? 'active' : ''?>" data-bs-toggle="tab"
-                                                href="#slot_<?=$day?>"><?=$day?></a>
-                                            </li>
-                                        <?php endforeach ?>
-                                    </ul>
-                                </div>
-
-                            </div><!-- /schedule-header -->
-
-
-                            <div class="tab-content schedule-cont">
-                                <?php foreach ($days as $key => $day): ?>
-                                    <div id="slot_<?=$day?>" class="tab-pane fade <?=(date('l') == $day) ? 'show active' : ''?> ">
-                                        <h4 class="card-title d-flex justify-content-between">
-                                            <span>Time Slots</span>
-                                        </h4>
-
-                                        <div class="time-slot">
-                                            <ul class="clearfix">
-                                                <?php foreach ($slots as $key_ => $slot): ?>
-                                                    <?php if ($slot['day_name'] == $day): ?>
-                                                        <li class="mb-2">
-                                                            <a class="timing timeSlotIdSelect" data-id="<?=$slot['time_slot_id']?>" data-date="<?=$full_dates[$key]?>" data-title="<?=$day.' ('.date("h:i a",strtotime($slot['time_start'])).' - '.date("h:i a",strtotime($slot['time_end'])).')'?>" href="javascript://">
-                                                                <?=date("h:i a",strtotime($slot['time_start']))?>
-                                                            </a>
-                                                        </li>
-                                                    <?php endif ?>
-                                                <?php endforeach ?>
-                                            </ul>
-                                        </div><!-- /time-slot -->
-
-                                    </div><!-- /tab-pane -->
-                                <?php endforeach ?>
-
-                            </div><!-- .schedule-cont -->
-
-                        </div><!-- /card -->
-
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="submit-section proceed-btn text-start">
             <a href="<?=BASEURL?>checkout" class="btn btn-primary submit-btn timeSlotSubmitBtn">Proceed to Pay <span></span></a> <span class="btn btn-success submit-btn timeSlotSelectedTitle" style="display:none;">hello world</span>
         </div>

@@ -499,28 +499,6 @@ Version      : 1.3
 		});
 	}
 	
-	// Date Range Picker
-	if($('.bookingrange').length > 0) {
-		var start = moment().add(6, 'days');
-		var end = moment();
-
-		function booking_range(start, end) {
-			$('.bookingrange span').html(end.format('MMMM D, YYYY') + ' - ' + start.format('MMMM D, YYYY'));
-		}
-
-		$('.bookingrange').daterangepicker({
-			startDate: start,
-			endDate: end,
-			ranges: {
-				'Today': [moment(), moment()],
-				'Tomorrow': [moment().add(1, 'days'), moment().add(1, 'days')],
-				'Next 7 Days': [moment().add(6, 'days'), moment()],
-				'This Month': [moment().startOf('month'), moment().endOf('month')],
-			}
-		}, booking_range);
-
-		booking_range(start, end);
-	}
 	// Chat
 
 	var chatAppTarget = $('.chat-window');

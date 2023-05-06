@@ -157,11 +157,18 @@ class Doctor extends CI_Controller {
 	*/
 	public function dashboard()
 	{
-		$this->profile_settings();
+		$user = $this->check_login();
+		// $data['meta_title'] = 'Dashboard';
+		$data['page_title'] = 'Social Media';
+		$data['dashboard_active'] = 'active';
+		$data['userSession'] = $user;
+		$data['appointments_count'] = $this->db->where('doctor_id',$user['doctor_id'])->from("appointment")->count_all_results();
+		$data['appointments'] = $this->model->get_appointments_by_doctor($user['doctor_id']);
+		$this->template('doctor/dashboard',$data, 'dashboard');
 	}
 	public function index()
 	{
-		$this->profile_settings();
+		$this->dashboard();
 	}
 	public function profile_settings()
 	{
@@ -579,6 +586,108 @@ class Doctor extends CI_Controller {
 		}
 		else{
 			echo json_encode(array("status"=>false,"msg"=>"Time slot not deleted, please try again or reload your web page.","type"=>"error"));
+		}
+	}
+	public function cancel_appointment()
+	{
+		$user = $this->check_login();
+		$q = $this->model->get_appointment_by_id($_POST['id']);
+		$patient = $this->model->get_patient_byid($q['patient_id']);
+		$this->db->where('appointment_id',$_POST['id']);
+		$this->db->where('patient_id',$q['patient_id']);
+		$this->db->where('doctor_id',$q['doctor_id']);
+		$this->db->set('status','cancel');
+		$this->db->set('cancel_note',$_POST['cancel_note']);
+		$this->db->set('cancel_by','doctor');
+		$resp = $this->db->update('appointment');
+		if ($resp) {
+			if ($q['payment_method'] == 'card') {
+				$balance = $doctor['balance']-$q['fee'];
+				$this->db->where('doctor_id',$user['doctor_id']);
+				$this->db->set('balance',$balance);
+				$this->db->update('doctor');
+			}
+			/**
+			 * Email sending
+			*/
+			$emailData['patient'] = $patient;
+			$emailData['doctor'] = $user;
+			$emailData['appointment'] = $this->model->get_appointment_by_id($_POST['id']);
+			//patient
+			$this->send_mail('Appointment canceled',$this->load->view('email/patient_booking_cancel',$emailData,true),$patient['email'],false);
+			//doctor
+			$this->send_mail('Appointment canceled',$this->load->view('email/doctor_booking_cancel',$emailData,true),$user['email'],false);
+			
+			echo json_encode(array("status"=>true,"msg"=>"appointment canceled.","type"=>"success"));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"appointment not canceled, please try again or reload your web page.","type"=>"error"));
+		}
+	}
+	public function appointment_confirm()
+	{
+		$user = $this->check_login();
+		$q = $this->model->get_appointment_by_id($_POST['id']);
+		$patient = $this->model->get_patient_byid($q['patient_id']);
+		$this->db->where('appointment_id',$_POST['id']);
+		$this->db->where('patient_id',$q['patient_id']);
+		$this->db->where('doctor_id',$q['doctor_id']);
+		$this->db->set('status','confirm');
+		$resp = $this->db->update('appointment');
+		if ($resp) {
+			/**
+			 * Email sending
+			*/
+			$emailData['patient'] = $patient;
+			$emailData['doctor'] = $user;
+			$emailData['appointment'] = $this->model->get_appointment_by_id($_POST['id']);
+			//patient
+			$this->send_mail('Appointment Confirmed',$this->load->view('email/patient_booking_confirm',$emailData,true),$patient['email'],false);
+			//doctor
+			$this->send_mail('Appointment Confirmed',$this->load->view('email/doctor_booking_confirm',$emailData,true),$user['email'],false);
+			
+			echo json_encode(array("status"=>true,"msg"=>"appointment confirmed.","type"=>"success"));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"appointment not confirmed, please try again or reload your web page.","type"=>"error"));
+		}
+	}
+	public function complete_appointment()
+	{
+		$user = $this->check_login();
+		$q = $this->model->get_appointment_by_id($_POST['id']);
+		$patient = $this->model->get_patient_byid($q['patient_id']);
+		$this->db->where('appointment_id',$_POST['id']);
+		$this->db->where('patient_id',$q['patient_id']);
+		$this->db->where('doctor_id',$q['doctor_id']);
+		$this->db->set('status','done');
+		$this->db->set('prescription_title',$_POST['prescription_title']);
+		$this->db->set('prescription',$_POST['prescription']);
+		$resp = $this->db->update('appointment');
+		if ($resp) {
+			if ($q['payment_method'] == 'cod') {
+				$earned = $user['earned'] + $q['fee'];
+				$payable = $user['payable'] + ($q['total'] - $q['fee']);
+				$this->db->where('doctor_id',$user['doctor_id']);
+				$this->db->set('earned',$earned);
+				$this->db->set('payable',$payable);
+				$this->db->update('doctor');
+			}
+			/**
+			 * Email sending
+			*/
+			$emailData['patient'] = $patient;
+			$emailData['doctor'] = $user;
+			$emailData['appointment'] = $this->model->get_appointment_by_id($_POST['id']);
+			//patient
+			$this->send_mail('Appointment Completed',$this->load->view('email/patient_booking_complete',$emailData,true),$patient['email'],false);
+			//doctor
+			$this->send_mail('Appointment Completed',$this->load->view('email/doctor_booking_complete',$emailData,true),$user['email'],false);
+			
+			echo json_encode(array("status"=>true,"msg"=>"appointment completed.","type"=>"success"));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"appointment not completed, please try again or reload your web page.","type"=>"error"));
 		}
 	}
 	/**

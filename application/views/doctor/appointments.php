@@ -30,7 +30,7 @@
 													<div class="pro-widget-content">
 														<div class="profile-info-widget">
 															<a href="patient-profile.html" class="booking-doc-img">
-																<img src="<?=UPLOADS.$q['img']?>" alt="User Image">
+																<img src="<?=UPLOADS.$q['patientImg']?>" alt="User Image">
 															</a>
 															<div class="profile-det-info">
 																<h3><a href="javascript://"><?=$q['patientFname'].' '.$q['patientLname']?> </a></h3>

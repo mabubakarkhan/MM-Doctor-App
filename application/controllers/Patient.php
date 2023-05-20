@@ -98,6 +98,7 @@ class Patient extends CI_Controller {
 		$data['dashboard_active'] = 'active';
 		$data['userSession'] = $user;
 		$data['appointments'] = $this->model->get_appointments_by_patient($user['patient_id']);
+		$data['medical_records'] = $this->model->get_medical_records_by_patient($user['patient_id']);
 		$this->template('patient/dashboard',$data, 'dashboard');
 	}
 	public function index()
@@ -214,10 +215,14 @@ class Patient extends CI_Controller {
 		$this->db->set('status','cancel');
 		$this->db->set('cancel_note',$_POST['cancel_note']);
 		$this->db->set('cancel_by','patient');
+		if ($q['payment_method'] == 'online') {
+			$this->db->set('cash_back','pending');
+			$this->db->set('cash_back_amount',$q['fee']);
+		}
 		$resp = $this->db->update('appointment');
 		if ($resp) {
 			$q = $this->model->get_appointment_by_id($_POST['id']);
-			if ($q['payment_method'] == 'card') {
+			if ($q['payment_method'] == 'online') {
 				$doctor = $this->model->get_doctor_byid($q['doctor_id']);
 				$balance = $doctor['balance']-$q['fee'];
 				$this->db->where('doctor_id',$doctor['doctor_id']);
@@ -240,6 +245,197 @@ class Patient extends CI_Controller {
 		else{
 			echo json_encode(array("status"=>false,"msg"=>"appointment not canceled, please try again or reload your web page.","type"=>"error"));
 		}
+	}
+	public function medical_records()
+	{
+		$user = $this->check_login();
+		$data['page_title'] = 'Medical Records';
+		$data['medical_records_active'] = 'active';
+		$data['userSession'] = $user;
+		$resp['records'] = $this->model->get_medical_records_by_patient($user['patient_id']);
+		$data['medical_records'] = $this->load->view('patient/html/medical_records',$resp, TRUE);
+		if ($_SESSION['medical_records']['status'] == true) {
+			$data['medical_records_msg_status'] = true;
+			$data['medical_records_msg_type'] = $_SESSION['medical_records']['medical_records_type'];
+			$data['medical_records_msg'] = $_SESSION['medical_records']['medical_records_msg'];
+			unset($_SESSION['medical_records']);
+		}
+		$this->template('patient/medical_records',$data, 'medical_records');
+	}
+	public function search_medical_records()
+	{
+		$user = $this->check_login();
+		$data['page_title'] = 'Medical Records';
+		$data['search_medical_records_active'] = 'active';
+		$data['userSession'] = $user;
+		$data['appointments'] = $this->model->appointments_by_patient($user['patient_id']);
+		if ($_SESSION['medical_records']['status'] == true) {
+			$resp['appointment'] = $this->model->get_appointment_by_id($_SESSION['medical_records']['appointment_id']);
+			$resp['records'] = $this->model->get_medical_records($_SESSION['medical_records']['appointment_id']);
+			$data['medical_records'] = $this->load->view('patient/html/search_medical_records',$resp, TRUE);
+			$data['medical_records_msg_status'] = true;
+			$data['medical_records_msg_type'] = $_SESSION['medical_records']['medical_records_type'];
+			$data['medical_records_msg'] = $_SESSION['medical_records']['medical_records_msg'];
+			unset($_SESSION['medical_records']);
+		}
+		$this->template('patient/search_medical_records',$data, 'search_medical_records');
+	}
+	public function get_medical_records()
+	{
+		$user = $this->check_login();
+		$resp['appointment'] = $this->model->get_appointment_by_id($_POST['appointment_id']);
+		$resp['records'] = $this->model->get_medical_records($_POST['appointment_id']);
+		if ($resp['appointment']) {
+			$html = $this->load->view('patient/html/medical_records',$resp, TRUE);
+			echo json_encode(array("status"=>true,"msg"=>"Appointment record loaded.","type"=>"success","html"=>$html));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"No medical record found.","type"=>"error"));
+		}
+	}
+	public function post_medical_record()
+	{
+		$user = $this->check_login();
+		$file = $this->file_upload($_FILES);
+		if ($file) {
+			$_SESSION['medical_records']['status'] = true;
+			$_POST['file'] = $file;
+			$_POST['dated'] = date('Y-m-d',strtotime($_POST['dated']));
+			$_POST['patient_id'] = $user['patient_id'];
+			$resp = $this->db->insert('medical_record',$_POST);
+			if ($resp) {
+				$_SESSION['medical_records']['medical_records_type'] = true;
+				$_SESSION['medical_records']['medical_records_msg'] = 'medical record uploaded.';
+			}
+			else{
+				$_SESSION['medical_records']['medical_records_type'] = false;
+				$_SESSION['medical_records']['medical_records_msg'] = 'file not uploaded, please upload an image or pdf file.';
+			}
+		}
+		else{
+			$_SESSION['medical_records']['medical_records_type'] = false;
+			$_SESSION['medical_records']['medical_records_msg'] = 'file not uploaded, please upload an image or pdf file.';
+		}
+		redirect("patient/medical-records");
+	}
+	public function remove_record()
+	{
+		$user = $this->check_login();
+		$resp = $this->db->where('patient_id',$user['patient_id'])->where('medical_record_id',$_POST['id'])->delete('medical_record');
+		if ($resp) {
+			echo json_encode(array("status"=>true,"msg"=>"Record deleted.","type"=>"success"));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"Record not deleted.","type"=>"error"));
+		}
+	}
+	public function invoices($value='')
+	{
+		$user = $this->check_login();
+		$data['page_title'] = 'Invoices';
+		$data['invoices_active'] = 'active';
+		$data['userSession'] = $user;
+		$data['appointments'] = $this->model->get_appointments_by_patient($user['patient_id']);
+		$this->template('patient/invoices',$data, false);
+	}
+	public function favourites()
+	{
+		$user = $this->check_login();
+		$data['page_title'] = 'Favourites';
+		$data['favourites_active'] = 'active';
+		$data['userSession'] = $user;
+		$data['favourites'] = $this->model->get_favourites($user['patient_id']);
+		$this->template('patient/favourites',$data, 'favourites');
+	}
+	public function remove_favourite($value='')
+	{
+		$user = $this->check_login();
+		$resp = $this->db->where('bookmark_doctor_id',$_POST['id'])->where('patient_id',$user['patient_id'])->delete('bookmark_doctor');
+		if ($resp) {
+			echo json_encode(array("status"=>true,"msg"=>"Bookmark deleted.","type"=>"success"));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"Bookmark not deleted.","type"=>"error"));
+		}
+	}
+	public function reviews()
+	{
+		$user = $this->check_login();
+		$data['page_title'] = 'Reviews';
+		$data['reviews_active'] = 'active';
+		$data['userSession'] = $user;
+		$data['appointments'] = $this->model->get_done_appointments_by_patient($user['patient_id']);
+		$data['reviews'] = $this->load->view('patient/html/reviews.php',array("appointments"=>$data['appointments']),TRUE);
+		$this->template('patient/reviews',$data, "reviews");
+	}
+	public function post_review()
+	{
+		$user = $this->check_login();
+		$post = $_POST;
+		$appointment_id = $post['id'];unset($post['id']);
+		$appointment = $this->model->get_appointment_by_id($appointment_id);
+		if ($appointment['review'] == 'pending' && $appointment['status'] == 'done' && $appointment['patient_id'] == $user['patient_id']) {
+			$post['appointment_id'] = $appointment['appointment_id'];
+			$post['doctor_id'] = $appointment['doctor_id'];
+			$post['patient_id'] = $appointment['patient_id'];
+			$resp = $this->db->insert('review',$post);
+			if ($resp) {
+				$this->db->where('patient_id',$user['patient_id'])->where('appointment_id',$appointment_id)->update('appointment',array("review"=>"done"));
+				$doctor = $this->model->get_doctor_byid($appointment['doctor_id']);
+				$ratting = $this->db->select('AVG(ratting) as average')
+			    ->where('doctor_id', $doctor['doctor_id'])
+			    ->from('review')
+			    ->get()
+			    ->row();
+				$update['review_count'] = $doctor['review_count']+1;
+				$update['ratting'] = $ratting->average;
+				$this->db->where('doctor_id',$doctor['doctor_id'])->update('doctor',$update);
+				/**
+				 * Email sending
+				*/
+				$emailData['patient'] = $user;
+				$emailData['doctor'] = $doctor;
+				$emailData['appointment'] = $appointment;
+				$emailData['review'] = $post['review'];
+				$emailData['ratting'] = $post['ratting'];
+				//doctor
+				$this->send_mail('Appointment review submitted',$this->load->view('email/doctor_appointment_review',$emailData,true),$doctor['email'],false);
+				$appointments = $this->model->get_done_appointments_by_patient($user['patient_id']);
+				$html = $this->load->view('patient/html/reviews.php',array("appointments"=>$appointments),TRUE);
+				echo json_encode(array("status"=>true,"msg"=>"Review submitted.","type"=>"success","html"=>$html));
+			}
+			else{
+				echo json_encode(array("status"=>false,"msg"=>"review not submitted, please try again or reload your web page.","type"=>"error"));
+			}
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"Something went wrong.","type"=>"error"));
+		}
+	}
+	/**
+	*
+
+	@Domestic
+		
+	*
+	*/
+	private function file_upload($file)
+	{
+		$config['upload_path'] = 'uploads/';
+    	$config['allowed_types'] = 'jpg|png|jpeg|PNG|JPEG|JPG|PDF|pdf';
+    	$config['encrypt_name'] = TRUE;
+    	$ext = pathinfo($file["file"]['name'], PATHINFO_EXTENSION);
+		$new_name = md5(time().$file["file"]['name']).'.'.$ext;
+		$config['file_name'] = $new_name;
+    	$resp = $this->load->library('upload', $config);
+    	if ($resp) {
+        	$this->upload->do_upload('file');
+			$FileName = $this->upload->data()['file_name'];
+			return $FileName;
+    	}
+    	else{
+			return false;
+    	}
 	}
 	/**
 	*

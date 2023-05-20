@@ -1,3 +1,13 @@
+<style>
+.bookmark-icon{
+    margin-left: 10px;
+}
+.bookmark-icon:hover{
+    color: red;
+    cursor: pointer;
+}
+</style>
+
 <div class="breadcrumb-bar">
     <div class="container-fluid">
         <div class="row align-items-center">
@@ -23,18 +33,32 @@
                             <img src="<?=UPLOADS.$doctor['img']?>" class="img-fluid" alt="<?=$doctor['fname'].' '.$doctor['lname']?>">
                         </div>
                         <div class="doc-info-cont">
-                            <h4 class="doc-name"><?=$doctor['fname'].' '.$doctor['lname']?></h4>
+                            <h4 class="doc-name">
+                                <?=$doctor['fname'].' '.$doctor['lname']?>
+                                <?php if ($bookmark_login === true): ?>
+                                    <?php if ($bookmark): ?>
+                                        <i class="far fa-bookmark bookmark-icon" style="color: red;"></i>
+                                    <?php else: ?>
+                                        <i class="far fa-bookmark bookmark-icon make-bookmark" data-id="<?=$doctor['doctor_id']?>"></i>
+                                    <?php endif ?>
+                                <?php endif ?>
+                            </h4>
                             <?php if (isset($doctor['specialization_titles']) && strlen($doctor['specialization_titles']) > 1): ?>
                             <p class="doc-speciality"><?=$doctor['specialization_titles']?></p>
                         <?php endif ?>
                         <!-- <p class="doc-department"><img src="<?=IMG?>specialities/specialities-05.png" class="img-fluid" alt="Speciality">Dentist</p> -->
                         <div class="rating">
-                            <i class="fas fa-star filled"></i>
-                            <i class="fas fa-star filled"></i>
-                            <i class="fas fa-star filled"></i>
-                            <i class="fas fa-star filled"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="d-inline-block average-rating">4.9 ( 82 )</span>
+                             <?php
+                            for ($i=1; $i < 6; $i++) { 
+                                if ($doctor['ratting'] >= $i) {
+                                    echo '<i class="fas fa-star filled"></i>';
+                                }
+                                else{
+                                    echo '<i class="fas fa-star"></i>';
+                                }
+                            }
+                            ?>
+                            <span class="d-inline-block average-rating"><?=$doctor['ratting']?> ( <?=$doctor['review_count']?> )</span>
                         </div>
                         <div class="clinic-details">
                             <?php if (strlen($doctor['cityName']) > 1): ?>
@@ -107,9 +131,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#doc_reviews" data-bs-toggle="tab">Reviews</a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link" href="#doc_business_hours" data-bs-toggle="tab">Business Hours</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </nav>
                         <div class="tab-content pt-0">
@@ -123,7 +147,9 @@
                                                 <p><?=$doctor['biography']?></p>
                                             </div>
                                         <?php endif ?>
+                                    </div>
 
+                                    <div class="col-md-6 col-lg-6">
                                         <?php if ($educations): ?>
                                             <div class="widget education-widget">
                                                 <h4 class="widget-title">Education</h4>
@@ -195,7 +221,56 @@
                                                 </div>
                                             </div>
                                         <?php endif ?>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6">
+                                        <?php if ($registrations): ?>
+                                            <div class="widget awards-widget">
+                                                <h4 class="widget-title">Registrations</h4>
+                                                <div class="experience-box">
+                                                    <ul class="experience-list">
+                                                        <?php foreach ($registrations as $key => $registration): ?>
+                                                            <li>
+                                                                <div class="experience-user">
+                                                                    <div class="before-circle"></div>
+                                                                </div>
+                                                                <div class="experience-content">
+                                                                    <div class="timeline-content">
+                                                                        <p class="exp-year"><?=$registration['year']?></p>
+                                                                        <h4 class="exp-title"><?=$registration['title']?></h4>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        <?php endforeach ?>
 
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
+
+                                        <?php if ($memberships): ?>
+                                            <div class="widget awards-widget">
+                                                <h4 class="widget-title">Memberships</h4>
+                                                <div class="experience-box">
+                                                    <ul class="experience-list">
+                                                        <?php foreach ($memberships as $key => $membership): ?>
+                                                            <li>
+                                                                <div class="experience-user">
+                                                                    <div class="before-circle"></div>
+                                                                </div>
+                                                                <div class="experience-content">
+                                                                    <div class="timeline-content">
+                                                                        <h4 class="exp-title"><?=$membership['title']?></h4>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        <?php endforeach ?>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6">
                                         <?php
                                         $services = explode(',', $doctor['service_titles']);
                                         if ($services) {
@@ -213,7 +288,8 @@
                                             <?php
                                         }
                                         ?>
-
+                                    </div>
+                                    <div class="col-md-6 col-lg-6">
                                         <?php
                                         $specializations = explode(',', $doctor['specialization_titles']);
                                         if ($specializations) {
@@ -242,14 +318,15 @@
                                             <div class="clinic-content">
                                                 <h4 class="clinic-name"><a href="javascript://">Online Consultancy</a></h4>
                                                 <p class="doc-speciality"><?=$doctor['service_titles']?></p>
-                                                <div class="rating">
+                                                <p class="doc-speciality"><?=$doctor['specialization_titles']?></p>
+                                                <!-- <div class="rating">
                                                     <i class="fas fa-star filled"></i>
                                                     <i class="fas fa-star filled"></i>
                                                     <i class="fas fa-star filled"></i>
                                                     <i class="fas fa-star filled"></i>
                                                     <i class="fas fa-star"></i>
                                                     <span class="d-inline-block average-rating">(4)</span>
-                                                </div>
+                                                </div> -->
                                                 <div class="clinic-details mb-0">
                                                     <h5 class="clinic-direction"> <i class="feather-map-pin"></i> Online</h5>
                                                     <!-- <ul>
@@ -304,7 +381,8 @@
                                                     <div class="clinic-content">
                                                         <h4 class="clinic-name"><a href="javascript://"><?=$location['name']?></a></h4>
                                                         <p class="doc-speciality"><?=$doctor['service_titles']?></p>
-                                                        <div class="rating">
+                                                        <p class="doc-speciality"><?=$doctor['specialization_titles']?></p>
+                                                        <!-- <div class="rating">
                                                             <i class="fas fa-star filled"></i>
                                                             <i class="fas fa-star filled"></i>
                                                             <i class="fas fa-star filled"></i>
@@ -314,7 +392,7 @@
                                                         </div>
                                                         <div class="clinic-details mb-0">
                                                             <h5 class="clinic-direction"> <i class="feather-map-pin"></i> <?=$location['address_line_1'].' '.$location['cityName'].', '.$location['countryName']?></h5>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -338,131 +416,59 @@
                             <div role="tabpanel" id="doc_reviews" class="tab-pane fade">
                                 <div class="widget review-listing">
                                     <ul class="comments-list">
-                                        <li>
-                                            <div class="comment">
-                                                <img class="avatar avatar-sm rounded-circle" alt="User Image" src="<?=IMG?>patients/patient.jpg">
-                                                <div class="comment-body">
-                                                    <div class="meta-data">
-                                                        <span class="comment-author">Richard Wilson</span>
-                                                        <span class="comment-date">Reviewed 2 Days ago</span>
-                                                        <div class="review-count rating">
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star"></i>
-                                                        </div>
-                                                    </div>
-                                                    <p class="recommended"><i class="far fa-thumbs-up"></i> I recommend the doctor</p>
-                                                    <p class="comment-content">
-                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                                        Ut enim ad minim veniam, quis nostrud exercitation.
-                                                        Curabitur non nulla sit amet nisl tempus
-                                                    </p>
-                                                    <div class="comment-reply">
-                                                        <a class="comment-btn" href="#">
-                                                            <i class="fas fa-reply"></i> Reply
-                                                        </a>
-                                                        <p class="recommend-btn">
-                                                            <span>Recommend?</span>
-                                                            <a href="#" class="like-btn">
-                                                                <i class="far fa-thumbs-up"></i> Yes
-                                                            </a>
-                                                            <a href="#" class="dislike-btn">
-                                                                <i class="far fa-thumbs-down"></i> No
-                                                            </a>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <ul class="comments-reply">
-                                                <li>
-                                                    <div class="comment">
-                                                        <img class="avatar avatar-sm rounded-circle" alt="User Image" src="<?=IMG?>patients/patient1.jpg">
-                                                        <div class="comment-body">
-                                                            <div class="meta-data">
-                                                                <span class="comment-author">Charlene Reed</span>
-                                                                <span class="comment-date">Reviewed 3 Days ago</span>
-                                                                <div class="review-count rating">
-                                                                    <i class="fas fa-star filled"></i>
-                                                                    <i class="fas fa-star filled"></i>
-                                                                    <i class="fas fa-star filled"></i>
-                                                                    <i class="fas fa-star filled"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                </div>
+
+                                        <?php foreach ($reviews as $key => $review): ?>
+                                            <li>
+                                                <div class="comment">
+                                                    <img class="avatar avatar-sm rounded-circle" alt="User Image" src="<?=UPLOADS.$review['img']?>">
+                                                    <div class="comment-body">
+                                                        <div class="meta-data">
+                                                            <span class="comment-author"><?=$review['fname'].' '.$review['lname']?></span>
+                                                            <span class="comment-date"><?=date('d M, Y',strtotime($review['at']))?></span>
+                                                            <div class="review-count rating">
+                                                                <?php
+                                                                for ($i=1; $i < 6; $i++) { 
+                                                                    if ($review['ratting'] >= $i) {
+                                                                        echo '<i class="fas fa-star filled"></i>';
+                                                                    }
+                                                                    else{
+                                                                        echo '<i class="fas fa-star"></i>';
+                                                                    }
+                                                                }
+                                                                ?>
                                                             </div>
-                                                            <p class="comment-content">
-                                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                                                Ut enim ad minim veniam.
-                                                                Curabitur non nulla sit amet nisl tempus
-                                                            </p>
-                                                            <div class="comment-reply">
-                                                                <a class="comment-btn" href="#">
-                                                                    <i class="fas fa-reply"></i> Reply
+                                                        </div>
+                                                        <p class="comment-content">
+                                                            <?=$review['review']?>
+                                                        </p>
+                                                        <!-- <div class="comment-reply">
+                                                            <a class="comment-btn" href="#">
+                                                                <i class="fas fa-reply"></i> Reply
+                                                            </a>
+                                                            <p class="recommend-btn">
+                                                                <span>Recommend?</span>
+                                                                <a href="#" class="like-btn">
+                                                                    <i class="far fa-thumbs-up"></i> Yes
                                                                 </a>
-                                                                <p class="recommend-btn">
-                                                                    <span>Recommend?</span>
-                                                                    <a href="#" class="like-btn">
-                                                                        <i class="far fa-thumbs-up"></i> Yes
-                                                                    </a>
-                                                                    <a href="#" class="dislike-btn">
-                                                                        <i class="far fa-thumbs-down"></i> No
-                                                                    </a>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <div class="comment">
-                                                <img class="avatar avatar-sm rounded-circle" alt="User Image" src="<?=IMG?>patients/patient2.jpg">
-                                                <div class="comment-body">
-                                                    <div class="meta-data">
-                                                        <span class="comment-author">Travis Trimble</span>
-                                                        <span class="comment-date">Reviewed 4 Days ago</span>
-                                                        <div class="review-count rating">
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star"></i>
-                                                        </div>
-                                                    </div>
-                                                    <p class="comment-content">
-                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                                        Ut enim ad minim veniam, quis nostrud exercitation.
-                                                        Curabitur non nulla sit amet nisl tempus
-                                                    </p>
-                                                    <div class="comment-reply">
-                                                        <a class="comment-btn" href="#">
-                                                            <i class="fas fa-reply"></i> Reply
-                                                        </a>
-                                                        <p class="recommend-btn">
-                                                            <span>Recommend?</span>
-                                                            <a href="#" class="like-btn">
-                                                                <i class="far fa-thumbs-up"></i> Yes
-                                                            </a>
-                                                            <a href="#" class="dislike-btn">
-                                                                <i class="far fa-thumbs-down"></i> No
-                                                            </a>
-                                                        </p>
+                                                                <a href="#" class="dislike-btn">
+                                                                    <i class="far fa-thumbs-down"></i> No
+                                                                </a>
+                                                            </p>
+                                                        </div> -->
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </li>
+                                            </li>
+                                        <?php endforeach ?>
+
+
                                     </ul>
-                                    <div class="all-feedback load-more mb-0">
+                                    <!-- <div class="all-feedback load-more mb-0">
                                         <a href="#" class="btn btn-primary btn-sm">
                                             Show all feedback
                                         </a>
-                                    </div>
+                                    </div> -->
                                 </div>
-                                <div class="write-review">
+                                <!-- <div class="write-review">
                                     <h4>Write a review for <span class="text-info"><strong>Dr. Darren Elder</strong></span></h4>
                                     <form>
                                         <div class="form-group">
@@ -511,7 +517,7 @@
                                             <button type="submit" class="btn btn-primary submit-btn">Add Review</button>
                                         </div>
                                     </form>
-                                </div>
+                                </div> -->
                             </div>
                             <div role="tabpanel" id="doc_business_hours" class="tab-pane fade">
                                 <div class="row">

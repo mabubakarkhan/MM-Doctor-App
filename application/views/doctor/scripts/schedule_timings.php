@@ -62,26 +62,30 @@ $(document).on('submit', 'form.time-slot-form', function(event) {
 		console.error(error);
 	});//ajax function call back
 });//profile-form
+
 $(document).on('click', '.delete_schedule', function(event) {
 	event.preventDefault();
 	$this = $(this);
-	ajaxBtnLoader($this);
-	$.post('delete-schedule', {id: $this.attr('data-id')}, function(resp) {
-		resp = $.parseJSON(resp);
-		if (resp.status == true) {
-			$this.parent('.doc-slot-list').remove();
-			$("#add_time_slot select[name='hospital_id']").prop('selectedIndex',0)
-		}
-		else{
-			$this.html('<i class="fa fa-times"></i>');
-		}
-		nativeToast({
-			message: resp.msg,
-			edge: true,
-			position: 'bottom',
-			type: resp.type
-		})
-	});
+	cnfr = confirm("Just a moment. Are you sure you want to delete this time slot? If you proceed, all appointments scheduled on this time slot will be lost.");
+	if (cnfr) {
+		ajaxBtnLoader($this);
+		$.post('delete-schedule', {id: $this.attr('data-id')}, function(resp) {
+			resp = $.parseJSON(resp);
+			if (resp.status == true) {
+				$this.parent('.doc-slot-list').remove();
+				$("#add_time_slot select[name='hospital_id']").prop('selectedIndex',0)
+			}
+			else{
+				$this.html('<i class="fa fa-times"></i>');
+			}
+			nativeToast({
+				message: resp.msg,
+				edge: true,
+				position: 'bottom',
+				type: resp.type
+			})
+		});
+	}
 });
 
 function time_adding() {

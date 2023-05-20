@@ -2,7 +2,7 @@
 <script>
 	$(document).on('change', 'input[name="payment_method"]', function(event) {
 		event.preventDefault();
-		if ($(this).val() == 'card') {
+		if ($(this).val() == 'online') {
 			$('.card-input').attr('required',true);
 		}
 		else{
@@ -12,7 +12,7 @@
 	$(document).on('submit', '#payment-form', function(event) {
 		event.preventDefault();
 		ajaxBtnLoader($(".checkout-form-btn"));
-		if ($('input[name="payment_method"]:checked').val() == 'card') {
+		if ($('input[name="payment_method"]:checked').val() == 'online') {
 			$("#loading").fadeIn(400);
 
 			var $form         = $("#payment-form");

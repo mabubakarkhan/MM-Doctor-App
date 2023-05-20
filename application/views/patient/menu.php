@@ -27,46 +27,52 @@
 							<i class="feather-airplay"></i>
 						</a>
 					</li>
-					<li>
-						<a href="favourites.html">
+					<li class="<?=$favourites_active?>">
+						<a href="favourites">
 							<span>Favourites</span>
 							<i class="feather-bookmark"></i>
 						</a>
 					</li>
-					<li>
+					<!-- <li>
 						<a href="dependent.html">
 							<span>Dependent</span>
 							<i class="feather-users"></i>
 						</a>
-					</li>
+					</li> -->
 					<li>
 						<a href="chat.html">
 							<span>Message</span>
 							<i class="feather-message-circle"></i>
 						</a>
 					</li>
-					<li>
-						<a href="patient-accounts.html">
-							<span>Accounts</span>
+					<li class="<?=$invoices_active?>">
+						<a href="invoices">
+							<span>Invoices</span>
 							<i class="fas fa-file-invoice-dollar"></i>
 						</a>
 					</li>
-					<li>
+					<!-- <li>
 						<a href="orders-list.html">
 							<span>Orders</span>
 							<i class="feather-file-text"></i>
 						</a>
+					</li> -->
+					<li class="<?=$reviews_active?>">
+						<a href="reviews">
+							<span>Reviews</span>
+							<i class="feather-star"></i>
+						</a>
 					</li>
-					<li>
-						<a href="medical-records.html">
-							<span>Add Medical Records</span>
+					<li class="<?=$medical_records_active?>">
+						<a href="medical-records">
+							<span>Medical Records</span>
 							<i class="feather-paperclip"></i>
 						</a>
 					</li>
-					<li>
-						<a href="medical-details.html">
-							<span>Medical Details</span>
-							<i class="fas fa-user-injured"></i>
+					<li class="<?=$search_medical_records_active?>">
+						<a href="search-medical-records">
+							<span>Medical Records Search</span>
+							<i class="feather-paperclip"></i>
 						</a>
 					</li>
 					<li class="<?=$profile_settings_active?>">

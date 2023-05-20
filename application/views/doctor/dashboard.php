@@ -104,6 +104,7 @@
 												<table class="table table-hover table-center mb-0">
 													<thead>
 														<tr>
+															<th>#</th>
 															<th>Patient</th>
 															<th>Appt Date</th>
 															<th>Hospital</th>
@@ -117,15 +118,16 @@
 														<?php foreach ($appointments as $key => $q): ?>
 															<?php if ($q['appointment_date'] == date('Y-m-d') && $q['status'] != 'cancel' && $q['status'] != 'done'): ?>
 																<tr class="tr-appointment-<?=$q['appointment_id']?>">
+																	<td><?=$q['appointment_id']?></td>
 																	<td>
 																		<h2 class="table-avatar">
 																			<a href="javascript://"
 																				class="avatar avatar-sm me-2">
 																				<img class="avatar-img rounded-circle"
-																					src="<?=UPLOADS.$q['img']?>"
+																					src="<?=UPLOADS.$q['patientImg']?>"
 																					alt="User Image">
 																			</a>
-																			<a href="javascript://"><?=$q['doctorFname'].' '.$q['doctorLname']?></a>
+																			<a href="javascript://"><?=$q['patientFname'].' '.$q['patientLname']?></a>
 																		</h2>
 																	</td>
 																	<td><?=date('d M, Y',strtotime($q['appointment_date']))?> <span class="d-block text-info"><?=date('h:i a',strtotime($q['time_start']))?></span></td>
@@ -185,6 +187,7 @@
 												<table class="table table-hover table-center mb-0">
 													<thead>
 														<tr>
+															<th>#</th>
 															<th>Patient</th>
 															<th>Appt Date</th>
 															<th>Hospital</th>
@@ -198,15 +201,16 @@
 														<?php foreach ($appointments as $key => $q): ?>
 															<?php if ($q['appointment_date'] > date('Y-m-d') && $q['status'] != 'cancel' && $q['status'] != 'done'): ?>
 																<tr class="tr-appointment-<?=$q['appointment_id']?>">
+																	<td><?=$q['appointment_id']?></td>
 																	<td>
 																		<h2 class="table-avatar">
 																			<a href="javascript://"
 																				class="avatar avatar-sm me-2">
 																				<img class="avatar-img rounded-circle"
-																					src="<?=UPLOADS.$q['img']?>"
+																					src="<?=UPLOADS.$q['patientImg']?>"
 																					alt="User Image">
 																			</a>
-																			<a href="javascript://"><?=$q['doctorFname'].' '.$q['doctorLname']?></a>
+																			<a href="javascript://"><?=$q['patientFname'].' '.$q['patientLname']?></a>
 																		</h2>
 																	</td>
 																	<td><?=date('d M, Y',strtotime($q['appointment_date']))?> <span class="d-block text-info"><?=date('h:i a',strtotime($q['time_start']))?></span></td>
@@ -266,6 +270,7 @@
 												<table class="table table-hover table-center mb-0">
 													<thead>
 														<tr>
+															<th>#</th>
 															<th>Patient</th>
 															<th>Appt Date</th>
 															<th>Hospital</th>
@@ -279,6 +284,7 @@
 														<?php foreach ($appointments as $key => $q): ?>
 															<?php if ($q['appointment_date'] < date('Y-m-d') && $q['status'] != 'cancel' && $q['status'] != 'done'): ?>
 																<tr class="tr-appointment-<?=$q['appointment_id']?>">
+																	<td><?=$q['appointment_id']?></td>
 																	<td>
 																		<h2 class="table-avatar">
 																			<a href="javascript://"

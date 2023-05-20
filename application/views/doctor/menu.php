@@ -22,14 +22,20 @@
 							<i class="feather-airplay"></i>
 						</a>
 					</li>
-					<li>
-						<a href="appointments.html">
+					<li class="<?=$appointments_active?>">
+						<a href="appointments">
 							<span>Appointments</span>
 							<i class="feather-calendar"></i>
 						</a>
 					</li>
-					<li>
-						<a href="my-patients.html">
+					<li class="<?=$medical_records_active?>">
+						<a href="medical-records">
+							<span>Medical Records</span>
+							<i class="feather-file-text"></i>
+						</a>
+					</li>
+					<li class="<?=$my_patients_active?>">
+						<a href="my-patients">
 							<span>My Patients</span>
 							<i class="fas fa-user-injured"></i>
 						</a>
@@ -40,26 +46,20 @@
 							<i class="far fa-hourglass"></i>
 						</a>
 					</li>
-					<li>
-						<a href="available-timings.html">
-							<span>Available Timings</span>
-							<i class="feather-clock"></i>
-						</a>
-					</li>
-					<li>
-						<a href="invoices.html">
+					<li class="<?=$invoices_active?>">
+						<a href="invoices">
 							<span>Invoices</span>
 							<i class="feather-file-text"></i>
 						</a>
 					</li>
-					<li>
-						<a href="accounts.html">
+					<li class="<?=$accounts_active?>">
+						<a href="accounts">
 							<span>Accounts</span>
 							<i class="fas fa-file-invoice-dollar"></i>
 						</a>
 					</li>
-					<li>
-						<a href="reviews.html">
+					<li class="<?=$reviews_active?>">
+						<a href="reviews">
 							<span>Reviews</span>
 							<i class="feather-star"></i>
 						</a>

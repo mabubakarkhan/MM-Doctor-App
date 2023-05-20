@@ -32,11 +32,17 @@
                                     <p class="doc-speciality"><?=$doctor['specialization_titles']?></p>
                                 <?php endif ?>
                                 <div class="rating">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star"></i>
+                                    <?php
+                                    for ($i=1; $i < 6; $i++) { 
+                                        if ($doctor['ratting'] >= $i) {
+                                            echo '<i class="fas fa-star filled"></i>';
+                                        }
+                                        else{
+                                            echo '<i class="fas fa-star"></i>';
+                                        }
+                                    }
+                                    ?>
+                                    <span class="d-inline-block average-rating"><?=$doctor['ratting']?> ( <?=$doctor['review_count']?> )</span>
                                 </div>
                                 <div class="clinic-details">
                                     <?php if (strlen($doctor['cityName']) > 1): ?>
@@ -140,7 +146,7 @@
                                     <h4 class="card-title">Payment Method</h4>
                                     <div class="payment-list">
                                         <label class="payment-radio credit-card-option">
-                                            <input type="radio" name="payment_method" value="card" checked>
+                                            <input type="radio" name="payment_method" value="online" checked>
                                             <span class="checkmark"></span>
                                             Credit card
                                         </label>
@@ -180,7 +186,7 @@
                                     </div>
                                     <div class="payment-list">
                                         <label class="payment-radio paypal-option">
-                                            <input type="radio" name="payment_method" value="cod">
+                                            <input type="radio" name="payment_method" value="cash">
                                             <span class="checkmark"></span>
                                             Cash on delivery
                                         </label>

@@ -32,12 +32,17 @@
                                     <?php endif ?>
                                 
                                     <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
+                                        <?php
+                                        for ($i=1; $i < 6; $i++) { 
+                                            if ($doctor['ratting'] >= $i) {
+                                                echo '<i class="fas fa-star filled"></i>';
+                                            }
+                                            else{
+                                                echo '<i class="fas fa-star"></i>';
+                                            }
+                                        }
+                                        ?>
+                                        <span class="d-inline-block average-rating"><?=$doctor['ratting']?> ( <?=$doctor['review_count']?> )</span>
                                     </div>
                                     <div class="clinic-details">
                                         <?php if (strlen($doctor['cityName']) > 1): ?>

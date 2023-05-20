@@ -296,47 +296,36 @@
 										<div class="table-responsive">
 											<table class="table table-hover table-center mb-0">
 												<thead>
-													<tr>
-														<th>ID</th>
-														<th>Date </th>
-														<th>Description</th>
-														<th>Attachment</th>
-														<th>Created</th>
-														<th>Actions</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td><a href="javascript:void(0);">#MR-0010</a></td>
-														<td>14 Nov 2021</td>
-														<td>Dental Filling</td>
-														<td><a href="#">dental-test.pdf</a></td>
-														<td>
-															<h2 class="table-avatar">
-																<a href="doctor-profile.html"
-																	class="avatar avatar-sm me-2">
-																	<img class="avatar-img rounded-circle"
-																		src="<?=IMG?>doctors/doctor-thumb-01.jpg"
-																		alt="User Image">
-																</a>
-																<a href="doctor-profile.html">Dr. Ruby Perrin
-																	<span>Dental</span></a>
-															</h2>
-														</td>
-														<td>
-															<div class="table-action">
-																<a href="javascript:void(0);"
-																	class="btn btn-sm bg-info-light">
-																	<i class="feather-eye"></i>
-																</a>
-																<a href="javascript:void(0);"
-																	class="btn btn-sm bg-primary-light">
-																	<i class="feather-printer"></i>
-																</a>
-															</div>
-														</td>
-													</tr>
-												</tbody>
+			                                        <tr>
+			                                            <th>#</th>
+			                                            <th>Appointment ID</th>
+			                                            <th>Doctor</th>
+			                                            <th>Date</th>
+			                                            <th>Description</th>
+			                                            <th>Attachment</th>
+			                                            <!-- <th>Action</th> -->
+			                                        </tr>
+			                                    </thead>
+			                                    <tbody>
+			                                        <?php foreach ($medical_records as $key => $q): ?>
+			                                            <tr>
+			                                                <td><?=$key+1?></td>
+			                                                <td><?=$q['appointment_id']?></td>
+			                                                <td><?=$q['doctorFname'].' '.$q['doctorLname']?></td>
+			                                                <td><?=date('d M Y',strtotime($q['dated']))?> <span class="d-block text-info"><?=date('H:i A',strtotime($q['dated']))?></span></td>
+			                                                <td><?=$q['detail']?></td>
+			                                                <td>
+			                                                    <a href="<?=UPLOADS.$q['file']?>" title="Download attachment" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-download"></i></a>
+			                                                </td>
+			                                                <!-- <td>
+			                                                    <a href="javascript:void(0);"
+			                                                        class="btn btn-sm bg-danger-light">
+			                                                        <i class="far fa-trash-alt"></i>
+			                                                    </a>
+			                                                </td> -->
+			                                            </tr>
+			                                        <?php endforeach ?>
+			                                    </tbody>
 											</table>
 										</div>
 									</div>

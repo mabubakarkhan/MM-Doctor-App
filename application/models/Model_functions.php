@@ -213,12 +213,22 @@ class Model_functions extends CI_Model {
 	public function get_appointments_by_patient($patient)
 	{
 		return $this->get_results("
-			SELECT a.*, d.fname AS doctorFname, d.lname AS 'doctorLname', d.img, d.specialization_titles, d.username, p.fname AS 'patientFname', p.lname AS 'patientLname', p.img AS 'patientImg' 
+			SELECT a.*, d.fname AS doctorFname, d.lname AS 'doctorLname', d.img, d.specialization_titles, d.username, p.fname AS 'patientFname', p.lname AS 'patientLname', p.img AS 'patientImg', h.name AS 'hospitalName'
 			FROM `appointment` AS a 
 			INNER JOIN `doctor` AS d ON a.doctor_id = d.doctor_id 
 			INNER JOIN `patient` AS p ON a.patient_id = p.patient_id 
+			LEFT JOIN `hospital` AS h ON a.hospital_id = h.hospital_id  
 			WHERE a.patient_id = '$patient' 
 			ORDER BY a.appointment_date, a.time_start, a.time_end ASC
+		;");
+	}
+	public function appointments_by_patient($patient)
+	{
+		return $this->get_results("
+			SELECT a.appointment_id
+			FROM `appointment` AS a 
+			WHERE a.patient_id = '$patient' 
+			ORDER BY a.appointment_id ASC
 		;");
 	}
 	public function get_appointments_by_doctor($doctor)
@@ -233,6 +243,19 @@ class Model_functions extends CI_Model {
 			ORDER BY a.appointment_date, a.time_start, a.time_end ASC
 		;");
 	}
+	public function get_done_appointments_by_doctor($doctor)
+	{
+		return $this->get_results("
+			SELECT a.*, d.fname AS doctorFname, d.lname AS 'doctorLname', d.img, d.specialization_titles, d.username, p.fname AS 'patientFname', p.lname AS 'patientLname', p.img AS 'patientImg', h.name AS 'hospitalName', r.review AS 'reviewNote', r.ratting 
+			FROM `appointment` AS a 
+			INNER JOIN `doctor` AS d ON a.doctor_id = d.doctor_id 
+			INNER JOIN `patient` AS p ON a.patient_id = p.patient_id 
+			LEFT JOIN `hospital` AS h ON a.hospital_id = h.hospital_id 
+			LEFT JOIN `review` AS r ON a.appointment_id = r.appointment_id 
+			WHERE a.doctor_id = '$doctor' 
+			ORDER BY a.appointment_date, a.time_start, a.time_end ASC
+		;");
+	}
 	public function get_appointment_by_id($id)
 	{
 		return $this->get_row("
@@ -241,6 +264,81 @@ class Model_functions extends CI_Model {
 			INNER JOIN `doctor` AS d ON a.doctor_id = d.doctor_id 
 			INNER JOIN `patient` AS p ON a.patient_id = p.patient_id 
 			WHERE a.appointment_id = '$id' 
+		;");
+	}
+	public function get_appointments_by_slot($slot,$doctor)
+	{
+		return $this->get_results("SELECT * FROM `appointment` WHERE `time_slot_id` = '$slot' AND `doctor_id` = '$doctor' AND `status` != 'cancel' AND `status` != 'done';");
+	}
+	public function get_patients_by_doctor($doctor)
+	{
+		return $this->get_results("
+			SELECT distinct(a.patient_id) AS 'patient_id', p.fname, p.lname, c.name AS cityName, p.phone, p.img, p.blood_group, p.gender 
+			FROM `appointment` AS a 
+			INNER JOIN `patient` AS p ON a.patient_id = p.patient_id 
+			LEFT JOIN `city` AS c ON p.city_id = c.city_id 
+			WHERE a.doctor_id = '$doctor' 
+			ORDER BY p.fname,p.lname 
+		;");
+	}
+	public function get_medical_records($appointment)
+	{
+		return $this->get_results("
+			SELECT m.*, p.fname AS 'patientFname', p.lname AS 'patientLname', d.fname AS 'doctorFname', d.lname AS 'doctorLname' 
+			FROM `medical_record` AS m 
+			INNER JOIN `patient` AS p ON m.patient_id = p.patient_id 
+			INNER JOIN `doctor` AS d ON m.doctor_id = d.doctor_id 
+			WHERE m.appointment_id = '$appointment' 
+			ORDER BY m.medical_record_id DESC
+		");
+	}
+	public function get_medical_records_by_patient($patient)
+	{
+		return $this->get_results("
+			SELECT m.*, p.fname AS 'patientFname', p.lname AS 'patientLname', d.fname AS 'doctorFname', d.lname AS 'doctorLname' 
+			FROM `medical_record` AS m 
+			INNER JOIN `patient` AS p ON m.patient_id = p.patient_id 
+			LEFT JOIN `doctor` AS d ON m.doctor_id = d.doctor_id 
+			WHERE m.patient_id = '$patient' 
+			ORDER BY m.medical_record_id DESC
+		");
+	}
+	public function check_bookmark($doctor,$patient)
+	{
+		return $this->get_row("SELECT * FROM `bookmark_doctor` WHERE `doctor_id` = '$doctor' AND `patient_id` = '$patient';");
+	}
+	public function get_favourites($patient)
+	{
+		return $this->get_results("
+			SELECT b.bookmark_doctor_id, d.*, c.name AS cityName
+			FROM `bookmark_doctor` AS b 
+			INNER JOIN `doctor` AS d ON b.doctor_id = d.doctor_id 
+			LEFT JOIN `city` AS c ON d.city_id = c.city_id 
+			WHERE b.patient_id = '$patient' 
+			ORDER BY d.fname ASC
+		;");
+	}
+	public function get_done_appointments_by_patient($patient)
+	{
+		return $this->get_results("
+			SELECT a.*, d.fname AS doctorFname, d.lname AS 'doctorLname', d.img, d.specialization_titles, d.username, p.fname AS 'patientFname', p.lname AS 'patientLname', p.img AS 'patientImg', h.name AS 'hospitalName', r.review AS 'reviewNote', r.ratting 
+			FROM `appointment` AS a 
+			INNER JOIN `doctor` AS d ON a.doctor_id = d.doctor_id 
+			INNER JOIN `patient` AS p ON a.patient_id = p.patient_id 
+			LEFT JOIN `hospital` AS h ON a.hospital_id = h.hospital_id
+			LEFT JOIN `review` AS r ON a.appointment_id = r.appointment_id 
+			WHERE a.patient_id = '$patient' AND a.status = 'done' 
+			ORDER BY a.appointment_date, a.time_start, a.time_end ASC
+		;");
+	}
+	public function get_reviews_by_doctor($doctor)
+	{
+		return $this->get_results("
+			SELECT p.*, r.* 
+			FROM `review` AS r 
+			INNER JOIN `patient` AS p ON p.patient_id = r.patient_id 
+			WHERE r.doctor_id = '$doctor' 
+			ORDER BY r.at DESC
 		;");
 	}
 }

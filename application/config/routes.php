@@ -49,6 +49,7 @@ $route["booking/(.*)"] = 'Home/booking/$1';
 $route["booking-filter"] = 'Home/booking_filter';
 $route["checkout/(.*)"] = 'Home/checkout/$1';
 $route["submit-checkout"] = 'Home/submit_checkout';
+$route["make-bookmark"] = 'Home/make_bookmark';
 
 
 $route["logout"] = 'Home/logout';
@@ -72,6 +73,19 @@ $route["patient/cancel-appointment"] = 'patient/cancel_appointment';
 
 $route["patient/profile-settings"] = 'patient/profile_settings';
 $route["patient/change-password"] = 'patient/change_password';
+
+$route["patient/medical-records"] = 'patient/medical_records';
+$route["patient/search-medical-records"] = 'patient/search_medical_records';
+$route["patient/get-medical-records"] = 'patient/get_medical_records';
+$route["patient/post-medical-record"] = 'patient/post_medical_record';
+$route["patient/remove-record"] = 'patient/remove_record';
+$route["patient/invoices"] = 'patient/invoices';
+
+$route["patient/favourites"] = 'patient/favourites';
+$route["patient/remove-favourite"] = 'patient/remove_favourite';
+$route["patient/reviews"] = 'patient/reviews';
+$route["patient/post-review"] = 'patient/post_review';
+
 
 //Doctor
 $route["login-doctor"] = 'Home/login_doctor';
@@ -99,7 +113,17 @@ $route["doctor/submit-time-slots"] = 'doctor/submit_time_slots';
 $route["doctor/submit-time-slots/(.*)"] = 'doctor/submit_time_slots/$1';
 $route["doctor/delete-schedule"] = 'doctor/delete_schedule';
 
+$route["doctor/medical-records"] = 'doctor/medical_records';
+$route["xml-content/get-appointments-by-patient"] = 'doctor/get_appointments_by_patient';
+$route["doctor/get-medical-records"] = 'doctor/get_medical_records';
+$route["doctor/post-medical-record"] = 'doctor/post_medical_record';
 
+$route["doctor/my-patients"] = 'doctor/my_patients';
+$route["doctor/appointments"] = 'doctor/appointments';
+$route["doctor/accounts"] = 'doctor/accounts';
+$route["doctor/update-account"] = 'doctor/update_account';
+$route["doctor/invoices"] = 'doctor/invoices';
+$route["doctor/reviews"] = 'doctor/reviews';
 
 // Test matter
 $route["test"] = 'Home/test';

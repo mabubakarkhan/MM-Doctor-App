@@ -101,7 +101,9 @@
 																<?php if ($slot['day_number'] == $i): ?>
 																	<div class="doc-slot-list">
 																		<?=date("h:i a",strtotime($slot['time_start'])).' - '.date("h:i a",strtotime($slot['time_end']))?>
-																		<a href="javascript:void(0)" class="delete_schedule doctor-dashboard-submit-btn" data-id="<?=$slot['time_slot_id']?>"><i class="fa fa-times"></i></a>
+																		<!-- <a href="javascript:void(0)" class="delete_schedule doctor-dashboard-submit-btn" data-id="<?=$slot['time_slot_id']?>"><i class="fa fa-times"></i></a> -->
+																		<?php $id = $q['time_slot_id']; ?>
+																		<a href="javascript://" class="delete_schedule doctor-dashboard-submit-btn" data-id="<?=$slot['time_slot_id']?>"><i class="fa fa-times"></i></a>
 																	</div>
 																<?php endif ?>
 															<?php endforeach ?>

@@ -254,7 +254,16 @@ class Home extends CI_Controller {
 		$data['educations'] = $this->model->all_education_by_doctor($data['doctor']['doctor_id']);
 		$data['experiences'] = $this->model->all_experience_by_doctor($data['doctor']['doctor_id']);
 		$data['awards'] = $this->model->all_award_by_doctor($data['doctor']['doctor_id']);
+		$data['registrations'] = $this->model->all_registration_by_doctor($data['doctor']['doctor_id']);
+		$data['memberships'] = $this->model->all_membership_by_doctor($data['doctor']['doctor_id']);
 		$data['locations'] = $this->model->doctor_hospitals($data['doctor']['doctor_id']);
+		$data['bookmark_login'] = false;
+		$userChk = unserialize($_SESSION['user']);
+		if ($userChk['controller'] == 'patient') {
+			$data['bookmark'] = $this->model->check_bookmark($data['doctor']['doctor_id'],$userChk['patient_id']);
+			$data['bookmark_login'] = true;
+		}
+		$data['reviews'] = $this->model->get_reviews_by_doctor($data['doctor']['doctor_id']);
 		$this->template('doctor_profile',$data,true);
 	}
 	public function booking($slug,$doctor_hospital)
@@ -263,7 +272,7 @@ class Home extends CI_Controller {
 		if (!$data['doctor']) {
 			redirect('index');
 		}
-		$data['hospital'] = $this->model->get_hospital_by_doctor_hospital_id_2($data['doctor']['doctor_id'],$doctor_hospital);
+		$data['hospital'] = $this->model->get_hospital_by_doctor_hospital_id($data['doctor']['doctor_id'],$doctor_hospital);
 		$this->template('booking',$data,true);
 	}
 	public function booking_filter()
@@ -311,12 +320,11 @@ class Home extends CI_Controller {
 	}
 	public function submit_checkout()
 	{
-		// error_reporting(E_ALL);
 		$user  = $this->check_login_patient();
 		if ($user) {
 			parse_str($_POST['data'],$post);
 			$doctor = $this->model->get_doctor_byid($post['doctor_id']);
-			if ($post['payment_method'] == 'card') {
+			if ($post['payment_method'] == 'online') {
 				$stripeAmount = ($post['fee']+10)*100;
 				require_once('application/libraries/stripe-php/init.php');
 				\Stripe\Stripe::setApiKey($this->config->item('stripe_secret'));
@@ -462,6 +470,24 @@ class Home extends CI_Controller {
 			$html .= '</tbody>';
 		$html .= '</table>';
 		echo json_encode(array("status"=>true,"html"=>$html));
+	}
+	public function make_bookmark()
+	{
+		$user = unserialize($_SESSION['user']);
+		if ($user['patient_id'] > 0) {
+			$insert['patient_id'] = $user['patient_id'];
+			$insert['doctor_id'] = $_POST['id'];
+			$resp = $this->db->insert('bookmark_doctor',$insert);
+			if ($resp) {
+				echo json_encode(array("status"=>true,"msg"=>"bookmared.","type"=>"success"));
+			}
+			else{
+				echo json_encode(array("status"=>false,"msg"=>"not bookmarked.","type"=>"error"));
+			}
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"not bookmarked.","type"=>"error"));
+		}
 	}
 	/**
 

@@ -1,13 +1,11 @@
 <script>
-$(document).on('click', '.make-bookmark', function(event) {
+$(document).on('click', '.remove-bookmark', function(event) {
 	event.preventDefault();
 	$this = $(this);
-	$id = $this.attr('data-id');
-	$.post('<?=BASEURL."make-bookmark"?>', {id: $id}, function(resp) {
+	$.post('<?=BASEURL."patient/remove-favourite"?>', {id: $this.attr('data-id')}, function(resp) {
 		resp = $.parseJSON(resp);
 		if (resp.status == true) {
-			$this.css('color', 'red');
-			$this.removeClass('make-bookmark');
+			$this.parent('div').parent('div').parent('div').remove();
 		}
 		nativeToast({
 			message: resp.msg,

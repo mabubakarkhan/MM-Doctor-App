@@ -286,7 +286,7 @@ class Patient extends CI_Controller {
 		$resp['appointment'] = $this->model->get_appointment_by_id($_POST['appointment_id']);
 		$resp['records'] = $this->model->get_medical_records($_POST['appointment_id']);
 		if ($resp['appointment']) {
-			$html = $this->load->view('patient/html/medical_records',$resp, TRUE);
+			$html = $this->load->view('patient/html/search_medical_records',$resp, TRUE);
 			echo json_encode(array("status"=>true,"msg"=>"Appointment record loaded.","type"=>"success","html"=>$html));
 		}
 		else{

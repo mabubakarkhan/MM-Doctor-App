@@ -8,10 +8,10 @@
                         <a class="nav-link active" href="#pat_medicalrecords"
                             data-bs-toggle="tab">Medical Records</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="#pat_prescription"
                             data-bs-toggle="tab">Prescription</a>
-                    </li>
+                    </li> -->
                 </ul>
             </nav>
 
@@ -61,7 +61,7 @@
                 </div>
 
 
-                <div class="tab-pane fade" id="pat_prescription">
+                <!-- <div class="tab-pane fade" id="pat_prescription">
                     <div class="border-top card-table mb-0">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -106,7 +106,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
             </div>
 

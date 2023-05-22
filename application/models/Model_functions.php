@@ -341,4 +341,40 @@ class Model_functions extends CI_Model {
 			ORDER BY r.at DESC
 		;");
 	}
+	public function check_chat_group($doctor,$patient)
+	{
+		return $this->get_row("SELECT `chat_group_id` FROM `chat_group` WHERE `doctor_id` = '$doctor' AND `patient_id` = '$patient';");
+	}
+	public function patient_chat_groups($patient)
+	{
+		return $this->get_results("
+			SELECT g.*, d.fname AS doctorFname, d.lname AS 'doctorLname', d.img, d.specialization_titles, d.username 
+			FROM `chat_group` AS g 
+			INNER JOIN `doctor` AS d ON g.doctor_id = d.doctor_id 
+			WHERE `patient_id` = '$patient' 
+			ORDER BY g.last_msg_at DESC 
+		;");
+	}
+	public function doctor_chat_groups($doctor)
+	{
+		return $this->get_results("
+			SELECT g.*, p.fname AS patientFname, p.lname AS 'patientLname', p.img 
+			FROM `chat_group` AS g 
+			INNER JOIN `patient` AS p ON g.patient_id = p.patient_id 
+			WHERE `doctor_id` = '$doctor' 
+			ORDER BY g.last_msg_at DESC 
+		;");
+	}
+	public function get_chat($group,$doctor,$patient)
+	{
+		return $this->get_results("SELECT * FROM `chat` WHERE `chat_group_id` = '$group' AND `doctor_id` = '$doctor' AND `patient_id` = '$patient' ORDER BY `at` ASC;");
+	}
+	public function get_chat_by_id($id)
+	{
+		return $this->get_row("SELECT * FROM `chat` WHERE `chat_id` = '$id';");
+	}
+	public function get_auto_new_chat($group,$doctor,$patient,$last_id)
+	{
+		return $this->get_results("SELECT * FROM `chat` WHERE `chat_id` > '$last_id' AND `chat_group_id` = '$group' AND `doctor_id` = '$doctor' AND `patient_id` = '$patient' ORDER BY `at` ASC;");
+	}
 }

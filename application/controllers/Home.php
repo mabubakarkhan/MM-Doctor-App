@@ -134,6 +134,7 @@ class Home extends CI_Controller {
 		}
 		else{
 			$_POST['password'] = md5($_POST['password']);
+			$_POST['phone'] = trim_phone($_POST['phone']);
 			$this->db->insert('patient',$_POST);
 			$resp = $this->model->get_patient_byid($this->db->insert_id());
 			if ($resp) {
@@ -365,6 +366,14 @@ class Home extends CI_Controller {
 				$this->send_mail('New Appointment Created',$this->load->view('email/patient_booking',$emailData,true),$post['email'],false);
 				//doctor
 				$this->send_mail('New Appointment Created',$this->load->view('email/doctor_booking',$emailData,true),$doctor['email'],false);
+
+				//chat
+				$chckChat = $this->model->check_chat_group($doctor['doctor_id'],$user['patient_id']);
+				if (!$chckChat) {
+					$chat['doctor_id'] = $doctor['doctor_id'];
+					$chat['patient_id'] = $user['patient_id'];
+					$this->db->insert('chat_group',$chat);
+				}
 
 				echo json_encode(array("status"=>true,"msg"=>"Appointment created"));
 			}

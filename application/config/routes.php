@@ -85,6 +85,11 @@ $route["patient/favourites"] = 'patient/favourites';
 $route["patient/remove-favourite"] = 'patient/remove_favourite';
 $route["patient/reviews"] = 'patient/reviews';
 $route["patient/post-review"] = 'patient/post_review';
+$route["patient/messages"] = 'patient/messages';
+$route["patient/get-chat"] = 'patient/get_chat';
+$route["patient/post-message"] = 'patient/post_message';
+$route["patient/new-messages-auto"] = 'patient/new_messages_auto';
+$route["patient/groups-list-auto"] = 'patient/groups_list_auto';
 
 
 //Doctor
@@ -124,6 +129,13 @@ $route["doctor/accounts"] = 'doctor/accounts';
 $route["doctor/update-account"] = 'doctor/update_account';
 $route["doctor/invoices"] = 'doctor/invoices';
 $route["doctor/reviews"] = 'doctor/reviews';
+
+$route["doctor/messages"] = 'doctor/messages';
+$route["doctor/get-chat"] = 'doctor/get_chat';
+$route["doctor/post-message"] = 'doctor/post_message';
+$route["doctor/new-messages-auto"] = 'doctor/new_messages_auto';
+$route["doctor/groups-list-auto"] = 'doctor/groups_list_auto';
+
 
 // Test matter
 $route["test"] = 'Home/test';

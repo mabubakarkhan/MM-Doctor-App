@@ -64,8 +64,8 @@
 							<i class="feather-star"></i>
 						</a>
 					</li>
-					<li>
-						<a href="chat-doctor.html">
+					<li class="<?=$messages_active?>">
+						<a href="messages">
 							<span>Message</span>
 							<i class="feather-message-circle"></i>
 						</a>

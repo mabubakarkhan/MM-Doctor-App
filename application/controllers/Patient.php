@@ -401,7 +401,7 @@ class Patient extends CI_Controller {
 				//doctor
 				$this->send_mail('Appointment review submitted',$this->load->view('email/doctor_appointment_review',$emailData,true),$doctor['email'],false);
 				$appointments = $this->model->get_done_appointments_by_patient($user['patient_id']);
-				$html = $this->load->view('patient/html/reviews.php',array("appointments"=>$appointments),TRUE);
+				$html = $this->load->view('patient/html/reviews',array("appointments"=>$appointments),TRUE);
 				echo json_encode(array("status"=>true,"msg"=>"Review submitted.","type"=>"success","html"=>$html));
 			}
 			else{
@@ -436,6 +436,114 @@ class Patient extends CI_Controller {
     	else{
 			return false;
     	}
+	}
+	public function messages()
+	{
+		$user = $this->check_login();
+		$data['page_title'] = 'Messages';
+		$data['messages_active'] = 'active';
+		$data['userSession'] = $user;
+		$groups = $this->model->patient_chat_groups($user['patient_id']);
+		$data['groups'] = $this->load->view('patient/html/chat_users_list',array("groups"=>$groups,"group_id"=>0),TRUE);
+		$this->template('patient/messages',$data, "messages");
+	}
+	public function get_chat()
+	{
+		$user = $this->check_login();
+		$this->db->where('chat_group_id',$_POST['id'])->where('patient_id',$user['patient_id'])->where('doctor_id',$_POST['doctor'])->update('chat_group',array("for_patient_new"=>0));
+		$resp['doctor'] = $this->model->get_doctor_byid($_POST['doctor']);
+		$resp['chat'] = $this->model->get_chat($_POST['id'],$_POST['doctor'],$user['patient_id']);
+		$html = $this->load->view('patient/html/chat',array("resp"=>$resp),TRUE);
+		$groups = $this->model->patient_chat_groups($user['patient_id']);
+		$groups = $this->load->view('patient/html/chat_users_list',array("groups"=>$groups,"group_id"=>$_POST['id']),TRUE);
+		$this->db->where('chat_group_id',$_POST['id'])->where('patient_id',$user['patient_id'])->where('doctor_id',$_POST['doctor'])->where('sender','doctor')->update('chat',array("status"=>'seen'));
+		echo json_encode(array("html"=>$html,"groups"=>$groups));
+	}
+	public function post_message()
+	{
+		$user = $this->check_login();
+		$insert['patient_id'] = $user['patient_id'];
+		$insert['doctor_id'] = $_POST['doctor'];
+		$insert['chat_group_id'] = $_POST['group'];
+		$insert['msg'] = $_POST['text'];
+		$insert['sender'] = 'patient';
+		$this->db->insert('chat',$insert);
+		$chat = $this->model->get_chat_by_id($this->db->insert_id());
+		$html .= '<li class="media '.($chat['sender'] == 'doctor' ? 'received' : 'sent').' d-flex">';
+			$html .= '<div class="media-body flex-grow-1">';
+				$html .= '<div class="msg-box">';
+					$html .= '<div>';
+						$html .= $chat['msg'];
+						$html .= '<ul class="chat-msg-info">';
+							$html .= '<li>';
+								$html .= '<div class="chat-time">';
+									$html .= '<span>'.get_time_difference_php($chat['at']).'</span>';
+								$html .= '</div>';
+							$html .= '</li>';
+						$html .= '</ul>';
+					$html .= '</div>';
+				$html .= '</div>';
+			$html .= '</div>';
+		$html .= '</li>';
+		$html .= '<li id="newChatTag"></li>';
+		$this->db->where('chat_group_id', $_POST['group']);
+		$this->db->where('doctor_id', $_POST['doctor']);
+		$this->db->where('patient_id', $user['patient_id']);
+		$this->db->set('for_doctor_new', '`for_doctor_new`+ 1', FALSE);
+		$this->db->set('patient_count', '`patient_count`+ 1', FALSE);
+		$this->db->set('last_msg', $chat['msg']);
+		$this->db->set('last_msg_at', $chat['at']);
+		$this->db->update('chat_group');
+
+		/*$groups = $this->model->patient_chat_groups($user['patient_id']);
+		$groups = $this->load->view('patient/html/chat_users_list',array("groups"=>$groups,"group_id"=>$_POST['group']),TRUE);*/
+		echo json_encode(array("html"=>$html,"last_msg"=>$chat['chat_id']));
+	}
+	public function new_messages_auto()
+	{
+		$user = $this->check_login();
+		$resp = $this->model->get_auto_new_chat($_POST['group'],$_POST['doctor'],$user['patient_id'],$_POST['last_id']);
+		if ($resp) {
+			$html = '<li class="chat-date" id="newChatTag">new</li>';
+			foreach ($resp as $key => $chat) {
+				$html .= '<li class="media '.($chat['sender'] == 'doctor' ? 'received' : 'sent').' d-flex">';
+					$html .= '<div class="media-body flex-grow-1">';
+						$html .= '<div class="msg-box">';
+							$html .= '<div>';
+								$html .= $chat['msg'];
+								$html .= '<ul class="chat-msg-info">';
+									$html .= '<li>';
+										$html .= '<div class="chat-time">';
+											if ($chat['status'] == 'new') {
+												$html .= '<span>'.get_time_difference_php($chat['at']).'</span>';
+											}
+											else{
+												$html .= '<span>'.date('d-m-y H:i a',strtotime($chat['at'])).'</span>';
+											}
+										$html .= '</div>';
+									$html .= '</li>';
+								$html .= '</ul>';
+							$html .= '</div>';
+						$html .= '</div>';
+					$html .= '</div>';
+				$html .= '</li>';
+			}
+			$this->db->where('chat_group_id',$_POST['group'])->where('patient_id',$user['patient_id'])->where('doctor_id',$_POST['doctor'])->where('sender','doctor')->update('chat',array("status"=>'seen'));
+			echo json_encode(array("status"=>true,"html"=>$html,"last_text"=>$chat['msg'],"last_msg"=>$chat['chat_id'],"last_msg_at"=>get_time_difference_php($chat['at'])));
+		}
+		else{
+			echo json_encode(array("status"=>false));
+		}
+	}
+	public function groups_list_auto()
+	{
+		$user = $this->check_login();
+		if (isset($_POST['group'])) {
+			$group = $_POST['group'];
+		}
+		$groups = $this->model->patient_chat_groups($user['patient_id']);
+		$groups = $this->load->view('patient/html/chat_users_list',array("groups"=>$groups,"group_id"=>$group),TRUE);
+		echo json_encode(array("groups"=>$groups));
 	}
 	/**
 	*

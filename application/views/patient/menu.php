@@ -39,8 +39,8 @@
 							<i class="feather-users"></i>
 						</a>
 					</li> -->
-					<li>
-						<a href="chat.html">
+					<li class="<?=$messages_active?>">
+						<a href="messages">
 							<span>Message</span>
 							<i class="feather-message-circle"></i>
 						</a>

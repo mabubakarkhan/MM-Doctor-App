@@ -44,6 +44,8 @@ $route['404_override'] = '';
 
 
 $route["index"] = 'Home/index';
+$route["search"] = 'Home/search';
+$route["search-filter"] = 'Home/search_filter';
 $route["doctor-profile/(.*)"] = 'Home/doctor/$1';
 $route["booking/(.*)"] = 'Home/booking/$1';
 $route["booking-filter"] = 'Home/booking_filter';

@@ -1106,27 +1106,27 @@ Version      : 1.3
   }
 
 // ajax form submit
-  function ajaxFormSubmit(form, successCallback, errorCallback) {
-  	ajaxErrorMsgHide(form);
-  	$.ajax({
-  		url: form.attr('action'),
-  		type: "POST",
-  		dataType: "json",
-  		data: form.serialize(),
-  		success: function(resp) {
-  			if (resp.status == false) {
-  				ajaxErrorMsgShow(form,resp.msg);
-  				successCallback(false);
-  			}
-  			else{
-  				successCallback(resp);
-  			}
-  		},
-  		error: function(xhr, status, error) {
-  			errorCallback(error);
-  		}
-  	});//ajax
-  }
+function ajaxFormSubmit(form, successCallback, errorCallback) {
+	ajaxErrorMsgHide(form);
+	$.ajax({
+		url: form.attr('action'),
+		type: "POST",
+		dataType: "json",
+		data: form.serialize(),
+		success: function(resp) {
+			if (resp.status == false) {
+				ajaxErrorMsgShow(form,resp.msg);
+				successCallback(false);
+			}
+			else{
+				successCallback(resp);
+			}
+		},
+		error: function(xhr, status, error) {
+			errorCallback(error);
+		}
+	});//ajax
+}
 
 //get cities ajax
   $(document).on('change', 'select[name="state_id"]', function(event) {

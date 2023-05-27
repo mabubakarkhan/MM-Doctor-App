@@ -28,6 +28,40 @@ class Model_functions extends CI_Model {
 	{
 		return $this->get_row("SELECT * FROM `admin` WHERE `username`= '$username' AND `password` = '$password';");
 	}
+	public function get_search_doctor($get)
+	{
+		$where =  "1 = 1";
+		$sort = '';
+		if ($get['city_id'] != '') {
+			$where .= " AND d.city_id = '".$get['city_id']."'";
+		}
+		if ($get['service'] != '') {
+			$where .= " AND FIND_IN_SET('".$get['service']."', service_titles) ";
+		}
+		if ($get['gender'] != '') {
+			$where .= " AND d.gender = '".$get['gender']."'";
+		}
+		if ($get['sort'] == 'ratting') {
+			$sort = " ORDER BY d.ratting ASC";
+		}
+		if ($get['sort'] == 'ASC') {
+			$sort = " ORDER BY d.fname,d.lname ASC";
+		}
+		if ($get['sort'] == 'DESC') {
+			$sort = " ORDER BY d.fname,d.lname DESC";
+		}
+		return $this->get_results("
+			SELECT d.*, city.name AS 'cityName', state.name AS 'stateName', country.name AS 'countryName' 
+			FROM  `doctor` AS d 
+			LEFT JOIN `city` AS city ON d.city_id = city.city_id 
+			LEFT JOIN `state` AS state ON d.state_id = state.state_id 
+			LEFT JOIN `country` AS country ON d.country_id = country.country_id 
+			WHERE $where 
+			$sort
+		");
+
+	}
+
 	public function countries()
 	{
 		return $this->get_results("SELECT * FROM `country` ORDER BY `name` ASC;");

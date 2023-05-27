@@ -244,7 +244,30 @@ class Home extends CI_Controller {
 	*/
 	public function index()
 	{
-		$this->template('index',$data);
+		$data['meta_title'] = APP_TITLE;
+		$data['cities'] = $this->model->get_pak_cities();
+		$data['services'] = $this->model->services();
+		$this->template('index',$data,true);
+	}
+	public function search()
+	{
+		if (isset($_GET)) {
+			$data['get'] = $_GET;
+		}
+		$data['meta_title'] = APP_TITLE;
+		$data['cities'] = $this->model->get_pak_cities();
+		$data['services'] = $this->model->services();
+		$html['data'] = $this->model->get_search_doctor($_GET);
+		$data['searchResults'] = $this->load->view('html/search',$html, TRUE);
+		$data['countResults'] = count($html['data']);
+		$this->template('search',$data,true);
+	}
+	public function search_filter()
+	{
+		parse_str($_POST['data'],$post);
+		$html['data'] = $this->model->get_search_doctor($post);
+		$html = $this->load->view('html/search',$html, TRUE);
+		echo json_encode(array("status"=>true,"html"=>$html,"count"=>count($html['data'])));
 	}
 	public function doctor($slug)
 	{
@@ -273,6 +296,13 @@ class Home extends CI_Controller {
 		if (!$data['doctor']) {
 			redirect('index');
 		}
+		$data['directDate'] = 'false';
+		if (isset($_GET['date'])) {
+			$date1 = new DateTime(date('Y-m-d'));
+			$date2 = new DateTime(date('Y-m-d',strtotime($_GET['date'])));
+			$interval = $date1->diff($date2);
+			$data['directDate'] = $interval->days;
+		}
 		$data['hospital'] = $this->model->get_hospital_by_doctor_hospital_id($data['doctor']['doctor_id'],$doctor_hospital);
 		$this->template('booking',$data,true);
 	}
@@ -280,6 +310,7 @@ class Home extends CI_Controller {
 	{
 		$dates = $_POST['date'];
 		$dates = explode('-', $dates);
+		// var_dump($_POST);die;
 		$date1 = new DateTime($dates[0]);
 		$date2 = new DateTime($dates[1]);
 		$interval = $date1->diff($date2);

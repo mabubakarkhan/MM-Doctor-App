@@ -1,9 +1,22 @@
 <script>
-
 	// Date Range Picker
 	if($('.bookingrange').length > 0) {
-		var start = moment().add(6, 'days');
-		var end = moment();
+		if ('<?=$directDate?>' != 'false') {
+			if ('<?=$directDate?>' == 0) {
+				var start = moment();
+				var end = moment();
+			}
+			else{
+				var start = moment().add('<?=$directDate?>', 'days');
+				var end = moment().add('<?=$directDate?>', 'days');
+			}
+		}
+		else{
+			var start = moment().add(6, 'days');
+			var end = moment();
+		}
+		/*var start = moment().add(6, 'days');
+			var end = moment();*/
 
 		function booking_range(start, end) {
 			$('.bookingrange span').html(end.format('MMMM D, YYYY') + ' - ' + start.format('MMMM D, YYYY'));

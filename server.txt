@@ -16,3 +16,4 @@ nativeToast({
 	type: resp.type
 })
 type: 'warning' // success warning info error
+

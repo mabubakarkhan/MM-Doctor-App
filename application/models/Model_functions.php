@@ -132,6 +132,17 @@ class Model_functions extends CI_Model {
 	{
 		return $this->get_row("SELECT * FROM  `patient` WHERE `patient_id` = '$id';");
 	}
+	public function get_patient_profile($id)
+	{
+		return $this->get_row("
+			SELECT d.*, city.name AS 'cityName', state.name AS 'stateName', country.name AS 'countryName' 
+			FROM  `patient` AS d 
+			LEFT JOIN `city` AS city ON d.city_id = city.city_id 
+			LEFT JOIN `state` AS state ON d.state_id = state.state_id 
+			LEFT JOIN `country` AS country ON d.country_id = country.country_id 
+			WHERE d.patient_id = '$id'
+		;");
+	}
 	public function patient_login($key,$password)
 	{
 		return $this->get_row("SELECT * FROM `patient` WHERE `phone` = '$key' AND `password` = '$password';");
@@ -243,6 +254,31 @@ class Model_functions extends CI_Model {
 	public function get_slot_byid($id)
 	{
 		return $this->get_row("SELECT * FROM `time_slot` WHERE `time_slot_id` = '$id';");
+	}
+	public function get_appointments_admin($get)
+	{
+		$where = '1=1';
+		if (isset($get['doctor_id'])) {
+			$where .= " AND a.doctor_id = '".$get['doctor_id']."'";
+		}
+		if (isset($get['patient_id'])) {
+			$where .= " AND a.patient_id = '".$get['patient_id']."'";
+		}
+		if (isset($get['status'])) {
+			$where .= " AND a.status = '".$get['status']."'";
+		}
+		if (isset($get['cancel_by'])) {
+			$where .= " AND a.cancel_by = '".$get['cancel_by']."'";
+		}
+		return $this->get_results("
+			SELECT a.*, d.fname AS doctorFname, d.lname AS 'doctorLname', d.img, d.specialization_titles, d.username, p.fname AS 'patientFname', p.lname AS 'patientLname', p.img AS 'patientImg', h.name AS 'hospitalName'
+			FROM `appointment` AS a 
+			INNER JOIN `doctor` AS d ON a.doctor_id = d.doctor_id 
+			INNER JOIN `patient` AS p ON a.patient_id = p.patient_id 
+			LEFT JOIN `hospital` AS h ON a.hospital_id = h.hospital_id  
+			WHERE $where 
+			ORDER BY a.appointment_date, a.time_start, a.time_end ASC
+		;");
 	}
 	public function get_appointments_by_patient($patient)
 	{
@@ -410,5 +446,23 @@ class Model_functions extends CI_Model {
 	public function get_auto_new_chat($group,$doctor,$patient,$last_id)
 	{
 		return $this->get_results("SELECT * FROM `chat` WHERE `chat_id` > '$last_id' AND `chat_group_id` = '$group' AND `doctor_id` = '$doctor' AND `patient_id` = '$patient' ORDER BY `at` ASC;");
+	}
+	public function admin_doctors($status)
+	{
+		if ($status == 'all') {
+			return $this->get_results("SELECT `doctor_id`,`fname`,`lname`,`phone` FROM `doctor` ORDER BY `doctor_id` ASC;");
+		}
+		else{
+			return $this->get_results("SELECT `doctor_id`,`fname`,`lname`,`phone` FROM `doctor` WHERE `status` = '$status' ORDER BY `doctor_id` ASC;");
+		}
+	}
+	public function admin_patients($status)
+	{
+		if ($status == 'all') {
+			return $this->get_results("SELECT `patient_id`,`fname`,`lname`,`phone` FROM `patient` ORDER BY `patient_id` ASC;");
+		}
+		else{
+			return $this->get_results("SELECT `patient_id`,`fname`,`lname`,`phone` FROM `patient` WHERE `status` = '$status' ORDER BY `patient_id` ASC;");
+		}
 	}
 }

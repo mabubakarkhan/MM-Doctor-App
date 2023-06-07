@@ -20,6 +20,24 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group">
+                    <label>Service Featured</label>
+                    <select name="service_featured" class="form-control">
+                        <option value="no" <?=($q['service_featured'] == 'no') ? 'selected' : ''?> >No</option>
+                        <option value="yes" <?=($q['service_featured'] == 'yes') ? 'selected' : ''?> >Yes</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Specialization Featured</label>
+                    <select name="specialization_featured" class="form-control">
+                        <option value="no" <?=($q['specialization_featured'] == 'no') ? 'selected' : ''?> >No</option>
+                        <option value="yes" <?=($q['specialization_featured'] == 'yes') ? 'selected' : ''?> >Yes</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
                     <label>Status</label>
                     <select name="status" class="form-control">
                         <option value="new" <?=($q['status'] == 'new') ? 'selected' : ''?> >New</option>

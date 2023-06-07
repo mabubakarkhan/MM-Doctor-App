@@ -203,7 +203,6 @@ class Admin extends CI_Controller {
 	}
 	public function get_appointments_ajax()
 	{
-		// error_reporting(E_ALL);
 		$user = $this->check_login();
 		parse_str($_POST['data'],$get);
 		$data['appointments'] = $this->model->get_appointments_admin($get);
@@ -279,6 +278,28 @@ class Admin extends CI_Controller {
 			$html = '<td colspan="5">No record found yet.</td>';
 		}
 		echo json_encode(array("status"=>true,"html"=>$html));
+	}
+	public function services($status = 'all')
+	{
+		$user = $this->check_login();
+		$data['title'] = "Admin Panel";
+		$data['page_title'] = 'Services';
+		$data['menu'] = 'services';
+		$data['services'] = $this->model->services($status);
+		$data['msg_code'] = isset($_GET['msg']) && $_GET['msg'] != '' ? $_GET['msg'] : FALSE;
+		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
+		$this->template('admin/services', $data);
+	}
+	public function specializations($status = 'all')
+	{
+		$user = $this->check_login();
+		$data['title'] = "Admin Panel";
+		$data['page_title'] = 'Specializations';
+		$data['menu'] = 'specializations';
+		$data['specializations'] = $this->model->specializations($status);
+		$data['msg_code'] = isset($_GET['msg']) && $_GET['msg'] != '' ? $_GET['msg'] : FALSE;
+		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
+		$this->template('admin/specializations', $data);
 	}
 	public function cats($status = 'all')
 	{
@@ -385,40 +406,19 @@ class Admin extends CI_Controller {
 	*	starting Add functions from here for:
 	*	company, News&Events, Home, Collection, Albums And Photo 	************************************************/
 
-	public function add_product()
+	public function add_service()
 	{
 		$user = $this->check_login();
-		$data['page_title'] = 'Add Product';
-		$data['menu'] = 'add_product';
-		$data['signin'] = FALSE;
-		$data['username'] = $user['username'];
-		$data['password'] = $user['password'];
-
-		$data['cats'] = $this->model->cats('all');
-
-		$data['msg_code'] = isset($_GET['msg']) && $_GET['msg'] != '' ? $_GET['msg'] : FALSE;
-		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
-		$this->template('admin/add_product', $data);
+		$data['page_title'] = 'Add Service';
+		$data['menu'] = 'add_service';
+		$this->template('admin/add_service', $data);
 	}
-	public function add_offer()
+	public function add_specialization()
 	{
 		$user = $this->check_login();
-		$data['page_title'] = 'Add Offer';
-		$data['menu'] = 'offers';
-		$this->template('admin/add_offer', $data);
-	}
-	public function add_cat()
-	{
-		$user = $this->check_login();
-		$data['page_title'] = 'Add Category';
-		$data['menu'] = 'add_cat';
-		$data['signin'] = FALSE;
-		$data['username'] = $user['username'];
-		$data['password'] = $user['password'];
-
-		$data['msg_code'] = isset($_GET['msg']) && $_GET['msg'] != '' ? $_GET['msg'] : FALSE;
-		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
-		$this->template('admin/add_cat', $data);
+		$data['page_title'] = 'Add Specialization';
+		$data['menu'] = 'add_specialization';
+		$this->template('admin/add_specialization', $data);
 	}
 	public function add_blog()
 	{
@@ -432,18 +432,6 @@ class Admin extends CI_Controller {
 	*	starting insert functions from here for:
 	*	company, News&Events, Home, Collection, Albums And Photo 	************************************************/
 
-	public function post_product()
-	{
-		$user = $this->check_login();
-		$resp = $this->db->insert("product", $_POST);
-		redirect("admin/products/".$_POST['status']."/?msg=Property Added!");
-	}
-	public function post_offer()
-	{
-		$user = $this->check_login();
-		$resp = $this->db->insert("offer", $_POST);
-		redirect("admin/offers/?msg=Offer Added!");
-	}
 	public function post_photos()
 	{
 		$user = $this->check_login();
@@ -471,11 +459,25 @@ class Admin extends CI_Controller {
 		}
 		redirect("admin/photos/".$_POST['product_id']."/?msg=Photos Added!");
 	}
-	public function post_cat()
+	public function post_service()
 	{
 		$user = $this->check_login();
-		$resp = $this->db->insert("category", $_POST);
-		redirect("admin/cats/?msg=Category Added!");
+		$_POST['slug'] = str_replace('&', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('/', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('=', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('?', '', $_POST['slug']);
+		$resp = $this->db->insert("service", $_POST);
+		redirect("admin/services/?msg=Service Added!");
+	}
+	public function post_specialization()
+	{
+		$user = $this->check_login();
+		$_POST['slug'] = str_replace('&', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('/', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('=', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('?', '', $_POST['slug']);
+		$resp = $this->db->insert("specialization", $_POST);
+		redirect("admin/specializations/?msg=Specialization Added!");
 	}
 	public function post_blog()
 	{
@@ -520,58 +522,38 @@ class Admin extends CI_Controller {
 	*	starting edit functions from here for:
 	*	company, News&Events, Home, Collection, Albums And Photo
 	************************************************/
-	public function edit_product()
+	public function edit_service()
 	{
 		$user = $this->check_login();
 		$new_id = isset($_GET['id']) ? $_GET['id'] : 0;
 		if($new_id < 1) 
 		{
-			echo ("Wrong Product ID has been passed");
+			echo ("Wrong Service ID has been passed");
 		}
 		else 
 		{
-			$data['q'] = $this->model->get_product_byid($new_id);
-			$data['cats'] = $this->model->cats('all');
-			$data['page_title'] = "Edit: Product";
+			$data['q'] = $this->model->get_service_byid($new_id);
+			$data['page_title'] = "Edit: Service";
 			$data['mode'] = "edit";
-			$data['signin'] = FALSE;
-			$data['menu'] = 'all_products';
-			$this->template('admin/add_product', $data);
+			$data['menu'] = 'services';
+			$this->template('admin/add_service', $data);
 		}
 	}
-	public function edit_offer()
+	public function edit_specialization()
 	{
 		$user = $this->check_login();
 		$new_id = isset($_GET['id']) ? $_GET['id'] : 0;
 		if($new_id < 1) 
 		{
-			echo ("Wrong Offer ID has been passed");
+			echo ("Wrong Specialization ID has been passed");
 		}
 		else 
 		{
-			$data['q'] = $this->model->get_offer_byid($new_id);
-			$data['page_title'] = "Edit: Offer";
+			$data['q'] = $this->model->get_specialization_byid($new_id);
+			$data['page_title'] = "Edit: Specialization";
 			$data['mode'] = "edit";
-			$data['menu'] = 'offers';
-			$this->template('admin/add_offer', $data);
-		}
-	}
-	public function edit_cat()
-	{
-		$user = $this->check_login();
-		$new_id = isset($_GET['id']) ? $_GET['id'] : 0;
-		if($new_id < 1) 
-		{
-			echo ("Wrong Category ID has been passed");
-		}
-		else 
-		{
-			$data['q'] = $this->model->get_cat_byid($new_id);
-			$data['page_title'] = "Edit: Category";
-			$data['mode'] = "edit";
-			$data['signin'] = FALSE;
-			$data['menu'] = 'all_cats';
-			$this->template('admin/add_cat', $data);
+			$data['menu'] = 'specializations';
+			$this->template('admin/add_specialization', $data);
 		}
 	}
 	public function edit_blog()
@@ -614,53 +596,44 @@ class Admin extends CI_Controller {
 	*	starting update functions from here for:
 	*	company, News&Events, Home, Collection, Albums And Photo 	
 	************************************************/
-
-	public function update_product()
+	public function update_service()
 	{
 		$user = $this->check_login();
 		$aid = $_POST['aid'];
 		unset($_POST['aid'], $_POST['mode'], $_POST['security']);
-		$this->db->where("product_id",$aid);
-		$data = $this->db->update("product", $_POST);
+		$_POST['slug'] = str_replace('&', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('/', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('=', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('?', '', $_POST['slug']);
+		$this->db->where("service_id",$aid);
+		$data = $this->db->update("service", $_POST);
 		if($data)
 		{
-			redirect("admin/products/".$_POST['status']."?msg=Edited Product");
+			redirect("admin/services/?msg=Edited Service");
 		}
 		else
 		{
-			redirect("admin/products/".$_POST['status']."?error=1&msg=Error occured while Editing Product");
+			redirect("admin/services/?error=1&msg=Error occured while Editing Service");
 		}
 	}
-	public function update_offer()
+	public function update_specialization()
 	{
 		$user = $this->check_login();
 		$aid = $_POST['aid'];
 		unset($_POST['aid'], $_POST['mode'], $_POST['security']);
-		$this->db->where("offer_id",$aid);
-		$data = $this->db->update("offer", $_POST);
+		$_POST['slug'] = str_replace('&', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('/', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('=', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('?', '', $_POST['slug']);
+		$this->db->where("specialization_id",$aid);
+		$data = $this->db->update("specialization", $_POST);
 		if($data)
 		{
-			redirect("admin/offers/?msg=Edited Offer");
+			redirect("admin/specializations/?msg=Edited Specialization");
 		}
 		else
 		{
-			redirect("admin/offers/?error=1&msg=Error occured while Editing Offer");
-		}
-	}
-	public function update_cat()
-	{
-		$user = $this->check_login();
-		$aid = $_POST['aid'];
-		unset($_POST['aid'], $_POST['mode'], $_POST['security']);
-		$this->db->where("category_id",$aid);
-		$data = $this->db->update("category", $_POST);
-		if($data)
-		{
-			redirect("admin/cats/?msg=Edited Category");
-		}
-		else
-		{
-			redirect("admin/cats/?error=1&msg=Error occured while Editing Category");
+			redirect("admin/specializations/?error=1&msg=Error occured while Editing Specialization");
 		}
 	}
 	public function update_blog()
@@ -668,7 +641,6 @@ class Admin extends CI_Controller {
 		$user = $this->check_login();
 		$aid = $_POST['aid'];
 		unset($_POST['aid'], $_POST['mode'], $_POST['security']);
-		$_POST['updated_by'] = $user['admin_id'];
 		$_POST['updated_at'] = date('Y-m-d H:i:s');
 		$this->db->where("blog_id",$aid);
 		$data = $this->db->update("blog", $_POST);
@@ -719,74 +691,32 @@ class Admin extends CI_Controller {
 	*	starting delete functions from here for:
 	*	company, News&Events, Home, Collection, Albums And Photo 	
 	************************************************/
-	public function delete_product()
+	public function delete_service()
 	{
 		$user = $this->check_login();
-		$product = $this->model->get_product_byid($_GET['id']);
-		$this->db->where('product_id', $_GET['id']);
-		$resp = $this->db->delete('product');
+		$this->db->where('service_id', $_GET['id']);
+		$resp = $this->db->delete('service');
 		if($resp)
 		{
-			unlink('uploads/'.$product['image']);
-			$photos = $this->model->photos($_GET['id']);
-			foreach ($photos as $key => $photo) {
-				unlink('uploads/'.$photo['img']);
-			}
-			$this->db->where('product_id',$_GET['id']);
-			$this->db->delete('photo');
-			redirect("admin/products/all/?msg=Product has Deleted");
+			redirect("admin/services/?msg=Service has Deleted");
 		}
 		else
 		{
-			redirect("admin/products/all/?error=1&msg=Product has failed to delete. Try Again!");
+			redirect("admin/services/?error=1&msg=Service has failed to delete. Try Again!");
 		}
 	}
-	public function delete_offer()
+	public function delete_specialization()
 	{
 		$user = $this->check_login();
-		$product = $this->model->get_offer_byid($_GET['id']);
-		$this->db->where('offer_id', $_GET['id']);
-		$resp = $this->db->delete('offer');
+		$this->db->where('specialization_id', $_GET['id']);
+		$resp = $this->db->delete('specialization');
 		if($resp)
 		{
-			unlink('uploads/'.$product['image']);
-			redirect("admin/offers/?msg=Offer has Deleted");
+			redirect("admin/specializations/?msg=Specialization has Deleted");
 		}
 		else
 		{
-			redirect("admin/offers/?error=1&msg=Offer has failed to delete. Try Again!");
-		}
-	}
-	public function delete_product_photo($product)
-	{
-		$user = $this->check_login();
-		$photo = $this->model->get_row("SELECT `img` FROM `photo` WHERE `photo_id` = '".$_GET['id']."';");
-		$this->db->where('photo_id', $_GET['id']);
-		$resp = $this->db->delete('photo');
-		if($resp)
-		{
-			unlink('uploads/'.$photo['img']);
-			redirect("admin/photos/".$product."/?msg=Product Photo has Deleted");
-		}
-		else
-		{
-			redirect("admin/photos/".$product."/?error=1&msg=Product Photo has failed to delete. Try Again!");
-		}
-	}
-	public function delete_slider()
-	{
-		$user = $this->check_login();
-		$slider = $this->model->get_row("SELECT `image` FROM `slider` WHERE `slider_id` = '".$_GET['id']."';");
-		$this->db->where('slider_id', $_GET['id']);
-		$resp = $this->db->delete('slider');
-		if($resp)
-		{
-			unlink('uploads/'.$slider['image']);
-			redirect("admin/sliders/?msg=Slider has Deleted");
-		}
-		else
-		{
-			redirect("admin/sliders/?error=1&msg=Slider has failed to delete. Try Again!");
+			redirect("admin/specializations/?error=1&msg=Specialization has failed to delete. Try Again!");
 		}
 	}
 	public function delete_blog()
@@ -870,10 +800,8 @@ class Admin extends CI_Controller {
 	        	echo json_encode(array("status"=>true,"data"=>$img));
         	}
         	else{
-        		#error
 	        	echo json_encode(array("status"=>false));
         	}
-
 		}
 		else{
 			redirect('admin/logout');

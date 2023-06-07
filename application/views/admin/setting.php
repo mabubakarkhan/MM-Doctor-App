@@ -84,11 +84,22 @@
 
 					<div class="col-lg-12 form-horizontal">
 						<div class="form-group form-material">
-							<label class="col-lg-12 col-sm-3 control-label">Google Plus
+							<label class="col-lg-12 col-sm-3 control-label">Linkedin
 								<span class="required">*</span>
 							</label>
 							<div class=" col-lg-12 col-sm-9">
-								<input type="text" class="form-control" name="google_link" placeholder="Your Google Plus Link" required="" value="<?=$q['google_link']?>">
+								<input type="text" class="form-control" name="linkedin_link" placeholder="Your Linkedin Link" required="" value="<?=$q['linkedin_link']?>">
+							</div><!-- /12 -->
+						</div><!-- /form-group -->
+					</div><!-- /form-horizontal -->
+
+					<div class="col-lg-12 form-horizontal">
+						<div class="form-group form-material">
+							<label class="col-lg-12 col-sm-3 control-label">Twitter
+								<span class="required">*</span>
+							</label>
+							<div class=" col-lg-12 col-sm-9">
+								<input type="text" class="form-control" name="twitter_link" placeholder="Your Twitter Link" required="" value="<?=$q['twitter_link']?>">
 							</div><!-- /12 -->
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->

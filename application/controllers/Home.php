@@ -43,6 +43,7 @@ class Home extends CI_Controller {
 		if (isset($_SESSION['user'])) {
 			$data['userSession'] = unserialize($_SESSION['user']);
 		}
+		$data['setting'] = $this->model->setting(1);
 		$this->load->view('header',$data);
 		$this->load->view($page,$data);
 		$this->load->view('footer',$data);
@@ -247,7 +248,37 @@ class Home extends CI_Controller {
 		$data['meta_title'] = APP_TITLE;
 		$data['cities'] = $this->model->get_pak_cities();
 		$data['services'] = $this->model->services();
+		$data['featured_doctors_for_home'] = $this->model->featured_doctors_for_home();
+		$html['specializations_featured'] = $this->model->specializations_featured();
+		$html['specializations_featured_doctors'] = $this->model->specializations_featured_doctors();
+		$data['specializations_featured'] = $this->load->view('html/doctors-specialities-wrap',$html, TRUE);
+		$data['blogs'] = $this->model->blog_home();
 		$this->template('index',$data,true);
+	}
+	public function specializations_featured_ajax()
+	{
+		$data['specializations_featured'] = $this->model->specializations_featured();
+		$data['specializations_featured_doctors'] = $this->model->specializations_featured_doctors();
+		$html = $this->load->view('html/doctors-specialities-wrap',$data, TRUE);
+		echo json_encode(array("status"=>true,"html"=>$html));
+	}
+	public function blog()
+	{
+		$data['meta_title'] = "The Blog";
+		$data['meta_key'] = "The Blog";
+		$data['meta_desc'] = "The Blog";
+		$data['home_blogs'] = $this->model->blog_home();
+		$data['blogs'] = $this->model->blog();
+		$this->template('blog', $data);
+	}
+	public function post($slug)
+	{
+		$data['post'] = $this->model->get_blog_by_slug($slug);
+		$data['meta_title'] = $data['post']['meta_title'];
+		$data['meta_key'] = $data['post']['meta_key'];
+		$data['meta_desc'] = $data['post']['meta_desc'];
+		$data['home_blogs'] = $this->model->blog_home();
+		$this->template('post', $data);
 	}
 	public function search()
 	{

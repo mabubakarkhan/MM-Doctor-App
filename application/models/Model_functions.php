@@ -24,6 +24,10 @@ class Model_functions extends CI_Model {
 			return false;
 		}
 	}
+	public function setting($id)
+	{
+		return $this->get_row("SELECT * FROM `setting` WHERE `setting_id` = '$id';");
+	}
 	public function login($username,$password)
 	{
 		return $this->get_row("SELECT * FROM `admin` WHERE `username`= '$username' AND `password` = '$password';");
@@ -36,7 +40,23 @@ class Model_functions extends CI_Model {
 			$where .= " AND d.city_id = '".$get['city_id']."'";
 		}
 		if ($get['service'] != '') {
-			$where .= " AND FIND_IN_SET('".$get['service']."', service_titles) ";
+			if ($get['direct'] == 'true') {
+				$where .= " AND d.service_ids IN(".$get['service'].") ";
+			}
+			else{
+				$where .= ' AND (';
+				foreach ($get['service'] as $key => $service) {
+					if (!(empty($service))) {
+						if ($key == 0) {
+							$where .= " d.service_ids IN(".$service.") ";
+						}
+						else{
+							$where .= " OR d.service_ids IN(".$service.") ";
+						}
+					}
+				}
+				$where .= ') ';
+			}
 		}
 		if ($get['gender'] != '') {
 			$where .= " AND d.gender = '".$get['gender']."'";
@@ -60,6 +80,43 @@ class Model_functions extends CI_Model {
 			$sort
 		");
 
+	}
+	public function featured_doctors_for_home()
+	{
+		return $this->get_results("
+			SELECT d.*, city.name AS 'cityName', state.name AS 'stateName', country.name AS 'countryName' 
+			FROM  `doctor` AS d 
+			LEFT JOIN `city` AS city ON d.city_id = city.city_id 
+			LEFT JOIN `state` AS state ON d.state_id = state.state_id 
+			LEFT JOIN `country` AS country ON d.country_id = country.country_id 
+			WHERE d.status = 'active' AND d.specialization_featured = 'yes' 
+			ORDER BY RAND() 
+			LIMIT 4
+		");
+	}
+	public function specializations_featured_doctors()
+	{
+		return $this->get_results("
+			SELECT d.*, city.name AS 'cityName', state.name AS 'stateName', country.name AS 'countryName' 
+			FROM  `doctor` AS d 
+			LEFT JOIN `city` AS city ON d.city_id = city.city_id 
+			LEFT JOIN `state` AS state ON d.state_id = state.state_id 
+			LEFT JOIN `country` AS country ON d.country_id = country.country_id 
+			WHERE d.status = 'active' AND d.specialization_featured = 'yes' 
+			ORDER BY RAND()
+		");
+	}
+	public function services_featured_doctors()
+	{
+		return $this->get_results("
+			SELECT d.*, city.name AS 'cityName', state.name AS 'stateName', country.name AS 'countryName' 
+			FROM  `doctor` AS d 
+			LEFT JOIN `city` AS city ON d.city_id = city.city_id 
+			LEFT JOIN `state` AS state ON d.state_id = state.state_id 
+			LEFT JOIN `country` AS country ON d.country_id = country.country_id 
+			WHERE d.status = 'active' AND d.service_featured = 'yes' 
+			ORDER BY RAND()
+		");
 	}
 
 	public function countries()
@@ -151,9 +208,25 @@ class Model_functions extends CI_Model {
 	{
 		return $this->get_results("SELECT * FROM `service` ORDER BY `title` ASC;");
 	}
+	public function services_featured()
+	{
+		return $this->get_results("SELECT * FROM `service` WHERE `featured` = 'yes' ORDER BY `title` ASC;");
+	}
+	public function get_service_byid($id)
+	{
+		return $this->get_row("SELECT * FROM `service` WHERE `service_id` = '$id';");
+	}
 	public function specializations()
 	{
 		return $this->get_results("SELECT * FROM `specialization` ORDER BY `title` ASC;");
+	}
+	public function specializations_featured()
+	{
+		return $this->get_results("SELECT * FROM `specialization` WHERE `featured` = 'yes' ORDER BY `title` ASC;");
+	}
+	public function get_specialization_byid($id)
+	{
+		return $this->get_row("SELECT * FROM `specialization` WHERE `specialization_id` = '$id'");
 	}
 	public function all_education_by_doctor($doctor)
 	{
@@ -464,5 +537,21 @@ class Model_functions extends CI_Model {
 		else{
 			return $this->get_results("SELECT `patient_id`,`fname`,`lname`,`phone` FROM `patient` WHERE `status` = '$status' ORDER BY `patient_id` ASC;");
 		}
+	}
+	public function blog_home()
+	{
+		return $this->get_results("SELECT * FROM `blog` ORDER BY `updated_at` DESC LIMIT 4;");
+	}
+	public function blog()
+	{
+		return $this->get_results("SELECT * FROM `blog` ORDER BY `updated_at` DESC;");
+	}
+	public function get_blog_byid($id)
+	{
+		return $this->get_row("SELECT * FROM `blog` WHERE `blog_id` = '$id';");
+	}
+	public function get_blog_by_slug($slug)
+	{
+		return $this->get_row("SELECT * FROM `blog` WHERE `slug` = '$slug';");
 	}
 }

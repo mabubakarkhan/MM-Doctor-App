@@ -1,3 +1,11 @@
+<script type="text/javascript">
+    function del_q(id) {
+        cnfr = confirm("Are you sure you want to delete this Service");
+        if (cnfr) {
+            document.location = "<?=BASEURL?>admin/delete-service/?id=" + id;
+        }
+    }
+</script>
 <div class="page animsition">
     <div class="page-header">
         <h1 class="page-title"><?=$page_title?></h1>
@@ -27,8 +35,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="margin-bottom-15">
-                            <button id="addToTable" class="btn btn-primary" type="button" onClick="document.location='<?=BASEURL?>admin/add-cat';">
-                                <i class="icon md-plus" aria-hidden="true"></i> Add Category
+                            <button id="addToTable" class="btn btn-primary" type="button" onClick="document.location='<?=BASEURL?>admin/add-service';">
+                                <i class="icon md-plus" aria-hidden="true"></i> Add Service
                             </button>
                         </div><!-- /margin-bottom-15 -->
                     </div><!-- /6 -->
@@ -37,31 +45,30 @@
                     <thead>
                         <tr>
                             <th>Title</th>
-                            <th>Status</th>
+                            <th>Slug</th>
+                            <th>Featured</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>Title</th>
-                            <th>Status</th>
+                            <th>Slug</th>
+                            <th>Featured</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <?php
-                        if (count($cats) > 0) {
-                            foreach ($cats as $q): ?>
+                        if (count($services) > 0) {
+                            foreach ($services as $q): ?>
                                 <tr>
                                     <td><?=$q['title']?></td>
-                                    <td><?=$q['status']?></td>
+                                    <td><?=$q['slug']?></td>
+                                    <td><?=$q['featured']?></td>
                                     <td class="actions">
-                                        <a href="<?=BASEURL?>admin/edit-cat?id=<?=$q['category_id']?>" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit" aria-hidden="true"></i></a>
-                                        <select name="status" data-id="<?=$q['category_id']?>" class="form-control">
-                                            <option value="">Change Status</option>
-                                            <option value="active">Active</option>
-                                            <option value="inactive">Inactive</option>
-                                        </select>
+                                        <a href="<?=BASEURL?>admin/edit-service?id=<?=$q['service_id']?>" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit" aria-hidden="true"></i></a>
+                                        <a href="javascript:del_q('<?=$q['service_id']?>')" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon md-delete" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
                                 <?php endforeach;
@@ -70,8 +77,9 @@
                             ?>
                             <tr>
                                 <td>
-                                    No Category found in the database
+                                    No Service found in the database
                                 </td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>

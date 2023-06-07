@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title><?=APP_TITLE?></title>
+    <title><?=$meta_title?></title>
     <link type="image/x-icon" href="<?=IMG?>favicon.png" rel="icon">
     <link rel="stylesheet" href="<?=CSS?>bootstrap.min.css">
     <!-- <link rel="stylesheet" href="<?=PLUGINS?>fontawesome/css/fontawesome.min.css"> -->

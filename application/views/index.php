@@ -9,7 +9,8 @@
                         <p>Discover the best doctors, clinic & hospital the city nearest to you.</p>
                     </div>
                     <div class="search-box">
-                        <form action="<?=BASEURL.'search'?>" method="GET"> 
+                        <form action="<?=BASEURL.'search'?>" method="GET">
+                            <input type="hidden" name="direct" value="true">
                             <div class="search-item">
                                 <div class="form-group search-location">
                                     <select name="city_id" id="" class="select2" required>
@@ -24,7 +25,7 @@
                                     <select name="service" id="" class="select22" required>
                                         <option value="">Select Service</option>
                                         <?php foreach ($services as $key => $s): ?>
-                                            <option value="<?=$s['title']?>"><?=$s['title']?></option>
+                                            <option value="<?=$s['service_id']?>"><?=$s['title']?></option>
                                         <?php endforeach ?>
                                     </select>
                                     <span class="form-text">Ex : Dental or Sugar Check up etc</span>
@@ -83,1095 +84,26 @@
         </div>
     </div>
 </section>
+
 <section class="section section-specialities">
     <div class="container">
         <div class="section-header">
-            <h2>Clinic and <span>Specialities</span></h2>
+            <h2>Doctors and <span>Specialities</span></h2>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <ul class="nav nav-tabs nav-tabs-solid">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#all" data-bs-toggle="tab">All</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#neurology" data-bs-toggle="tab">Neurology</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#orthopedic" data-bs-toggle="tab">Orthopedic</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#cardiologist" data-bs-toggle="tab">Cardiologist</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#dentist" data-bs-toggle="tab">Dentist</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#urology" data-bs-toggle="tab">Urology</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane show active" id="all">
-                        <div class="doctor-slider slider">
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-03.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Deborah Angel</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MD - General Medicine, DNB - Cardiology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Georgia, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $400
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-04.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Sofia Brient</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MS - General Surgery, MCh - Urology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">(4)</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Louisiana, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $150 - $250
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-05.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Marvin Campbell</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MD - Ophthalmology, DNB - Ophthalmology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Michigan, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $50 - $700
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-06.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Katharine Berthold</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MS - Orthopaedics, MBBS, M.Ch - Orthopaedics</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Texas, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $500
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-07.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Linda Tobin</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MD - General Medicine, DM - Neurology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Kansas, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $1000
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="search" class="btn btn-secondary see-more">See More</a>
-                    </div>
-                    <div class="tab-pane" id="neurology">
-                        <div class="doctor-slider slider">
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-01.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Ruby Perrin</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MD - General Medicine, DNB - Cardiology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Georgia, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $400
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-02.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Darren Elder</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MD - General Medicine, DNB - Cardiology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Georgia, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $400
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-03.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Deborah Angel</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MD - General Medicine, DNB - Cardiology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Georgia, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $400
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-04.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Sofia Brient</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MS - General Surgery, MCh - Urology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">(4)</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Louisiana, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $150 - $250
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-07.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Linda Tobin</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MD - General Medicine, DM - Neurology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Kansas, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $1000
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="search" class="btn btn-secondary see-more">See More</a>
-                    </div>
-                    <div class="tab-pane" id="orthopedic">
-                        <div class="doctor-slider slider">
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-04.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Sofia Brient</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MS - General Surgery, MCh - Urology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">(4)</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Louisiana, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $150 - $250
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-05.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Marvin Campbell</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MD - Ophthalmology, DNB - Ophthalmology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Michigan, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $50 - $700
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-03.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Deborah Angel</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MD - General Medicine, DNB - Cardiology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Georgia, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $400
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-06.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Katharine Berthold</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MS - Orthopaedics, MBBS, M.Ch - Orthopaedics</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Texas, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $500
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-07.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Linda Tobin</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MD - General Medicine, DM - Neurology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Kansas, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $1000
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="search" class="btn btn-secondary see-more">See More</a>
-                    </div>
-                    <div class="tab-pane" id="cardiologist">
-                        <div class="doctor-slider slider">
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-05.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Marvin Campbell</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality"> MD - Ophthalmology, DNB - Ophthalmology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Michigan, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $50 - $700
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-03.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Deborah Angel</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MD - General Medicine, DNB - Cardiology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Georgia, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $400
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-06.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Katharine Berthold</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MS - Orthopaedics, MBBS, M.Ch - Orthopaedics</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Texas, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $500
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-07.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Linda Tobin</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MD - General Medicine, DM - Neurology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Kansas, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $1000
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-04.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Sofia Brient</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MS - General Surgery, MCh - Urology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">(4)</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Louisiana, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $150 - $250
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="search" class="btn btn-secondary see-more">See More</a>
-                    </div>
-                    <div class="tab-pane" id="urology">
-                        <div class="doctor-slider slider">
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-03.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Deborah Angel</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MD - General Medicine, DNB - Cardiology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Georgia, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $400
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-05.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Marvin Campbell</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MD - Ophthalmology, DNB - Ophthalmology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Michigan, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $50 - $700
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-06.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Katharine Berthold</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MS - Orthopaedics, MBBS, M.Ch - Orthopaedics</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Texas, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $500
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-07.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Linda Tobin</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MD - General Medicine, DM - Neurology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">4.9 ( 82 )</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Kansas, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $100 - $1000
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-widget">
-                                <div class="doc-img">
-                                    <a href="doctor-profile">
-                                        <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-04.jpg">
-                                    </a>
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
-                                </div>
-                                <div class="pro-content">
-                                    <h3 class="title">
-                                        <a href="doctor-profile">Sofia Brient</a>
-                                        <i class="feather-check-circle verified"></i>
-                                    </h3>
-                                    <p class="speciality">MBBS, MS - General Surgery, MCh - Urology</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">(4)</span>
-                                    </div>
-                                    <ul class="available-info">
-                                        <li>
-                                            <i class="feather-map-pin"></i> Louisiana, USA
-                                        </li>
-                                        <li>
-                                            <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                        </li>
-                                        <li>
-                                            <i class="far fa-money-bill-alt"></i> $150 - $250
-                                            <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
-                                        </li>
-                                    </ul>
-                                    <div class="profile-btn-list">
-                                        <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                        <a href="booking" class="btn book-btn">Book Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="search" class="btn btn-secondary see-more">See More</a>
-                    </div>
-                </div>
-            </div>
+           <div class="row" id="doctors-specialities-wrap">
+                <?=$specializations_featured?>
+            </div><!-- #doctors-specialities-wrap -->
         </div>
     </div>
 </section>
+
 <section class="section section-features">
     <div class="container">
         <div class="row">
             <div class="col-lg-5">
                 <div class="section-header ">
-                    <h2>Available Features in <span>Our Clinic</span></h2>
+                    <h2>Available Services in <span>Our Clinic</span></h2>
                     <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
                 </div>
                 <div class="about-content">
@@ -1181,21 +113,25 @@
             <div class="col-lg-7">
                 <div class="feature-list">
                     <div class="row">
-                        <?php for ($i = 0; $i < 6; $i++): ?>
-                            <div class="col-md-4 col-sm-6">
-                                <div class="feature-box">
-                                    <div class="feature-img">
-                                        <a href="search">
-                                            <img class="img-fluid" alt="Feature Image" src="<?=IMG?>features/feature-05.jpg">
-                                        </a>
-                                    </div>
-                                    <div class="feature-content">
-                                        <h3><a href="search">Operation</a></h3>
+                        <?php foreach ($services as $key => $s): ?>
+                            <?php if ($key < 6): ?>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="feature-box">
+                                        <div class="feature-img">
+                                            <a href="<?=BASEURL.'search?service='.$s['service_id'].'&direct=true'?>">
+                                                <img class="img-fluid" alt="Feature Image" src="<?=UPLOADS.$s['image']?>">
+                                            </a>
+                                        </div>
+                                        <div class="feature-content">
+                                            <h3><a href="<?=BASEURL.'search?service='.$s['service_id'].'&direct=true'?>"><?=$s['title']?></a></h3>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        <?php endfor ?>
-                        <div class="col-lg-4">
+                            <?php else: ?>
+                                <?php break; ?>
+                            <?php endif ?>
+                        <?php endforeach ?>
+                        <div class="col-lg-12">
                             <a href="search" class="btn btn-primary see-more">See More</a>
                         </div>
                     </div>
@@ -1213,51 +149,50 @@
                 </div>
                 <div class="our-doctor">
                     <div class="row">
-                        <?php for ($i = 0; $i < 4; $i++): ?>
+                        <?php foreach ($featured_doctors_for_home as $key => $q): ?>
                             <div class="col-lg-3 col-md-6">
                                 <div class="profile-widget">
                                     <div class="doc-img">
-                                        <a href="doctor-profile">
-                                            <img class="img-fluid" alt="User Image" src="<?=IMG?>doctors/doctor-08.jpg">
+                                        <a href="doctor-profile.html">
+                                            <img class="img-fluid" alt="User Image" src="<?=UPLOADS.$q['img']?>">
                                         </a>
-                                        <a href="javascript:void(0)" class="fav-btn">
+                                        <!-- <a href="javascript:void(0)" class="fav-btn remove-bookmark" data-id="<?=$q['bookmark_doctor_id']?>">
                                             <i class="far fa-bookmark"></i>
-                                        </a>
+                                        </a> -->
                                     </div>
                                     <div class="pro-content">
                                         <h3 class="title">
-                                            <a href="doctor-profile">Paul Richard</a>
-                                            <i class="feather-check-circle verified"></i>
+                                            <a href="doctor-profile.html"><?=$q['fname'].' '.$q['lname']?></a>
+                                            <!-- <i class="fas fa-check-circle verified"></i> -->
                                         </h3>
-                                        <p class="speciality">MBBS, MD - Dermatology , Venereology & Lepros</p>
+                                        <p class="speciality"><?=$q['specialization_titles']?></p>
                                         <div class="rating">
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star"></i>
-                                            <span class="d-inline-block average-rating">4.9 ( 82 )</span>
+                                            <?php
+                                            for ($i=1; $i < 6; $i++) { 
+                                                if ($q['ratting'] >= $i) {
+                                                    echo '<i class="fas fa-star filled"></i>';
+                                                }
+                                                else{
+                                                    echo '<i class="fas fa-star"></i>';
+                                                }
+                                            }
+                                            ?>
+                                            <span class="d-inline-block average-rating">(<?=$q['review_count']?>)</span>
                                         </div>
                                         <ul class="available-info">
                                             <li>
-                                                <i class="feather-map-pin"></i> Georgia, USA
-                                            </li>
-                                            <li>
-                                                <i class="far fa-calendar"></i> Available on Fri, 22 Mar
-                                            </li>
-                                            <li>
-                                                <i class="far fa-money-bill-alt"></i> $100 - $400
-                                                <i class="feather-info" data-bs-toggle="tooltip" title="Lorem Ipsum"></i>
+                                                <i class="fas fa-map-marker-alt"></i> <?=$q['address_line_1'].' '.$q['cityName']?>
                                             </li>
                                         </ul>
                                         <div class="profile-btn-list">
-                                            <a href="doctor-profile" class="btn btn-primary view-btn">View Profile</a>
-                                            <a href="booking" class="btn book-btn">Book Now</a>
+                                            <a href="<?=BASEURL.'doctor-profile/'?><?=(strlen($q['username']) > 1) ? $q['username'] : $q['doctor_id']?>" class="btn btn-primary view-btn">View
+                                                Profile</a>
+                                            <a href="<?=BASEURL.'doctor-profile/'?><?=(strlen($q['username']) > 1) ? $q['username'] : $q['doctor_id']?>" class="btn book-btn">Book Now</a>
                                         </div>
                                     </div>
-                                </div>
+                                </div><!-- /profile-widget -->
                             </div>
-                        <?php endfor ?>
+                        <?php endforeach ?>
                     </div>
                 </div>
             </div>
@@ -1271,28 +206,28 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         </div>
         <div class="row blog-grid-row">
-            <?php for ($i = 0; $i < 4; $i++): ?>
+            <?php foreach ($blogs as $key => $blog): ?>
                 <div class="col-md-6 col-lg-3 col-sm-12">
                     <div class="blog grid-blog">
                         <div class="blog-image">
-                            <a href="<?=BASEURL?>blog-details"><img class="img-fluid" src="<?=IMG?>blog/blog-01.jpg" alt="Post Image"></a>
+                            <a href="<?=BASEURL.'post/'.$blog['slug']?>"><img class="img-fluid" src="<?=UPLOADS.$blog['image']?>" alt="<?=$blog['title']?>"></a>
                         </div>
                         <div class="blog-content">
-                            <h3 class="blog-title"><a href="<?=BASEURL?>blog-details">Doccure – Making your clinic painless visit?</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
-                            <a href="<?=BASEURL?>blog-details" class="read-link">Read More</a>
+                            <h3 class="blog-title"><a href="<?=BASEURL.'post/'.$blog['slug']?>"><?=$blog['title']?></a></h3>
+                            <p><?=$blog['short']?></p>
+                            <a href="<?=BASEURL.'post/'.$blog['slug']?>" class="read-link">Read More</a>
                             <ul class="entry-meta meta-item">
                                 <li>
                                     <div class="post-author">
-                                        <a href="doctor-profile"><img src="<?=IMG?>doctors/doctor-thumb-01.jpg" alt="Post Author"> <span>Dr. Ruby Perrin</span></a>
+                                        <a href="doctor-profile"><span>By Admin</span></a>
                                     </div>
                                 </li>
-                                <li><i class="far fa-clock"></i> 4 Dec 2021</li>
+                                <li><i class="far fa-clock"></i> <?=date('d M, Y',strtotime($blog['updated_at']))?></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-            <?php endfor ?>
+            <?php endforeach ?>
         </div>
         <div class="view-all">
             <a href="<?=BASEURL?>blog" class="btn btn-secondary see-more">View All</a>

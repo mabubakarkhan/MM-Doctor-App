@@ -72,7 +72,7 @@
                                         <?php foreach ($services as $key => $service_): ?>
                                             <div>
                                                 <label class="custom_check">
-                                                    <input type="checkbox" name="service" value="<?=$service_['title']?>" <?=($service_['title'] == $get['service']) ? 'checked' : ''?> >
+                                                    <input type="checkbox" name="service[]" value="<?=$service_['service_id']?>" <?=($service_['service_id'] == $get['service']) ? 'checked' : ''?> >
                                                     <span class="checkmark"></span> <?=$service_['title']?>
                                                 </label>
                                             </div>

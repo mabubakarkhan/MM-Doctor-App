@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row align-items-center">
             <div class="col-md-12 col-12">
-                <h2 class="breadcrumb-title">Blog</h2>
+                <h2 class="breadcrumb-title">Blog Details</h2>
                 <nav aria-label="breadcrumb" class="page-breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?=BASEURL?>">Home</a></li>
@@ -87,57 +87,32 @@
                 </div>
                 <?php endif ?>
             </div>
+           
             <div class="col-lg-8 col-md-12">
-                <div class="row blog-grid-row">
-                    <?php foreach ($blogs as $key => $blog): ?>
-                        <div class="col-md-6 col-sm-12">
-                            <div class="blog grid-blog grid-box">
-                                <div class="blog-image">
-                                    <a href="<?=BASEURL.'post/'.$blog['slug']?>"><img class="img-fluid" src="<?=UPLOADS.$blog['image']?>" alt="<?=$blog['title']?>"></a>
-                                </div>
-                                <div class="blog-content">
-                                    <ul class="entry-meta meta-item">
-                                        <li>
-                                            <div class="post-author">
-                                                <a href="doctor-profile"><span>By Admin</span></a>
-                                            </div>
-                                        </li>
-                                        <li><i class="far fa-clock"></i> <?=date('d M, Y',strtotime($blog['updated_at']))?></li>
-                                    </ul>
-                                    <h3 class="blog-title"><a href="<?=BASEURL.'post/'.$blog['slug']?>"><?=$blog['title']?></a></h3>
-                                    <p class="mb-0"><?=$blog['short']?></p>
-                                </div>
+                <div class="blog-view">
+                    <div class="blog blog-single-post">
+                        <div class="blog-image">
+                            <a href="javascript:void(0);"><img alt="<?=$post['title']?>" src="<?=UPLOADS.$post['image']?>" class="img-fluid"></a>
+                        </div>
+                        <h3 class="blog-title"><?=$post['title']?></h3>
+                        <div class="blog-info clearfix">
+                            <div class="post-left">
+                                <ul>
+                                    <li>
+                                        <div class="post-author">
+                                            <a href="doctor-profile"><span>By Admin</span></a>
+                                        </div>
+                                    </li>
+                                    <li><i class="far fa-calendar"></i><?=date('d M, Y',strtotime($post['updated_at']))?></li>
+                                </ul>
                             </div>
                         </div>
-                    <?php endforeach ?>
-                </div>
-                <?php if (1==2): ?>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="blog-pagination">
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-double-left"></i></a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item active">
-                                        <a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">3</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a>
-                                    </li>
-                                </ul>
-                            </nav>
+                        <div class="blog-content">
+                            <?=$post['detail']?>
                         </div>
                     </div>
+
                 </div>
-                <?php endif ?>
             </div>
         </div>
     </div>

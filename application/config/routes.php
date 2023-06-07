@@ -44,6 +44,7 @@ $route['404_override'] = '';
 
 
 $route["index"] = 'Home/index';
+$route["specializations-featured-ajax"] = 'Home/specializations_featured_ajax';
 $route["search"] = 'Home/search';
 $route["search-filter"] = 'Home/search_filter';
 $route["doctor-profile/(.*)"] = 'Home/doctor/$1';
@@ -52,6 +53,8 @@ $route["booking-filter"] = 'Home/booking_filter';
 $route["checkout/(.*)"] = 'Home/checkout/$1';
 $route["submit-checkout"] = 'Home/submit_checkout';
 $route["make-bookmark"] = 'Home/make_bookmark';
+$route["blog"] = 'Home/blog';
+$route["post/(.*)"] = 'Home/post/$1';
 
 
 $route["logout"] = 'Home/logout';

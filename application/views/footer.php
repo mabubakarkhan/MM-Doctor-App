@@ -12,16 +12,16 @@
                                     <div class="social-icon">
                                         <ul>
                                             <li>
-                                                <a href="#" target="_blank"><i class="feather-facebook"></i></a>
+                                                <a href="<?=$setting['facebook_link']?>" target="_blank"><i class="feather-facebook"></i></a>
                                             </li>
                                             <li>
-                                                <a href="#" target="_blank"><i class="feather-instagram"></i></a>
+                                                <a href="<?=$setting['instagram_link']?>" target="_blank"><i class="feather-instagram"></i></a>
                                             </li>
                                             <li>
-                                                <a href="#" target="_blank"><i class="feather-linkedin"></i></a>
+                                                <a href="<?=$setting['linkedin_link']?>" target="_blank"><i class="feather-linkedin"></i></a>
                                             </li>
                                             <li>
-                                                <a href="#" target="_blank"><i class="feather-twitter"></i></a>
+                                                <a href="<?=$setting['twitter_link']?>" target="_blank"><i class="feather-twitter"></i></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -58,15 +58,15 @@
                                 <div class="footer-contact-info">
                                     <div class="footer-address">
                                         <span><i class="feather-map-pin"></i></span>
-                                        <p> 3556 Beech Street, San Francisco,<br> California, CA 94108 </p>
+                                        <p> <?=$setting['address']?> </p>
                                     </div>
                                     <p>
                                         <i class="feather-phone"></i>
-                                        +1 315 369 5943
+                                        <a href="tel:<?=$setting['phone']?>" class="__cf_email__"><?=$setting['phone']?></a>
                                     </p>
                                     <p class="mb-0">
                                         <i class="feather-mail"></i>
-                                        <a href="https://doccure.dreamguystech.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9df9f2fefee8eff8ddf8e5fcf0edf1f8b3fef2f0">[email&#160;protected]</a>
+                                        <a href="mailto:<?=$setting['email']?>" class="__cf_email__"><?=$setting['email']?></a>
                                     </p>
                                 </div>
                             </div>

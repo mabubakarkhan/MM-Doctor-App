@@ -27,8 +27,8 @@
 	        <div class="panel-body">
 	          <form id="exampleFullForm" autocomplete="off" enctype="multipart/form-data" method="post" action="
 	          	<?php
-		  		if($mode != edit)echo BASEURL."admin/post-blog";
-			  	else echo BASEURL."admin/update-blog";
+		  		if($mode != edit)echo BASEURL."admin/post-service";
+			  	else echo BASEURL."admin/update-service";
 		  		?>">
 		  		<?php
 				$required_string = "required";
@@ -41,49 +41,42 @@
 
 	            <div class="row row-lg">
 					
-					<div class="col-lg-6 form-horizontal">
+					<div class="col-lg-12 form-horizontal">
 						<div class="form-group form-material">
 							<label class="col-lg-12 col-sm-3 control-label">Title
 								<span class="required">*</span>
 							</label>
 							<div class=" col-lg-12 col-sm-9">
-								<input type="text" class="form-control" name="title" placeholder="News Title" required="" value="<?=$q['title']?>">
-							</div><!-- /12 -->
-						</div><!-- /form-group -->
-					</div><!-- /form-horizontal -->
-
-					<div class="col-lg-6 form-horizontal">
-						<div class="form-group form-material">
-							<label class="col-lg-12 col-sm-3 control-label">URL Slug
-								<span class="required">*</span>
-							</label>
-							<div class=" col-lg-12 col-sm-9">
-								<input type="text" class="form-control" name="slug" placeholder="News URL Slug" required="" value="<?=$q['slug']?>">
+								<input type="text" class="form-control" name="title" placeholder="Category Title" required="" value="<?=$q['title']?>">
 							</div><!-- /12 -->
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
 
 					<div class="col-lg-12 form-horizontal">
 						<div class="form-group form-material">
-							<label class="col-lg-12 col-sm-3 control-label">Short Description
-								<span class="required">*</span>
-							</label>
+							<label class="col-lg-12 col-sm-3 control-label">URL Slug (leave empty for auto generate)</label>
 							<div class=" col-lg-12 col-sm-9">
-								<textarea name="short" class="form-control" rows="5" required=""><?=$q['short']?></textarea>
+								<input type="text" class="form-control" name="slug" placeholder="URL Slug" value="<?=$q['slug']?>">
 							</div><!-- /12 -->
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
 
 					<div class="col-lg-12 form-horizontal">
-		            	<div class="form-group form-material">
-							<label class="col-lg-12 col-sm-3 control-label">Detail
-								<span class="required">*</span>
-							</label>
+						<div class="form-group form-material">
+							<label class="col-lg-12 col-sm-3 control-label">Featured</label>
 							<div class=" col-lg-12 col-sm-9">
-								<textarea class="form-control" placeholder="Detail" name="detail" data-plugin="summernote" required="required"><?=$q['detail']?></textarea>
+								<select name="featured" class="form-control" required>
+									<?php if ($q['featured'] == 'yes'): ?>
+										<option value="yes" selected>Yes</option>
+										<option value="no">No</option>
+									<?php else: ?>
+										<option value="yes">Yes</option>
+										<option value="no" selected>No</option>
+									<?php endif ?>
+								</select>
 							</div><!-- /12 -->
 						</div><!-- /form-group -->
-					</div><!-- /12/form-horizontal -->
+					</div><!-- /form-horizontal -->
 
 					<div class="col-lg-12 form-horizontal">
 		                <div class="example-wrap">
@@ -95,41 +88,8 @@
 						</div><!-- /example-wrap -->
 	              	</div><!-- /12/form-horizontal -->
 
-					<div class="col-lg-6 form-horizontal">
-						<div class="form-group form-material">
-							<label class="col-lg-12 col-sm-3 control-label">Meta Title
-								<span class="required">*</span>
-							</label>
-							<div class=" col-lg-12 col-sm-9">
-								<input type="text" class="form-control" name="meta_title" placeholder="Meta Title" required="" value="<?=$q['meta_title']?>">
-							</div><!-- /12 -->
-						</div><!-- /form-group -->
-					</div><!-- /form-horizontal -->
-
-					<div class="col-lg-6 form-horizontal">
-						<div class="form-group form-material">
-							<label class="col-lg-12 col-sm-3 control-label">Meta Keywords
-								<span class="required">*</span>
-							</label>
-							<div class=" col-lg-12 col-sm-9">
-								<input type="text" class="form-control" name="meta_key" placeholder="Meta Keywords" required="" value="<?=$q['meta_key']?>">
-							</div><!-- /12 -->
-						</div><!-- /form-group -->
-					</div><!-- /form-horizontal -->
-
-					<div class="col-lg-12 form-horizontal">
-						<div class="form-group form-material">
-							<label class="col-lg-12 col-sm-3 control-label">Meta Description
-								<span class="required">*</span>
-							</label>
-							<div class=" col-lg-12 col-sm-9">
-								<textarea name="meta_desc" class="form-control" rows="5" required=""><?=$q['meta_desc']?></textarea>
-							</div><!-- /12 -->
-						</div><!-- /form-group -->
-					</div><!-- /form-horizontal -->
-
 	              	<div class="form-group form-material col-lg-12 text-right padding-top-m">
-	                	<button type="submit" class="btn btn-primary" id="validateButton1">Submit</button> <a href="<?=BASEURL.'admin/blog'?>" class="btn btn-danger">Cancel</a>
+	                	<button type="submit" class="btn btn-primary" id="validateButton1">Submit</button>
 	              	</div><!-- /form-group -->
 	            </div><!-- /row/row-lg -->
 	          </form>

@@ -44,7 +44,7 @@
                                     <div class="filter-widget">
                                         <h4>City</h4>
                                         <div class="">
-                                            <select name="city_id" id="" class="select" required>
+                                            <select name="city_id" id="" class="select22" required>
                                                 <option value="">Select City</option>
                                                 <?php foreach ($cities as $key => $c): ?>
                                                     <option value="<?=$c['city_id']?>" <?=($c['city_id'] == $get['city_id']) ? 'selected' : ''?> ><?=$c['name']?></option>

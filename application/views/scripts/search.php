@@ -1,4 +1,5 @@
 <script>
+$(".select22").select2();
 $(document).on('submit', '#searchForm', function(event) {
 	event.preventDefault();
 	$form = $(this);

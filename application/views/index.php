@@ -40,6 +40,10 @@
                 <img src="<?=IMG?>banner.png" class="img-fluid" alt="Logo">
             </div>
         </div>
+
+        <input type="text" id="homeSearchBar">
+        <p id="searchResp"></p>
+
     </div>
 </section>
 <section class="section home-tile-section">
@@ -162,7 +166,7 @@
                                     </div>
                                     <div class="pro-content">
                                         <h3 class="title">
-                                            <a href="doctor-profile.html"><?=$q['fname'].' '.$q['lname']?></a>
+                                            <a href="<?=BASEURL.'doctor-profile/'?><?=(strlen($q['username']) > 1) ? $q['username'] : $q['doctor_id']?>"><?=$q['fname'].' '.$q['lname']?></a>
                                             <!-- <i class="fas fa-check-circle verified"></i> -->
                                         </h3>
                                         <p class="speciality"><?=$q['specialization_titles']?></p>

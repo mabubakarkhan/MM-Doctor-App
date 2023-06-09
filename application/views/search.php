@@ -68,12 +68,23 @@
                                         </div>
                                     </div>
                                     <div class="filter-widget">
-                                        <h4>Select Specialist</h4>
+                                        <h4>Select Servie</h4>
                                         <?php foreach ($services as $key => $service_): ?>
                                             <div>
                                                 <label class="custom_check">
                                                     <input type="checkbox" name="service[]" value="<?=$service_['service_id']?>" <?=($service_['service_id'] == $get['service']) ? 'checked' : ''?> >
                                                     <span class="checkmark"></span> <?=$service_['title']?>
+                                                </label>
+                                            </div>
+                                        <?php endforeach ?>
+                                    </div>
+                                    <div class="filter-widget">
+                                        <h4>Select Specialist</h4>
+                                        <?php foreach ($specializations as $key => $specialization_): ?>
+                                            <div>
+                                                <label class="custom_check">
+                                                    <input type="checkbox" name="specialization[]" value="<?=$specialization_['specialization_id']?>" <?=($specialization_['specialization_id'] == $get['specialization']) ? 'checked' : ''?> >
+                                                    <span class="checkmark"></span> <?=$specialization_['title']?>
                                                 </label>
                                             </div>
                                         <?php endforeach ?>

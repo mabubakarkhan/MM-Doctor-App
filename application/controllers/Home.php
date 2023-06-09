@@ -288,6 +288,7 @@ class Home extends CI_Controller {
 		$data['meta_title'] = APP_TITLE;
 		$data['cities'] = $this->model->get_pak_cities();
 		$data['services'] = $this->model->services();
+		$data['specializations'] = $this->model->specializations();
 		$html['data'] = $this->model->get_search_doctor($_GET);
 		$data['searchResults'] = $this->load->view('html/search',$html, TRUE);
 		$data['countResults'] = count($html['data']);
@@ -559,6 +560,62 @@ class Home extends CI_Controller {
 		else{
 			echo json_encode(array("status"=>false,"msg"=>"not bookmarked.","type"=>"error"));
 		}
+	}
+	public function live_search()
+	{
+		$key = trim($_POST['key']);
+		$html = '';
+		$status = false;
+		// Doctor
+		$doctors = $this->model->get_results("SELECT `doctor_id`,`username`,`fname`,`lname`,`img`,`service_titles`  FROM `doctor` WHERE (`fname` LIKE '%$key%' OR `lname` LIKE '%$key%') AND `status` = 'active' ORDER BY `fname`,`lname` ASC;");
+		if ($doctors) {
+			$status = true;
+			$html .= '<li class="listHeading">Doctors</li>';
+			foreach ($doctors as $key_ => $q) {
+				$html .= '<li>';
+					if(strlen($q['username']) > 1){ $slug = $q['username']; }else{ $slug = $q['doctor_id'];}
+		            $html .= '<a href="'.BASEURL.'doctor-profile/'.$slug.'">';
+		                $html .= '<img width="100" alt="User Image" src="'.UPLOADS.$q['img'].'">';
+		                $html .= $q['fname'].' '.$q['lname'];
+		                $html .= $q['specialization_titles'];
+		            $html .= '</a>';
+		        $html .= '</li>';
+			}
+		}
+		// Specialization
+		$specializations = $this->model->get_results("SELECT `specialization_id`,`title`  FROM `specialization` WHERE `title` LIKE '%$key%' ORDER BY `title` ASC;");
+		if ($specializations) {
+			$status = true;
+			$html .= '<li class="listHeading">Speciality</li>';
+			foreach ($specializations as $key_ => $q) {
+				$html .= '<li><a href="'.BASEURL.'search?specialization='.$q['specialization_id'].'&direct=true">'.$q['title'].'</a></li>';
+			}
+		}
+		// Service
+		$services = $this->model->get_results("SELECT `service_id`,`title`  FROM `service` WHERE `title` LIKE '%$key%' ORDER BY `title` ASC;");
+		if ($services) {
+			$status = true;
+			$html .= '<li class="listHeading">Service</li>';
+			foreach ($services as $key_ => $q) {
+				$html .= '<li><a href="'.BASEURL.'search?service='.$q['service_id'].'&direct=true">'.$q['title'].'</a></li>';
+			}
+		}
+		// Hospital
+		$hospitals = $this->model->get_results("SELECT `hospital_id`,`name`,`address`  FROM `hospital` WHERE `name` LIKE '%$key%' ORDER BY `name` ASC;");
+		if ($hospitals) {
+			$status = true;
+			$html .= '<li class="listHeading">Hospitals</li>';
+			foreach ($hospitals as $key_ => $q) {
+				$html .= '<li>';
+					$html .= '<a href="'.BASEURL.'hospital/'.str_replace(' ', '-', $q['name']).'/'.$q['hospital_id'].'">';
+						$html .= $q['name'];
+						$html .= $q['address'];
+					$html .= '</a>';
+				$html .= '</li>';
+			}
+		}
+		echo json_encode(array("status"=>$status,"html"=>$html));
+
 	}
 	/**
 

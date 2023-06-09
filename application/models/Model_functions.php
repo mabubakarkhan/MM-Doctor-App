@@ -58,6 +58,25 @@ class Model_functions extends CI_Model {
 				$where .= ') ';
 			}
 		}
+		if ($get['specialization'] != '') {
+			if ($get['direct'] == 'true') {
+				$where .= " AND d.specialization_ids IN(".$get['specialization'].") ";
+			}
+			else{
+				$where .= ' AND (';
+				foreach ($get['specialization'] as $key => $specialization) {
+					if (!(empty($specialization))) {
+						if ($key == 0) {
+							$where .= " d.specialization_ids IN(".$specialization.") ";
+						}
+						else{
+							$where .= " OR d.specialization_ids IN(".$specialization.") ";
+						}
+					}
+				}
+				$where .= ') ';
+			}
+		}
 		if ($get['gender'] != '') {
 			$where .= " AND d.gender = '".$get['gender']."'";
 		}

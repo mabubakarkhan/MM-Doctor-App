@@ -27,15 +27,13 @@
 	        <div class="panel-body">
 	          <form id="exampleFullForm" autocomplete="off" enctype="multipart/form-data" method="post" action="
 	          	<?php
-		  		if($mode != edit)echo BASEURL."admin/post-specialization";
-			  	else echo BASEURL."admin/update-specialization";
+		  		if($mode != edit)echo BASEURL."admin/post-hospital";
+			  	else echo BASEURL."admin/update-hospital";
 		  		?>">
 		  		<?php
 				$required_string = "required";
 				if(isset($mode) && $mode=="edit") {?>
-					<input type="hidden" name="mode" value="edit" />
 					<input type="hidden" name="aid" value="<?=$_GET['id']?>" />
-					<input type="hidden" name="security" value="1ee344ecee344e778694777eb3323a" />
 				<?php $required_string = '';
 				}?>
 
@@ -43,23 +41,74 @@
 					
 					<div class="col-lg-12 form-horizontal">
 						<div class="form-group form-material">
-							<label class="col-lg-12 col-sm-3 control-label">Title
+							<label class="col-lg-12 col-sm-3 control-label">Name
 								<span class="required">*</span>
 							</label>
 							<div class=" col-lg-12 col-sm-9">
-								<input type="text" class="form-control" name="title" placeholder="Title" required="" value="<?=$q['title']?>">
+								<input type="text" class="form-control" name="name" placeholder="Name" required="" value="<?=$q['name']?>">
+							</div><!-- /12 -->
+						</div><!-- /form-group -->
+					</div><!-- /form-horizontal -->
+
+					<div class="col-lg-6 form-horizontal">
+						<div class="form-group form-material">
+							<label class="col-lg-12 col-sm-3 control-label">State
+								<span class="required">*</span>
+							</label>
+							<div class=" col-lg-12 col-sm-9">
+								<select name="state_id" class="form-control" required>
+									<option value="">Select State</option>
+									<?php foreach ($states as $key => $state): ?>
+										<?php if ($state['state_id'] == $q['state_id']): ?>
+											<option value="<?=$state['state_id']?>" selected><?=$state['name']?></option>
+										<?php else: ?>
+											<option value="<?=$state['state_id']?>"><?=$state['name']?></option>
+										<?php endif ?>
+									<?php endforeach ?>
+								</select>
+							</div><!-- /12 -->
+						</div><!-- /form-group -->
+					</div><!-- /form-horizontal -->
+
+					<div class="col-lg-6 form-horizontal">
+						<div class="form-group form-material">
+							<label class="col-lg-12 col-sm-3 control-label">City
+								<span class="required">*</span>
+							</label>
+							<div class=" col-lg-12 col-sm-9">
+								<select name="city_id" class="form-control" required>
+									<option value="">Select City</option>
+									<?php foreach ($cities as $key => $city): ?>
+										<?php if ($city['city_id'] == $q['city_id']): ?>
+											<option value="<?=$city['city_id']?>" selected><?=$city['name']?></option>
+										<?php else: ?>
+											<option value="<?=$city['city_id']?>"><?=$city['name']?></option>
+										<?php endif ?>
+									<?php endforeach ?>
+								</select>
 							</div><!-- /12 -->
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
 
 					<div class="col-lg-12 form-horizontal">
 						<div class="form-group form-material">
-							<label class="col-lg-12 col-sm-3 control-label">URL Slug (leave empty for auto generate)</label>
+							<label class="col-lg-12 col-sm-3 control-label">Address
+								<span class="required">*</span>
+							</label>
 							<div class=" col-lg-12 col-sm-9">
-								<input type="text" class="form-control" name="slug" placeholder="URL Slug" value="<?=$q['slug']?>">
+								<input type="text" class="form-control" name="address" placeholder="Address" required="" value="<?=$q['address']?>">
 							</div><!-- /12 -->
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
+
+					<div class="col-lg-12 form-horizontal">
+		            	<div class="form-group form-material">
+							<label class="col-lg-12 col-sm-3 control-label">Detail</label>
+							<div class=" col-lg-12 col-sm-9">
+								<textarea class="form-control" placeholder="Detail" name="detail" data-plugin="summernote"><?=$q['detail']?></textarea>
+							</div><!-- /12 -->
+						</div><!-- /form-group -->
+					</div><!-- /12/form-horizontal -->
 
 					<div class="col-lg-12 form-horizontal">
 		                <div class="example-wrap">
@@ -70,23 +119,6 @@
 							</div><!-- /example -->
 						</div><!-- /example-wrap -->
 	              	</div><!-- /12/form-horizontal -->
-
-					<div class="col-lg-12 form-horizontal">
-						<div class="form-group form-material">
-							<label class="col-lg-12 col-sm-3 control-label">Featured</label>
-							<div class=" col-lg-12 col-sm-9">
-								<select name="featured" class="form-control" required>
-									<?php if ($q['featured'] == 'yes'): ?>
-										<option value="yes" selected>Yes</option>
-										<option value="no">No</option>
-									<?php else: ?>
-										<option value="yes">Yes</option>
-										<option value="no" selected>No</option>
-									<?php endif ?>
-								</select>
-							</div><!-- /12 -->
-						</div><!-- /form-group -->
-					</div><!-- /form-horizontal -->
 
 	              	<div class="form-group form-material col-lg-12 text-right padding-top-m">
 	                	<button type="submit" class="btn btn-primary" id="validateButton1">Submit</button>
@@ -129,5 +161,23 @@ $(function(){
 	        }
 	    });
 	})
+
+ 	$(document).on('change', 'select[name="state_id"]', function(event) {
+	  	event.preventDefault();
+	  	$this = $(this);
+	  	$('select[name="city_id"]').html("<option value=''>Select City</option>");
+	  	if ($this.val().length > 0) {
+	  		$(".theatre-cover").fadeIn(100);
+	  		$.post('<?=BASEURL?>admin/get-city-by-state-ajax', {id: $this.val()}, function(resp) {
+	  			resp = $.parseJSON(resp);
+  				$(".theatre-cover").fadeOut(100);
+	  			if (resp.status == true) {
+	  				$('select[name="city_id"]').html(resp.html);
+	  			}
+	  		});
+	  	}
+	  });
+
+
 })
 </script>

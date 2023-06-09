@@ -1129,22 +1129,22 @@ function ajaxFormSubmit(form, successCallback, errorCallback) {
 }
 
 //get cities ajax
-  $(document).on('change', 'select[name="state_id"]', function(event) {
-  	event.preventDefault();
-  	$this = $(this);
-  	$("."+$this.attr('data-city')).html("<option value=''>Select City</option>");
-  	if ($this.val().length > 0) {
-  		$.post('get-city-by-state-ajax', {id: $this.val()}, function(resp) {
-  			resp = $.parseJSON(resp);
-  			if (resp.status == true) {
-  				$("."+$this.attr('data-city')).html(resp.html);
-  			}
-  			nativeToast({
-  				message: resp.msg,
-  				edge: true,
-  				position: 'bottom',
-  				type: resp.type
-  			})
-  		});
-  	}
-  });
+$(document).on('change', 'select[name="state_id"]', function(event) {
+	event.preventDefault();
+	$this = $(this);
+	$("."+$this.attr('data-city')).html("<option value=''>Select City</option>");
+	if ($this.val().length > 0) {
+		$.post('get-city-by-state-ajax', {id: $this.val()}, function(resp) {
+			resp = $.parseJSON(resp);
+			if (resp.status == true) {
+				$("."+$this.attr('data-city')).html(resp.html);
+			}
+			nativeToast({
+				message: resp.msg,
+				edge: true,
+				position: 'bottom',
+				type: resp.type
+			})
+		});
+	}
+});

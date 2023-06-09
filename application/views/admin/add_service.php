@@ -47,7 +47,7 @@
 								<span class="required">*</span>
 							</label>
 							<div class=" col-lg-12 col-sm-9">
-								<input type="text" class="form-control" name="title" placeholder="Category Title" required="" value="<?=$q['title']?>">
+								<input type="text" class="form-control" name="title" placeholder="Title" required="" value="<?=$q['title']?>">
 							</div><!-- /12 -->
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->

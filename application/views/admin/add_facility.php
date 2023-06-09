@@ -27,8 +27,8 @@
 	        <div class="panel-body">
 	          <form id="exampleFullForm" autocomplete="off" enctype="multipart/form-data" method="post" action="
 	          	<?php
-		  		if($mode != edit)echo BASEURL."admin/post-specialization";
-			  	else echo BASEURL."admin/update-specialization";
+		  		if($mode != edit)echo BASEURL."admin/post-facility";
+			  	else echo BASEURL."admin/update-facility";
 		  		?>">
 		  		<?php
 				$required_string = "required";

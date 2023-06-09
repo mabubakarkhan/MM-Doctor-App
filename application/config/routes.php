@@ -61,6 +61,7 @@ $route["live-search"] = 'Home/live_search';
 $route["logout"] = 'Home/logout';
 $route["patient/logout"] = 'Home/logout';
 $route["doctor/logout"] = 'Home/logout';
+$route["admin/get-city-by-state-ajax"] = 'Home/get_city_by_state_ajax';
 $route["patient/get-city-by-state-ajax"] = 'Home/get_city_by_state_ajax';
 $route["doctor/get-city-by-state-ajax"] = 'Home/get_city_by_state_ajax';
 

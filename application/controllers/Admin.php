@@ -194,6 +194,15 @@ class Admin extends CI_Controller {
 		$data['patients'] = $this->model->admin_patients($status);
 		$this->template('admin/patients', $data);
 	}
+	public function hospitals($status = 'all')
+	{
+		$user = $this->check_login();
+		$data['title'] = "Admin Panel";
+		$data['page_title'] = 'Hospitals';
+		$data['menu'] = 'hospitals';
+		$data['hospitals'] = $this->model->all_hospitals();
+		$this->template('admin/hospitals', $data);
+	}
 	public function appointments()
 	{
 		$user = $this->check_login();
@@ -300,6 +309,28 @@ class Admin extends CI_Controller {
 		$data['msg_code'] = isset($_GET['msg']) && $_GET['msg'] != '' ? $_GET['msg'] : FALSE;
 		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
 		$this->template('admin/specializations', $data);
+	}
+	public function conditions($status = 'all')
+	{
+		$user = $this->check_login();
+		$data['title'] = "Admin Panel";
+		$data['page_title'] = 'Conditions';
+		$data['menu'] = 'conditions';
+		$data['conditions'] = $this->model->conditions($status);
+		$data['msg_code'] = isset($_GET['msg']) && $_GET['msg'] != '' ? $_GET['msg'] : FALSE;
+		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
+		$this->template('admin/conditions', $data);
+	}
+	public function facilities($status = 'all')
+	{
+		$user = $this->check_login();
+		$data['title'] = "Admin Panel";
+		$data['page_title'] = 'Facilities';
+		$data['menu'] = 'facilities';
+		$data['facilities'] = $this->model->facilities($status);
+		$data['msg_code'] = isset($_GET['msg']) && $_GET['msg'] != '' ? $_GET['msg'] : FALSE;
+		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
+		$this->template('admin/facilities', $data);
 	}
 	public function cats($status = 'all')
 	{
@@ -420,6 +451,29 @@ class Admin extends CI_Controller {
 		$data['menu'] = 'add_specialization';
 		$this->template('admin/add_specialization', $data);
 	}
+	public function add_condition()
+	{
+		$user = $this->check_login();
+		$data['page_title'] = 'Add Condition';
+		$data['menu'] = 'add_condition';
+		$data['specializations'] = $this->model->specializations('all');
+		$this->template('admin/add_condition', $data);
+	}
+	public function add_hospital()
+	{
+		$user = $this->check_login();
+		$data['page_title'] = 'Add Hospital';
+		$data['menu'] = 'add_hospital';
+		$data['states'] = $this->model->get_state_bycountry(166);
+		$this->template('admin/add_hospital', $data);
+	}
+	public function add_facility()
+	{
+		$user = $this->check_login();
+		$data['page_title'] = 'Add Facility';
+		$data['menu'] = 'add_facility';
+		$this->template('admin/add_facility', $data);
+	}
 	public function add_blog()
 	{
 		$user = $this->check_login();
@@ -462,22 +516,66 @@ class Admin extends CI_Controller {
 	public function post_service()
 	{
 		$user = $this->check_login();
+		if (empty($_POST['slug'])) {
+			$_POST['slug'] = $_POST['title'];
+		}
 		$_POST['slug'] = str_replace('&', '', $_POST['slug']);
 		$_POST['slug'] = str_replace('/', '', $_POST['slug']);
 		$_POST['slug'] = str_replace('=', '', $_POST['slug']);
 		$_POST['slug'] = str_replace('?', '', $_POST['slug']);
+		$_POST['slug'] = str_replace(' ', '-', $_POST['slug']);
 		$resp = $this->db->insert("service", $_POST);
 		redirect("admin/services/?msg=Service Added!");
 	}
 	public function post_specialization()
 	{
 		$user = $this->check_login();
+		if (empty($_POST['slug'])) {
+			$_POST['slug'] = $_POST['title'];
+		}
 		$_POST['slug'] = str_replace('&', '', $_POST['slug']);
 		$_POST['slug'] = str_replace('/', '', $_POST['slug']);
 		$_POST['slug'] = str_replace('=', '', $_POST['slug']);
 		$_POST['slug'] = str_replace('?', '', $_POST['slug']);
+		$_POST['slug'] = str_replace(' ', '-', $_POST['slug']);
 		$resp = $this->db->insert("specialization", $_POST);
 		redirect("admin/specializations/?msg=Specialization Added!");
+	}
+	public function post_condition()
+	{
+		$user = $this->check_login();
+		if (empty($_POST['slug'])) {
+			$_POST['slug'] = $_POST['title'];
+		}
+		$_POST['slug'] = str_replace('&', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('/', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('=', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('?', '', $_POST['slug']);
+		$_POST['slug'] = str_replace(' ', '-', $_POST['slug']);
+		$resp = $this->db->insert("condition", $_POST);
+		redirect("admin/conditions/?msg=Condition Added!");
+	}
+	public function post_facility()
+	{
+		$user = $this->check_login();
+		if (empty($_POST['slug'])) {
+			$_POST['slug'] = $_POST['title'];
+		}
+		$_POST['slug'] = str_replace('&', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('/', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('=', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('?', '', $_POST['slug']);
+		$_POST['slug'] = str_replace(' ', '-', $_POST['slug']);
+		$resp = $this->db->insert("facility", $_POST);
+		redirect("admin/facilities/?msg=Facility Added!");
+	}
+	public function post_hospital()
+	{
+		$user = $this->check_login();
+		$_POST['doctor_id'] = 0;
+		$_POST['country_id'] = 166;
+		$resp = $this->db->insert("hospital", $_POST);
+		redirect("admin/hospitals/?msg=Hospital Post Added!");
 	}
 	public function post_blog()
 	{
@@ -556,6 +654,60 @@ class Admin extends CI_Controller {
 			$this->template('admin/add_specialization', $data);
 		}
 	}
+	public function edit_condition()
+	{
+		$user = $this->check_login();
+		$new_id = isset($_GET['id']) ? $_GET['id'] : 0;
+		if($new_id < 1) 
+		{
+			echo ("Wrong Condition ID has been passed");
+		}
+		else 
+		{
+			$data['q'] = $this->model->get_condition_byid($new_id);
+			$data['specializations'] = $this->model->specializations('all');
+			$data['page_title'] = "Edit: Condition";
+			$data['mode'] = "edit";
+			$data['menu'] = 'conditions';
+			$this->template('admin/add_condition', $data);
+		}
+	}
+	public function edit_facility()
+	{
+		$user = $this->check_login();
+		$new_id = isset($_GET['id']) ? $_GET['id'] : 0;
+		if($new_id < 1) 
+		{
+			echo ("Wrong Facility ID has been passed");
+		}
+		else 
+		{
+			$data['q'] = $this->model->get_facility_byid($new_id);
+			$data['page_title'] = "Edit: Facility";
+			$data['mode'] = "edit";
+			$data['menu'] = 'facilities';
+			$this->template('admin/add_facility', $data);
+		}
+	}
+	public function edit_hospital()
+	{
+		$user = $this->check_login();
+		$new_id = isset($_GET['id']) ? $_GET['id'] : 0;
+		if($new_id < 1) 
+		{
+			echo ("Wrong Hospital ID has been passed");
+		}
+		else 
+		{
+			$data['q'] = $this->model->hospital_byid($new_id);
+			$data['states'] = $this->model->get_state_bycountry(166);
+			$data['cities'] = $this->model->get_city_bystate($data['q']['state_id']);
+			$data['page_title'] = "Edit: Hospital";
+			$data['mode'] = "edit";
+			$data['menu'] = 'hospitals';
+			$this->template('admin/add_hospital', $data);
+		}
+	}
 	public function edit_blog()
 	{
 		$user = $this->check_login();
@@ -601,10 +753,14 @@ class Admin extends CI_Controller {
 		$user = $this->check_login();
 		$aid = $_POST['aid'];
 		unset($_POST['aid'], $_POST['mode'], $_POST['security']);
+		if (empty($_POST['slug'])) {
+			$_POST['slug'] = $_POST['title'];
+		}
 		$_POST['slug'] = str_replace('&', '', $_POST['slug']);
 		$_POST['slug'] = str_replace('/', '', $_POST['slug']);
 		$_POST['slug'] = str_replace('=', '', $_POST['slug']);
 		$_POST['slug'] = str_replace('?', '', $_POST['slug']);
+		$_POST['slug'] = str_replace(' ', '-', $_POST['slug']);
 		$this->db->where("service_id",$aid);
 		$data = $this->db->update("service", $_POST);
 		if($data)
@@ -621,10 +777,14 @@ class Admin extends CI_Controller {
 		$user = $this->check_login();
 		$aid = $_POST['aid'];
 		unset($_POST['aid'], $_POST['mode'], $_POST['security']);
+		if (empty($_POST['slug'])) {
+			$_POST['slug'] = $_POST['title'];
+		}
 		$_POST['slug'] = str_replace('&', '', $_POST['slug']);
 		$_POST['slug'] = str_replace('/', '', $_POST['slug']);
 		$_POST['slug'] = str_replace('=', '', $_POST['slug']);
 		$_POST['slug'] = str_replace('?', '', $_POST['slug']);
+		$_POST['slug'] = str_replace(' ', '-', $_POST['slug']);
 		$this->db->where("specialization_id",$aid);
 		$data = $this->db->update("specialization", $_POST);
 		if($data)
@@ -634,6 +794,71 @@ class Admin extends CI_Controller {
 		else
 		{
 			redirect("admin/specializations/?error=1&msg=Error occured while Editing Specialization");
+		}
+	}
+	public function update_condition()
+	{
+		$user = $this->check_login();
+		$aid = $_POST['aid'];
+		unset($_POST['aid'], $_POST['mode'], $_POST['security']);
+		if (empty($_POST['slug'])) {
+			$_POST['slug'] = $_POST['title'];
+		}
+		$_POST['slug'] = str_replace('&', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('/', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('=', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('?', '', $_POST['slug']);
+		$_POST['slug'] = str_replace(' ', '-', $_POST['slug']);
+		$this->db->where("condition_id",$aid);
+		$data = $this->db->update("condition", $_POST);
+		if($data)
+		{
+			redirect("admin/conditions/?msg=Edited Condition");
+		}
+		else
+		{
+			redirect("admin/conditions/?error=1&msg=Error occured while Editing Condition");
+		}
+	}
+	public function update_facility()
+	{
+		$user = $this->check_login();
+		$aid = $_POST['aid'];
+		unset($_POST['aid'], $_POST['mode'], $_POST['security']);
+		if (empty($_POST['slug'])) {
+			$_POST['slug'] = $_POST['title'];
+		}
+		$_POST['slug'] = str_replace('&', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('/', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('=', '', $_POST['slug']);
+		$_POST['slug'] = str_replace('?', '', $_POST['slug']);
+		$_POST['slug'] = str_replace(' ', '-', $_POST['slug']);
+		$this->db->where("facility_id",$aid);
+		$data = $this->db->update("facility", $_POST);
+		if($data)
+		{
+			redirect("admin/facilities/?msg=Edited Facility");
+		}
+		else
+		{
+			redirect("admin/facilities/?error=1&msg=Error occured while Editing Facility");
+		}
+	}
+	public function update_hospital()
+	{
+		$user = $this->check_login();
+		$aid = $_POST['aid'];
+		unset($_POST['aid']);
+		$_POST['updated_at'] = date('Y-m-d H:i:s');
+		$this->db->where("hospital_id",$aid);
+		$data = $this->db->update("hospital", $_POST);
+		if($data)
+		{
+			redirect("admin/hospitals/?msg=Edited hospital Post");
+		}
+		else
+		{
+			redirect("admin/hospitals/?error=1&msg=Error occured while Editing hospital Post");
 		}
 	}
 	public function update_blog()
@@ -717,6 +942,34 @@ class Admin extends CI_Controller {
 		else
 		{
 			redirect("admin/specializations/?error=1&msg=Specialization has failed to delete. Try Again!");
+		}
+	}
+	public function delete_condition()
+	{
+		$user = $this->check_login();
+		$this->db->where('condition_id', $_GET['id']);
+		$resp = $this->db->delete('condition');
+		if($resp)
+		{
+			redirect("admin/conditions/?msg=Condition has Deleted");
+		}
+		else
+		{
+			redirect("admin/conditions/?error=1&msg=Condition has failed to delete. Try Again!");
+		}
+	}
+	public function delete_facility()
+	{
+		$user = $this->check_login();
+		$this->db->where('facility_id', $_GET['id']);
+		$resp = $this->db->delete('facility');
+		if($resp)
+		{
+			redirect("admin/facilities/?msg=Facility has Deleted");
+		}
+		else
+		{
+			redirect("admin/facilities/?error=1&msg=Facility has failed to delete. Try Again!");
 		}
 	}
 	public function delete_blog()

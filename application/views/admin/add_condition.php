@@ -27,8 +27,8 @@
 	        <div class="panel-body">
 	          <form id="exampleFullForm" autocomplete="off" enctype="multipart/form-data" method="post" action="
 	          	<?php
-		  		if($mode != edit)echo BASEURL."admin/post-specialization";
-			  	else echo BASEURL."admin/update-specialization";
+		  		if($mode != edit)echo BASEURL."admin/post-condition";
+			  	else echo BASEURL."admin/update-condition";
 		  		?>">
 		  		<?php
 				$required_string = "required";
@@ -40,7 +40,27 @@
 				}?>
 
 	            <div class="row row-lg">
-					
+
+					<div class="col-lg-12 form-horizontal">
+						<div class="form-group form-material">
+							<label class="col-lg-12 col-sm-3 control-label">Specialization
+								<span class="required">*</span>
+							</label>
+							<div class=" col-lg-12 col-sm-9">
+								<select name="specialization_id" required class="form-control">
+									<option value="">Select</option>
+									<?php foreach ($specializations as $key => $specialization): ?>
+										<?php if ($q['specialization_id'] == $specialization['specialization_id']): ?>
+											<option value="<?=$specialization['specialization_id']?>" required><?=$specialization['title']?></option>
+										<?php else: ?>
+											<option value="<?=$specialization['specialization_id']?>"><?=$specialization['title']?></option>
+										<?php endif ?>
+									<?php endforeach ?>
+								</select>
+							</div><!-- /12 -->
+						</div><!-- /form-group -->
+					</div><!-- /form-horizontal -->
+
 					<div class="col-lg-12 form-horizontal">
 						<div class="form-group form-material">
 							<label class="col-lg-12 col-sm-3 control-label">Title

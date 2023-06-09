@@ -247,6 +247,51 @@ class Model_functions extends CI_Model {
 	{
 		return $this->get_row("SELECT * FROM `specialization` WHERE `specialization_id` = '$id'");
 	}
+	public function conditions_by_specialization($id)
+	{
+		return $this->get_results("
+			SELECT c.*, s.title AS specializationTitle 
+			FROM `condition` AS c 
+			INNER JOIN `specialization` AS s ON c.specialization_id = s.specialization_id 
+			WHERE c.specialization_id = '$id' 
+			ORDER BY c.title ASC
+		;");
+	}
+	public function conditions()
+	{
+		return $this->get_results("
+			SELECT c.*, s.title AS specializationTitle 
+			FROM `condition` AS c 
+			INNER JOIN `specialization` AS s ON c.specialization_id = s.specialization_id 
+			ORDER BY c.title ASC
+		;");
+	}
+	public function conditions_featured()
+	{
+		return $this->get_results("
+			SELECT c.*, s.title AS specializationTitle 
+			FROM `condition` AS c 
+			INNER JOIN `specialization` AS s ON c.specialization_id = s.specialization_id 
+			WHERE c.featured = 'yes'
+			ORDER BY c.title ASC
+		;");
+	}
+	public function get_condition_byid($id)
+	{
+		return $this->get_row("SELECT * FROM `condition` WHERE `condition_id` = '$id'");
+	}
+	public function facilities()
+	{
+		return $this->get_results("SELECT * FROM `facility` ORDER BY `title` ASC;");
+	}
+	public function facilities_featured()
+	{
+		return $this->get_results("SELECT * FROM `facility` WHERE `featured` = 'yes' ORDER BY `title` ASC;");
+	}
+	public function get_facility_byid($id)
+	{
+		return $this->get_row("SELECT * FROM `facility` WHERE `facility_id` = '$id'");
+	}
 	public function all_education_by_doctor($doctor)
 	{
 		return $this->get_results("SELECT * FROM `education` WHERE `doctor_id` = '$doctor' ORDER BY `education_id` ASC;");
@@ -266,6 +311,17 @@ class Model_functions extends CI_Model {
 	public function all_registration_by_doctor($doctor)
 	{
 		return $this->get_results("SELECT * FROM `registration` WHERE `doctor_id` = '$doctor' ORDER BY `registration_id` ASC;");
+	}
+	public function all_hospitals($value='')
+	{
+		return $this->get_results("
+			SELECT h.*, city.name AS cityName, state.name AS stateName, doctor.fname AS doctorFname, doctor.lname AS doctorLname, doctor.username 
+			FROM `hospital` AS h 
+			INNER JOIN `city` AS city ON h.city_id = city.city_id 
+			INNER JOIN `state` AS state ON h.state_id = state.state_id 
+			LEFT JOIN `doctor` AS doctor ON h.doctor_id = doctor.doctor_id 
+			ORDER BY h.name ASC 
+		;");	
 	}
 	public function hospitals()
 	{

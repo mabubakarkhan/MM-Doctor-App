@@ -18,3 +18,9 @@ nativeToast({
 type: 'warning' // success warning info error
 
 
+
+
+1.	ALTER TABLE `specialization` ADD `image` VARCHAR(40) NOT NULL DEFAULT '' AFTER `count`;
+2.	ALTER TABLE `specialization` ADD INDEX(`image`);
+3.	ALTER TABLE `condition` ADD `specialization_id` INT NOT NULL AFTER `condition_id`, ADD INDEX (`specialization_id`);
+4.	ALTER TABLE `hospital` ADD `detail` LONGTEXT NOT NULL AFTER `image`;

@@ -199,6 +199,25 @@
             <li class="site-menu-item has-sub">
               <a href="javascript:void(0)">
                 <i class="site-menu-icon md-view-compact" aria-hidden="true"></i>
+                <span class="site-menu-title">Hospitals</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li rel="hospitals" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/hospitals">
+                        <span class="site-menu-title">All</span>
+                    </a>
+                </li>
+                <li rel="add_hospital" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/add_hospital">
+                        <span class="site-menu-title">Add</span>
+                    </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)">
+                <i class="site-menu-icon md-view-compact" aria-hidden="true"></i>
                 <span class="site-menu-title">Services</span>
                 <span class="site-menu-arrow"></span>
               </a>
@@ -229,6 +248,44 @@
                 </li>
                 <li rel="add_specialization" class="site-menu-item">
                     <a class="animsition-link" href="<?=BASEURL?>admin/add-specialization">
+                        <span class="site-menu-title">Add</span>
+                    </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)">
+                <i class="site-menu-icon md-view-compact" aria-hidden="true"></i>
+                <span class="site-menu-title">Conditions</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li rel="conditions" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/conditions">
+                        <span class="site-menu-title">All</span>
+                    </a>
+                </li>
+                <li rel="add_condition" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/add-condition">
+                        <span class="site-menu-title">Add</span>
+                    </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)">
+                <i class="site-menu-icon md-view-compact" aria-hidden="true"></i>
+                <span class="site-menu-title">Facilities</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li rel="facilities" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/facilities">
+                        <span class="site-menu-title">All</span>
+                    </a>
+                </li>
+                <li rel="add_facility" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/add-facility">
                         <span class="site-menu-title">Add</span>
                     </a>
                 </li>

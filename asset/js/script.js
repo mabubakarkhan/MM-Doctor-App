@@ -22,23 +22,29 @@ Version      : 1.3
 	
 	if($(window).width() <= 991){
 		var Sidemenu = function() {
-			this.$menuItem = $('.main-nav a');
+			this.$menuItem = $('.main-nav a.mobile-menu-btn');
 		};
 
 		function init() {
 			var $this = Sidemenu;
-			$('.main-nav a').on('click', function(e) {
+			$('.main-nav a.mobile-menu-btn').on('click', function(e) {
+				var main = $(this).parent('li');
+				console.log($(main).find('ul'));
 				if($(this).parent().hasClass('has-submenu')) {
 					e.preventDefault();
 				}
 				if(!$(this).hasClass('submenu')) {
-					$('ul', $(this).parents('ul:first')).slideUp(350);
-					$('a', $(this).parents('ul:first')).removeClass('submenu');
-					$(this).next('ul').slideDown(350);
+					$.each($(main).find('ul'), function(index, val) {
+						$(val).slideDown(150);
+					});
+					$(main).children('.mega-menu').slideDown(350);
 					$(this).addClass('submenu');
 				} else if($(this).hasClass('submenu')) {
+					$(main).children('.mega-menu').slideUp(350);
+					$.each($(main).find('ul'), function(index, val) {
+						$(val).slideUp(150);
+					});
 					$(this).removeClass('submenu');
-					$(this).next('ul').slideUp(350);
 				}
 			});
 		}

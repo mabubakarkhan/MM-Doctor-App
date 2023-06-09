@@ -22,13 +22,9 @@
                                     <span class="form-text">Based on your Location</span>
                                 </div>
                                 <div class="form-group search-info">
-                                    <select name="service" id="" class="select22" required>
-                                        <option value="">Select Service</option>
-                                        <?php foreach ($services as $key => $s): ?>
-                                            <option value="<?=$s['service_id']?>"><?=$s['title']?></option>
-                                        <?php endforeach ?>
-                                    </select>
+                                    <input type="text" class="form-control" id="homeSearchBar">
                                     <span class="form-text">Ex : Dental or Sugar Check up etc</span>
+                                    <div id="searchResp"></div>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary search-btn mt-0">Make Appointment</button>
@@ -40,10 +36,6 @@
                 <img src="<?=IMG?>banner.png" class="img-fluid" alt="Logo">
             </div>
         </div>
-
-        <input type="text" id="homeSearchBar">
-        <p id="searchResp"></p>
-
     </div>
 </section>
 <section class="section home-tile-section">

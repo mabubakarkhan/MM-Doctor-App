@@ -22,7 +22,7 @@
                                     <span class="form-text">Based on your Location</span>
                                 </div>
                                 <div class="form-group search-info">
-                                    <input type="text" class="form-control" id="homeSearchBar">
+                                    <input type="text" class="form-control" placeholder="Search Doctors, Clinics, Hospitals, Diseases Etc" id="homeSearchBar">
                                     <span class="form-text">Ex : Dental or Sugar Check up etc</span>
                                     <div id="searchResp"></div>
                                 </div>

@@ -2943,7 +2943,7 @@ html.menu-opened body {
 	color: #fff;
 }
 .step-list ul li a.active-done {
-	background-image: url(../img/icons/tick-icon.svg);
+	background-image: url(../images/icons/tick-icon.svg);
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 18px;
@@ -3077,7 +3077,7 @@ html.menu-opened body {
 	color: #808080;
 }
 .login-right .step-process-col .select2-container--default .select2-selection--single .select2-selection__arrow b {
-    background-image: url(../img/icons/down-arrow-gray.svg);
+    background-image: url(../images/icons/down-arrow-gray.svg);
 }
 .login-page .login-right .step-process-col .form-control {
 	color: #808080;
@@ -3225,7 +3225,7 @@ html.menu-opened body {
 	text-align: left;
 }
 .country-select .select-col .btn-info.dropdown-toggle:after {
-	background-image: url(../img/icons/down-arrow-gray-dark.svg);
+	background-image: url(../images/icons/down-arrow-gray-dark.svg);
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
@@ -3261,7 +3261,7 @@ html.menu-opened body {
 .country-select .select-col .flagstrap-icon.flagstrap-ng,
 .country-select .select-col .flagstrap-icon.flagstrap-gb,
 .country-select .select-col .flagstrap-icon.flagstrap-us {
-	background-image: url(../img/flag/india.html);
+	background-image: url(../images/flag/india.html);
 	background-position: center;
 	width: 33px;
 	height: 22px;
@@ -3269,13 +3269,13 @@ html.menu-opened body {
 	border-radius: 4px;
 }
 .country-select .select-col .flagstrap-icon.flagstrap-ng {
-	background-image: url(../img/flag/ng.html);
+	background-image: url(../images/flag/ng.html);
 }
 .country-select .select-col .flagstrap-icon.flagstrap-gb {
-	background-image: url(../img/flag/gb.html);
+	background-image: url(../images/flag/gb.html);
 }
 .country-select .select-col .flagstrap-icon.flagstrap-us {
-	background-image: url(../img/flag/usa.html);
+	background-image: url(../images/flag/usa.html);
 }
 .country-select .select-col .btn-info.dropdown-toggle span {
 	font-size: 0;
@@ -3289,7 +3289,7 @@ html.menu-opened body {
 	color: #0de0fe;
 }
 .login-right .country-select .select-col .select2-container--default .select2-selection--single .select2-selection__arrow b {
-	background-image: url(../img/icons/down-arrow-gray-dark.svg);
+	background-image: url(../images/icons/down-arrow-gray-dark.svg);
 }
 .country-select .number-col input {
 	padding-left: 96px;
@@ -3302,7 +3302,7 @@ html.menu-opened body {
 	margin:12px 0;
 }
 .login-page .login-right .search-location-input-box input {
-	background-image: url(../img/icons/search-icon.svg);
+	background-image: url(../images/icons/search-icon.svg);
 	background-repeat: no-repeat;
 	background-position: 10px 50%;
 	background-size: 16px;
@@ -3322,7 +3322,7 @@ html.menu-opened body {
 	width: 160px;
 }
 .sort-by-col .select2-container--default .select2-selection--single .select2-selection__arrow b {
-	background-image: url(../img/icons/down-arrow-gray.svg);
+	background-image: url(../images/icons/down-arrow-gray.svg);
 }
 .premium-text {
 	font-size: 18px;
@@ -3436,14 +3436,14 @@ html.menu-opened body {
     position: relative;
 }
 .section-search-1 { 
-	background: #f9f9f9 url(../img/slider-bg.jpg) no-repeat bottom center;
+	background: #f9f9f9 url(../images/slider-bg.jpg) no-repeat bottom center;
     min-height: 450px;
     position: relative;
     background-blend-mode: Darken;
 }
 .doctor-search-section { 
 	position: relative;
-    background: url(../img/banner-2.jpg);
+    background: url(../images/banner-2.jpg);
     background-position: 50% 0;
     background-size: cover;
     background-repeat: no-repeat;
@@ -3620,7 +3620,7 @@ html.menu-opened body {
     width: 200px;
 }
 .search-location .form-control {
-	background: #fff url(../img/location.png) no-repeat right 10px center;
+	background: #fff url(../images/location.png) no-repeat right 10px center;
 }
 .search-box .search-info {
     -ms-flex: 1;
@@ -3629,7 +3629,7 @@ html.menu-opened body {
 	margin-bottom: 30px;
 }
 .search-info .form-control {
-	background: #fff url(../img/search.png) no-repeat right 10px center;
+	background: #fff url(../images/search.png) no-repeat right 10px center;
 }
 .search-box .search-btn {
 	padding: 15px 25px;
@@ -4217,7 +4217,7 @@ html.menu-opened body {
 	margin-top: 0;
 }
 .search-box1 .search-location .form-control {
-	background: #fff url(../img/location.png) no-repeat 10px center;
+	background: #fff url(../images/location.png) no-repeat 10px center;
 }
 .search-box1 .search-info {
     -ms-flex: 0 0 490px;
@@ -4244,7 +4244,7 @@ html.menu-opened body {
     font-size: 13px;
 }
 .section-search1 { 
-	background: #f9f9f9 url(../img/search-bg.png) no-repeat bottom center;
+	background: #f9f9f9 url(../images/search-bg.png) no-repeat bottom center;
     min-height: 580px;
     background-size: 100% auto;
     position: relative;
@@ -4275,7 +4275,7 @@ html.menu-opened body {
 	font-size: 13px;
 	color: #757575;
 	border-radius: 5px;
-	background: #e3e3e3 url(../img/google-map.png) no-repeat 9px center;
+	background: #e3e3e3 url(../images/google-map.png) no-repeat 9px center;
 	cursor: pointer;
 }
 .section-search-pharmacy{
@@ -4499,7 +4499,7 @@ html.menu-opened body {
 	color: #FFAABD;
 }
 .clinic-specialities {	
-	background: url(../img/special-banner.jpg);
+	background: url(../images/special-banner.jpg);
 	padding: 60px 0;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -4689,7 +4689,7 @@ html.menu-opened body {
 	color: #000;
 }
 .doc-background {
-	background: url(../img/shapes/doctor-bg.jpg);
+	background: url(../images/shapes/doctor-bg.jpg);
 	background-position: center;
 	min-height: 350px;
 	background-size: cover;
@@ -4732,7 +4732,7 @@ html.menu-opened body {
 	text-align: center;
 }
 .pat-background {
-	background: url(../img/shapes/doctor-right-bg.jpg);
+	background: url(../images/shapes/doctor-right-bg.jpg);
 	background-position: center;
 	min-height: 350px;
 	background-size: cover;
@@ -4757,7 +4757,7 @@ html.menu-opened body {
 	background-color:#FED35D;
 }
 .book-section {
-	background: url(../img/special-banner.jpg);
+	background: url(../images/special-banner.jpg);
 	padding: 60px 0;
 	background-size: cover;
     background-repeat: no-repeat;
@@ -5006,7 +5006,7 @@ html.menu-opened body {
 }
 .specialities-section {
 	position: relative;
-    background: url(../img/specialist-bg.jpg);
+    background: url(../images/specialist-bg.jpg);
     background-position: 50% 0;
     background-size: cover;
     background-repeat: no-repeat;
@@ -5173,7 +5173,7 @@ html.menu-opened body {
 }
 .clinic-features-section {
 	position: relative;
-    background: url(../img/featured-bg.jpg);
+    background: url(../images/featured-bg.jpg);
     background-position: 50% 0;
     background-size: cover;
     background-repeat: no-repeat;
@@ -5382,7 +5382,7 @@ html.menu-opened body {
 }
 .section-search-3 {
 	position: relative;
-    background: url(../img/banner-3.jpg);
+    background: url(../images/banner-3.jpg);
     background-position: 50% 0;
     background-size: cover;
     background-repeat: no-repeat;
@@ -5755,12 +5755,12 @@ body .multi-optn {
 	color: #1C5B90;
 }
 .patient-select {
-	background: url(../img/slider/blue-bg.png);
+	background: url(../images/slider/blue-bg.png);
 	padding: 50px 0;
 	background-size: cover;
 }
 .select-box {
-	background: url(../img/slider/doctor-bg.jpg);
+	background: url(../images/slider/doctor-bg.jpg);
 	padding: 30px;
 	border-radius: 60px 10px 10px 60px;
 	border: 5px solid rgba(255, 255, 255, 0.8);
@@ -5816,7 +5816,7 @@ body .multi-optn {
     width: 110px;
 }
 .select-box.theme {
-	background: url(../img/slider/patient-bg.jpg);
+	background: url(../images/slider/patient-bg.jpg);
 	border-radius: 10px 60px 60px 10px;
 }
 .select-box.theme::before {
@@ -6010,7 +6010,7 @@ body .multi-optn {
 	background-color: #2467CA;
 }
 .aval-features .feature {
-	background: url(../img/slider/feature-img.jpg);
+	background: url(../images/slider/feature-img.jpg);
 	padding: 40px;
     background-repeat: no-repeat;
     background-size: cover;
@@ -6120,7 +6120,7 @@ body .multi-optn {
     -webkit-transform: rotate(-45deg);
 }
 .home-search-section {
-    background: url(../img/slider/banner-01.jpg);
+    background: url(../images/slider/banner-01.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     z-index: 1;
@@ -6299,7 +6299,7 @@ body .multi-optn {
 }
 .browse-section.brower-category {
 	padding: 60px 0;
-	background: url(../img/slider/banner-02.jpg);
+	background: url(../images/slider/banner-02.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -6319,7 +6319,7 @@ body .multi-optn {
 	color: #28DAF4;
 }
 .doctor-divison.provider-select .doc-background {
-	background: url(../img/shapes/doctor-bg.jpg);
+	background: url(../images/shapes/doctor-bg.jpg);
 	background-size: cover;
 	padding: 60px 30px;
 }
@@ -6327,7 +6327,7 @@ body .multi-optn {
     background:  rgba(242, 247, 255, 0.94);
 }
 .doctor-divison.provider-select .pat-background {
-	background: url(../img/shapes/doctor-right-bg.jpg);
+	background: url(../images/shapes/doctor-right-bg.jpg);
 	background-size: cover;
 	padding: 60px 30px;
 }
@@ -11329,7 +11329,7 @@ ul.benifits-col li i{
 -----------------------*/
 
 .about-section {
-	background: url(../img/about-bg.png);
+	background: url(../images/about-bg.png);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -11495,7 +11495,7 @@ ul.benifits-col li i{
 }
 .section-featurebox {
     padding: 35px 0 135px;
-    background: url(../img/features/feature-box-bg.png) no-repeat bottom center;
+    background: url(../images/features/feature-box-bg.png) no-repeat bottom center;
 }
 .feature-subox img {
     max-height: 215px;
@@ -13046,7 +13046,7 @@ ul.benifits-col li i{
 		bottom: 0;
 	}
 	.patient-select {
-		background: #2264c5 url(../img/slider/blue-bg.png);		
+		background: #2264c5 url(../images/slider/blue-bg.png);		
 		padding: 30px 0 0;
 	}
 	.select-box h2 {
@@ -13763,4 +13763,115 @@ ul.benifits-col li i{
 		max-width: calc(100% - 30px);
     	width: auto;
 	}
+}
+
+
+
+/*custom-style*/
+#searchResp{
+    position: absolute;
+    background: #fff;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    z-index: 99;
+    top: 50px;
+    left: 0;
+    right: 0;
+    max-height: 261px;
+    overflow: auto;
+    margin-top: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+#searchResp::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+#searchResp::-webkit-scrollbar
+{
+    width: 6px;
+    background-color: #F5F5F5;
+}
+
+#searchResp::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #000;
+}
+
+#searchResp .listResult{
+    list-style: none;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+    color: #000;
+    position: relative;
+    display: flex;
+    align-items: center;
+    white-space: normal;
+    word-break: break-word;
+    min-height: 51px;
+}
+#searchResp .listResult:hover{
+    background: #f3f2f78a;
+}
+#searchResp .listHeading{
+    background: #f3f2f7;
+    color: rgba(0,0,0,.5);
+    padding: 0.5rem 1rem;
+    min-height: auto;
+    border-bottom: none;
+    font-weight: 600;
+}
+#searchResp .listResult:last-child{
+    border-bottom: none;
+}
+#searchResp .listResult a{
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    color: rgba(0,0,0,.5);
+    font-size: 14px;
+}
+#searchResp .listResult a:hover{
+    color: rgba(0,0,0,.5);
+}
+#searchResp .listImage{
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    margin-right: 10px;
+    border: 1px solid #d4d4d4;
+    background: #f3f2f7;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#searchResp .listImage i{
+    font-size: 16px;
+}
+#searchResp .listImage img{
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    object-fit: cover;
+}
+#searchResp .listData{
+    text-align: left;
+    width: calc(100% - 60px);                                        
+}
+#searchResp .listData p{
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    width: 100%; 
+    overflow: hidden; 
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }

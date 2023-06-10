@@ -453,13 +453,14 @@ class Home extends CI_Controller {
 		$data['hospital'] = $this->model->hospital_byid($id);
 		$data['photos'] = $this->model->photos('hospital',$id);
 		$data['faqs'] = $this->model->faqs('hospital',$id);
+		$html['data'] = $this->model->doctors_by_hospital($id);
+		$data['doctors'] = $this->load->view('html/search',$html, TRUE);
 		$data['specialities'] = $this->model->get_results("SELECT `specialization_id`,`title`,`image` FROM `specialization` WHERE FIND_IN_SET(`specialization_id`, '".$data['hospital']['specialities']."'); ");
 		$data['services'] = $this->model->get_results("SELECT `service_id`,`title` FROM `service` WHERE FIND_IN_SET(`service_id`, '".$data['hospital']['services']."'); ");
 		$data['facilities'] = $this->model->get_results("SELECT `facility_id`,`title` FROM `facility` WHERE FIND_IN_SET(`facility_id`, '".$data['hospital']['facilities']."'); ");
 		$data['meta_title'] = $data['hospital']['name'];
 		$data['meta_key'] = $data['hospital']['name'];
 		$data['meta_desc'] = $data['hospital']['name'];
-		// echo var_dump($data);die;
 		$this->template('hospital', $data);
 	}
 	/**
@@ -651,7 +652,7 @@ class Home extends CI_Controller {
 			$html .= '<div class="listHeading">Hospitals</div>';
 			foreach ($hospitals as $key_ => $q) {
 				$html .= '<div class="listResult">';
-					$html .= '<a href="'.BASEURL.'hospital/'.str_replace(' ', '-', $q['name']).'/'.$q['hospital_id'].'">';
+					$html .= '<a href="'.BASEURL.'hospital/'.$q['hospital_id'].'">';
 						$html .= '<div class="listImage">';
 			                $html .= '<img width="100" alt="Hospital Image" src="'.IMG.'hospital.png">';
 		        		$html .= '</div>';

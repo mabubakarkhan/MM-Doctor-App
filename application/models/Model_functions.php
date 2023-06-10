@@ -137,6 +137,19 @@ class Model_functions extends CI_Model {
 			ORDER BY RAND()
 		");
 	}
+	public function doctors_by_hospital($id)
+	{
+		return $this->get_results("
+			SELECT d.*, city.name AS 'cityName', state.name AS 'stateName', country.name AS 'countryName' 
+			FROM  `doctor_hospital` AS dh 
+			INNER JOIN  `doctor` AS d ON d.doctor_id = dh.doctor_id 
+			LEFT JOIN `city` AS city ON d.city_id = city.city_id 
+			LEFT JOIN `state` AS state ON d.state_id = state.state_id 
+			LEFT JOIN `country` AS country ON d.country_id = country.country_id 
+			WHERE d.status = 'active' AND dh.hospital_id = '$id' 
+			ORDER BY d.ratting ASC
+		");
+	}
 
 	public function countries()
 	{

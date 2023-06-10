@@ -42,7 +42,7 @@
                                     <i class="feather-phone"></i> 
                                     Call Helpline
                                 </a>
-                                <a class="mb-0 btn btn-outline-secondary" title="Google Map" href="<?=$hospital['google_map']?>">
+                                <a class="mb-0 btn btn-outline-secondary" target="_blank" title="Google Map" href="<?=$hospital['google_map']?>">
                                     <i class="feather-map-pin"></i> 
                                 </a>
                                         
@@ -67,24 +67,6 @@
                                         <?=$spe['title']?>
                                     </p>
                                 </li>
-                                <li>
-                                    <img src="<?=UPLOADS.$spe['image']?>" width="70" alt="">
-                                    <p>
-                                        <?=$spe['title']?>
-                                    </p>
-                                </li>
-                                <li>
-                                    <img src="<?=UPLOADS.$spe['image']?>" width="70" alt="">
-                                    <p>
-                                        <?=$spe['title']?>
-                                    </p>
-                                </li>
-                                <li>
-                                    <img src="<?=UPLOADS.$spe['image']?>" width="70" alt="">
-                                    <p>
-                                        <?=$spe['title']?>
-                                    </p>
-                                </li>
                             <?php endforeach ?>
                         </ul>
                     </div>
@@ -96,7 +78,8 @@
 
         <div class="card">
             <div class="card-body">
-                DOCTOR DATA
+                <h4>Doctors</h4>
+                <?=$doctors?>
             </div>
         </div> 
        
@@ -155,14 +138,15 @@
                         <div class="clinic-timing">
                             <h5 class="clinic-direction mb-md-0"> 
                                 <i class="feather-clock"></i> 
-                                24 Hours Emergency
+                                <?=$hospital['emergency_note']?>
                             </h5>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="consult-price">
                             <h5 class="clinic-direction mb-md-0"> 
-                                <i class="feather-phone"></i> <?=$hospital['phone']?>
+                                <i class="feather-phone"></i> <?=$hospital['phone']?><br>
+                                <i style="font-size:11px;"><?=$hospital['call_note']?></i>
                             </h5>
                         </div>
                     </div>

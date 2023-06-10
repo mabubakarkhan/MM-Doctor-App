@@ -162,7 +162,7 @@
                     <div class="about-widget mb-5">
                         <?=$hospital['detail']?>
                     </div>
-                    <h4 class="widget-title mb-5">Images and videos about <?=$hospital['name']?></h4>
+                    <h4 class="widget-title mb-5">Images about <?=$hospital['name']?></h4>
                     <div class="clinic-details">
                         <ul class="ps-0 clinic-gallery hospital-images-gallery">
                             <?php foreach ($photos as $key => $p): ?>

@@ -487,6 +487,40 @@ Version      : 1.3
 			}]
 		});
 	}
+	//hospital-images-gallery slider
+	if($('.hospital-images-gallery').length > 0) {
+		$('.hospital-images-gallery').slick({
+			dots: false,
+			autoplay:false,
+			infinite: true,
+			slidesToShow: 11,
+			slidesToScroll: 1,
+			responsive: [{
+				breakpoint: 992,
+				settings: {
+					slidesToShow: 9
+				}
+			},
+			{
+				breakpoint: 800,
+				settings: {
+					slidesToShow: 8
+				}
+			},
+			{
+				breakpoint: 776,
+				settings: {
+					slidesToShow: 7
+				}
+			},
+			{
+				breakpoint: 567,
+				settings: {
+					slidesToShow: 5
+				}
+			}]
+		});
+	}
 	//Home pharmacy slider
 	if($('.pharmacy-home-slider .swiper-container').length > 0) {
 		var swiper = new Swiper('.pharmacy-home-slider .swiper-container', {

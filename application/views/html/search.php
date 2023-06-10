@@ -73,8 +73,8 @@
                 <hr>
                 <style>
                     .dd-hospital-carddetails {
-/*                        display: flex;*/
-/*                        flex-wrap: nowrap;*/
+                        /*display: flex;
+                        flex-wrap: nowrap;*/
                     }
                     .dd-hospital-carddetails>div{
                         width: 100%;

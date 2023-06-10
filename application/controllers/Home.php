@@ -459,7 +459,7 @@ class Home extends CI_Controller {
 		$data['meta_title'] = $data['hospital']['name'];
 		$data['meta_key'] = $data['hospital']['name'];
 		$data['meta_desc'] = $data['hospital']['name'];
-		echo var_dump($data);die;
+		// echo var_dump($data);die;
 		$this->template('hospital', $data);
 	}
 	/**

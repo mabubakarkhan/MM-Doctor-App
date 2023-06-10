@@ -16,17 +16,3 @@ nativeToast({
 	type: resp.type
 })
 type: 'warning' // success warning info error
-
-
-
-photo
-faq
-
-
-
-1.	ALTER TABLE hospital ADD COLUMN featured ENUM('yes','no') Default 'no' AFTER `updated_at`
-2.	ALTER TABLE `hospital` ADD INDEX(`featured`);
-3.	ALTER TABLE `hospital` ADD INDEX( `at`, `updated_at`);
-4.	ALTER TABLE `hospital` ADD `services` VARCHAR(255) NOT NULL DEFAULT '' AFTER `detail`, ADD `facilities` VARCHAR(255) NOT NULL DEFAULT '' AFTER `services`, ADD INDEX (`services`), ADD INDEX (`facilities`);
-5.	ALTER TABLE `hospital` ADD `specialities` VARCHAR(255) NOT NULL AFTER `facilities`, ADD INDEX (`specialities`);
-6.	ALTER TABLE `hospital` ADD `emergency_note` VARCHAR(100) NOT NULL DEFAULT '' AFTER `city_id`, ADD `phone` VARCHAR(20) NOT NULL DEFAULT '' AFTER `emergency_note`, ADD `call_note` VARCHAR(50) NOT NULL DEFAULT '' AFTER `phone`, ADD `google_map` TEXT NOT NULL AFTER `call_note`, ADD INDEX (`emergency_note`), ADD INDEX (`phone`), ADD INDEX (`call_note`);

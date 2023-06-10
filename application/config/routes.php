@@ -58,6 +58,10 @@ $route["post/(.*)"] = 'Home/post/$1';
 $route["live-search"] = 'Home/live_search';
 $route["hospital/(.*)"] = 'Home/hospital/$1';
 
+//Pages
+$route["policy"] = 'Home/policy';
+$route["terms"] = 'Home/terms';
+
 
 $route["logout"] = 'Home/logout';
 $route["patient/logout"] = 'Home/logout';

@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title><?=$meta_title?></title>
+    <meta name="keywords" content="<?=$meta_key?>">
+    <meta name="description" content="<?=$meta_desc?>">
     <link type="image/x-icon" href="<?=IMG?>favicon.png" rel="icon">
     <link rel="stylesheet" href="<?=CSS?>bootstrap.min.css">
     <!-- <link rel="stylesheet" href="<?=PLUGINS?>fontawesome/css/fontawesome.min.css"> -->
@@ -61,92 +63,34 @@
                                         <div class="row">
                                             <div class="col-lg-3">
                                                 <ul>
-                                                    <h6>Find Doctor By Specialist</h6>
-                                                    <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
-                                                    <li><a href="appointments">Appointments</a></li>
-                                                    <li><a href="schedule-timings">Schedule Timing</a></li>
-                                                    <li><a href="my-patients">Patients List</a></li>
-                                                    <li><a href="patient-profile">Patients Profile</a></li>
-                                                    <li><a href="chat-doctor">Chat</a></li>
-                                                    <li><a href="invoices">Invoices</a></li>
-                                                    <li><a href="doctor-profile-settings">Profile Settings</a></li>
-                                                    <li><a href="reviews">Reviews</a></li>
-                                                    <li><a href="doctor-register">Doctor Register</a></li>
+                                                    <h6>Find Doctor By Service</h6>
+                                                    <?php foreach ($services as $key => $s): ?>
+                                                        <li><a href="<?=BASEURL.'search?service='.$s['service_id'].'&direct=true'?>"><?=$s['title']?></a></li>
+                                                    <?php endforeach ?>
                                                 </ul>
                                             </div>
                                             <div class="col-lg-3">
                                                 <ul>
                                                     <h6>Find Doctor By Specialist</h6>
-                                                    <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
-                                                    <li><a href="appointments">Appointments</a></li>
-                                                    <li><a href="schedule-timings">Schedule Timing</a></li>
-                                                    <li><a href="my-patients">Patients List</a></li>
-                                                    <li><a href="patient-profile">Patients Profile</a></li>
-                                                    <li><a href="chat-doctor">Chat</a></li>
-                                                    <li><a href="invoices">Invoices</a></li>
-                                                    <li><a href="doctor-profile-settings">Profile Settings</a></li>
-                                                    <li><a href="reviews">Reviews</a></li>
-                                                    <li><a href="doctor-register">Doctor Register</a></li>
+                                                    <?php foreach ($specializations as $key => $s): ?>
+                                                        <li><a href="<?=BASEURL.'search?specialization='.$s['specialization_id'].'&direct=true'?>"><?=$s['title']?></a></li>
+                                                    <?php endforeach ?>
                                                 </ul>
                                             </div>
                                             <div class="col-lg-3">
                                                 <ul>
-                                                    <h6>Find Doctor By Specialist</h6>
-                                                    <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
-                                                    <li><a href="appointments">Appointments</a></li>
-                                                    <li><a href="schedule-timings">Schedule Timing</a></li>
-                                                    <li><a href="my-patients">Patients List</a></li>
-                                                    <li><a href="patient-profile">Patients Profile</a></li>
-                                                    <li><a href="chat-doctor">Chat</a></li>
-                                                    <li><a href="invoices">Invoices</a></li>
-                                                    <li><a href="doctor-profile-settings">Profile Settings</a></li>
-                                                    <li><a href="reviews">Reviews</a></li>
-                                                    <li><a href="doctor-register">Doctor Register</a></li>
+                                                    <h6>Find Doctor By Conditions</h6>
+                                                    <?php foreach ($conditions_featured as $key => $c): ?>
+                                                        <li><a href="<?=BASEURL.'search?specialization='.$c['specialization_id'].'&direct=true'?>"><?=$c['title']?></a></li>
+                                                    <?php endforeach ?>
                                                 </ul>
                                             </div>
                                             <div class="col-lg-3">
                                                 <ul>
-                                                    <h6>Find Doctor By Specialist</h6>
-                                                    <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
-                                                    <li><a href="appointments">Appointments</a></li>
-                                                    <li><a href="schedule-timings">Schedule Timing</a></li>
-                                                    <li><a href="my-patients">Patients List</a></li>
-                                                    <li><a href="patient-profile">Patients Profile</a></li>
-                                                    <li><a href="chat-doctor">Chat</a></li>
-                                                    <li><a href="invoices">Invoices</a></li>
-                                                    <li><a href="doctor-profile-settings">Profile Settings</a></li>
-                                                    <li><a href="reviews">Reviews</a></li>
-                                                    <li><a href="doctor-register">Doctor Register</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <ul>
-                                                    <h6>Find Doctor By Specialist</h6>
-                                                    <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
-                                                    <li><a href="appointments">Appointments</a></li>
-                                                    <li><a href="schedule-timings">Schedule Timing</a></li>
-                                                    <li><a href="my-patients">Patients List</a></li>
-                                                    <li><a href="patient-profile">Patients Profile</a></li>
-                                                    <li><a href="chat-doctor">Chat</a></li>
-                                                    <li><a href="invoices">Invoices</a></li>
-                                                    <li><a href="doctor-profile-settings">Profile Settings</a></li>
-                                                    <li><a href="reviews">Reviews</a></li>
-                                                    <li><a href="doctor-register">Doctor Register</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <ul>
-                                                    <h6>Find Doctor By Specialist</h6>
-                                                    <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
-                                                    <li><a href="appointments">Appointments</a></li>
-                                                    <li><a href="schedule-timings">Schedule Timing</a></li>
-                                                    <li><a href="my-patients">Patients List</a></li>
-                                                    <li><a href="patient-profile">Patients Profile</a></li>
-                                                    <li><a href="chat-doctor">Chat</a></li>
-                                                    <li><a href="invoices">Invoices</a></li>
-                                                    <li><a href="doctor-profile-settings">Profile Settings</a></li>
-                                                    <li><a href="reviews">Reviews</a></li>
-                                                    <li><a href="doctor-register">Doctor Register</a></li>
+                                                    <h6>Find Hospitals</h6>
+                                                    <?php foreach ($featured_hospitals as $key => $h): ?>
+                                                        <li><a href="<?=BASEURL.'hospital/'.$h['hospital_id']?>"><?=$h['name']?></a></li>
+                                                    <?php endforeach ?>
                                                 </ul>
                                             </div>
                                         </div>

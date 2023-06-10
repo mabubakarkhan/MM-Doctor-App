@@ -43,6 +43,10 @@ class Home extends CI_Controller {
 		if (isset($_SESSION['user'])) {
 			$data['userSession'] = unserialize($_SESSION['user']);
 		}
+		$data['services'] = $this->model->services();
+		$data['specializations'] = $this->model->specializations();
+		$data['featured_hospitals'] = $this->model->featured_hospitals();
+		$data['conditions_featured'] = $this->model->conditions_featured();
 		$data['setting'] = $this->model->setting(1);
 		$this->load->view('header',$data);
 		$this->load->view($page,$data);
@@ -245,9 +249,11 @@ class Home extends CI_Controller {
 	*/
 	public function index()
 	{
-		$data['meta_title'] = APP_TITLE;
+		$data['page'] = $this->model->get_page_byid(1);
+		$data['meta_title'] = $data['page']['meta_title'];
+		$data['meta_key'] = $data['page']['meta_key'];
+		$data['meta_desc'] = $data['page']['meta_desc'];
 		$data['cities'] = $this->model->get_pak_cities();
-		$data['services'] = $this->model->services();
 		$data['featured_doctors_for_home'] = $this->model->featured_doctors_for_home();
 		$html['specializations_featured'] = $this->model->specializations_featured();
 		$html['specializations_featured_doctors'] = $this->model->specializations_featured_doctors();
@@ -287,7 +293,6 @@ class Home extends CI_Controller {
 		}
 		$data['meta_title'] = APP_TITLE;
 		$data['cities'] = $this->model->get_pak_cities();
-		$data['services'] = $this->model->services();
 		$data['specializations'] = $this->model->specializations();
 		$html['data'] = $this->model->get_search_doctor($_GET);
 		$data['searchResults'] = $this->load->view('html/search',$html, TRUE);
@@ -342,7 +347,6 @@ class Home extends CI_Controller {
 	{
 		$dates = $_POST['date'];
 		$dates = explode('-', $dates);
-		// var_dump($_POST);die;
 		$date1 = new DateTime($dates[0]);
 		$date2 = new DateTime($dates[1]);
 		$interval = $date1->diff($date2);
@@ -354,19 +358,35 @@ class Home extends CI_Controller {
 		else{
 			$startDate = $dates[0];
 		}
-		$period = new DatePeriod(
-		    new DateTime($startDate), // Start date of the period
-		    new DateInterval('P1D'), // Define the intervals as Periods of 1 Day
-		    $days // Apply the interval 6 times on top of the starting date
-		);
-		foreach ($period as $key => $day)
-		{
-			if ($key == 0) {
-				$bookingPageSelectedDateHeading = $day->format('d F Y');
-				$bookingPageSelectedDayHeading = $day->format('l');
+
+		if (date('Y-m-d',strtotime($dates[0])) == date('Y-m-d',strtotime($dates[1]))) {
+			$single = true;
+		}
+		else{
+			$period = new DatePeriod(
+			    new DateTime($startDate), // Start date of the period
+			    new DateInterval('P1D'), // Define the intervals as Periods of 1 Day
+			    $days // Apply the interval 6 times on top of the starting date
+			);
+			$single = false;
+		}
+
+		if ($single) {
+			$bookingPageSelectedDateHeading = date('d F Y',strtotime($startDate));
+			$bookingPageSelectedDayHeading = date('l',strtotime($startDate));
+			$bookingData['days'][] = date('l',strtotime($startDate));
+			$bookingData['full_dates'][] = date('Y-m-d',strtotime($startDate));
+		}
+		else{
+			foreach ($period as $key => $day)
+			{
+				if ($key == 0) {
+					$bookingPageSelectedDateHeading = $day->format('d F Y');
+					$bookingPageSelectedDayHeading = $day->format('l');
+				}
+				$bookingData['days'][] = $day->format('l');
+				$bookingData['full_dates'][] = $day->format('Y-m-d');
 			}
-			$bookingData['days'][] = $day->format('l');
-			$bookingData['full_dates'][] = $day->format('Y-m-d');
 		}
 		$booking = $this->load->view('html/booking',$bookingData, TRUE);
 		echo json_encode(array("bookingPageSelectedDateHeading"=>$bookingPageSelectedDateHeading,"bookingPageSelectedDayHeading"=>$bookingPageSelectedDayHeading,"html"=>$booking));
@@ -462,6 +482,22 @@ class Home extends CI_Controller {
 		$data['meta_key'] = $data['hospital']['name'];
 		$data['meta_desc'] = $data['hospital']['name'];
 		$this->template('hospital', $data);
+	}
+	public function policy()
+	{
+		$data['page'] = $this->model->get_page_byid(3);
+		$data['meta_title'] = $data['page']['meta_title'];
+		$data['meta_key'] = $data['page']['meta_key'];
+		$data['meta_desc'] = $data['page']['meta_desc'];
+		$this->template('page', $data);
+	}
+	public function terms()
+	{
+		$data['page'] = $this->model->get_page_byid(4);
+		$data['meta_title'] = $data['page']['meta_title'];
+		$data['meta_key'] = $data['page']['meta_key'];
+		$data['meta_desc'] = $data['page']['meta_desc'];
+		$this->template('page', $data);
 	}
 	/**
 

@@ -336,6 +336,10 @@ class Model_functions extends CI_Model {
 			ORDER BY h.name ASC 
 		;");	
 	}
+	public function featured_hospitals()
+	{
+		return $this->get_results("SELECT `hospital_id`,`name` FROM `hospital` WHERE `featured` = 'yes' ORDER BY `name` ASC;");
+	}
 	public function hospitals()
 	{
 		return $this->get_results("SELECT * FROM `hospital` ORDER BY `name` ASC;");
@@ -653,5 +657,13 @@ class Model_functions extends CI_Model {
 	public function get_faq_byid($faq_id, $type, $id)
 	{
 		return $this->get_row("SELECT * FROM `faq` WHERE `faq_id` = '$faq_id' AND `type` = '$type' AND `id` = '$id';");
+	}
+	public function pages()
+	{
+		return $this->get_results("SELECT * FROM `page` ORDER BY `title` ASC;");
+	}
+	public function get_page_byid($id)
+	{
+		return $this->get_row("SELECT * FROM `page` WHERE `page_id` = '$id';");
 	}
 }

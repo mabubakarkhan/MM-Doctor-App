@@ -32,11 +32,14 @@
                             <div class="footer-widget footer-menu">
                                 <h2 class="footer-title">For Patients</h2>
                                 <ul>
-                                    <li><a href="search">Search for Doctors</a></li>
-                                    <li><a href="login">Login</a></li>
-                                    <li><a href="register">Register</a></li>
-                                    <li><a href="booking">Booking</a></li>
-                                    <li><a href="patient-dashboard">Patient Dashboard</a></li>
+                                    <?php if ($userSession): ?>
+                                        <li><a href="<?=BASEURL.$userSession['controller']?>/dashboard">Dashboard</a></li>
+                                        <li><a href="<?=BASEURL.$userSession['controller']?>/profile-settings">Profile Settings</a></li>
+                                        <li><a href="<?=BASEURL.'logout'?>">Logout</a></li>
+                                    <?php else: ?>
+                                        <li><a href="<?=BASEURL?>login">Login</a></li>
+                                        <li><a href="<?=BASEURL?>register">Register</a></li>
+                                    <?php endif ?>
                                 </ul>
                             </div>
                         </div>
@@ -44,11 +47,14 @@
                             <div class="footer-widget footer-menu">
                                 <h2 class="footer-title">For Doctors</h2>
                                 <ul>
-                                    <li><a href="appointments">Appointments</a></li>
-                                    <li><a href="chat">Chat</a></li>
-                                    <li><a href="login">Login</a></li>
-                                    <li><a href="doctor-register">Register</a></li>
-                                    <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
+                                    <?php if ($userSession): ?>
+                                        <li><a href="<?=BASEURL.$userSession['controller']?>/dashboard">Dashboard</a></li>
+                                        <li><a href="<?=BASEURL.$userSession['controller']?>/profile-settings">Profile Settings</a></li>
+                                        <li><a href="<?=BASEURL.'logout'?>">Logout</a></li>
+                                    <?php else: ?>
+                                        <li><a href="<?=BASEURL?>login-doctor">Login</a></li>
+                                        <li><a href="<?=BASEURL?>register-doctor">Register</a></li>
+                                    <?php endif ?>
                                 </ul>
                             </div>
                         </div>
@@ -80,14 +86,14 @@
                         <div class="row">
                             <div class="col-md-6 col-lg-6">
                                 <div class="copyright-text">
-                                    <p class="mb-0">&copy; 2021 Doccure. All rights reserved.</p>
+                                    <p class="mb-0">&copy; <?=date('Y').' '.APP_TITLE?>. All rights reserved.</p>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-6">
                                 <div class="copyright-menu">
                                     <ul class="policy-menu">
-                                        <li><a href="term-condition">Terms and Conditions</a></li>
-                                        <li><a href="privacy-policy">Policy</a></li>
+                                        <li><a href="<?=BASEURL?>terms">Terms and Conditions</a></li>
+                                        <li><a href="<?=BASEURL?>policy">Policy</a></li>
                                     </ul>
                                 </div>
                             </div>

@@ -291,6 +291,12 @@
                 </li>
               </ul>
             </li>
+            <li rel="pages" class="site-menu-item">
+                <a class="animsition-link" href="<?=BASEURL?>admin/pages">
+                    <i class="site-menu-icon md-file" aria-hidden="true"></i>
+                    <span class="site-menu-title">Pages</span>
+                </a>
+            </li>
             <li rel="blog" class="site-menu-item">
                 <a class="animsition-link" href="<?=BASEURL?>admin/blog">
                     <i class="site-menu-icon md-file" aria-hidden="true"></i>
@@ -359,12 +365,7 @@
               </ul>
             </li>
 
-            <li rel="pages" class="site-menu-item">
-                <a class="animsition-link" href="<?=BASEURL?>admin/pages">
-                    <i class="site-menu-icon md-file" aria-hidden="true"></i>
-                    <span class="site-menu-title">Pages</span>
-                </a>
-            </li>
+            
             <li rel="blog" class="site-menu-item">
                 <a class="animsition-link" href="<?=BASEURL?>admin/blog">
                     <i class="site-menu-icon md-file" aria-hidden="true"></i>

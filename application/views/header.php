@@ -54,62 +54,8 @@
                             <li class="active">
                                 <a href="<?=BASEURL?>">Home</a>
                             </li>
-                            <style>
-                                .main-nav li{
-                                    position: unset !important;
-                                }
-                                .mega-menu{
-                                    position: absolute;
-                                    width: 100%;
-                                    top: 70px;
-                                    left: 0;
-                                    right: 0;
-                                    z-index: 1000;
-                                    background-color: #fff;
-                                    border-radius: 5px;
-                                    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-                                    font-size: 14px;
-                                    margin: 0;
-                                    padding: 30px 0;
-                                    opacity: 0;
-                                    visibility: hidden;
-                                    -webkit-transition: all .2s ease;
-                                    transition: all .2s ease;
-                                    -webkit-transform: translateY(20px);
-                                    -ms-transform: translateY(20px);
-                                    transform: translateY(20px);
-                                }
-                                .main-nav li:hover .mega-menu{
-                                    opacity: 1;
-                                    visibility: visible;
-                                }
-                                .mega-menu ul h6{
-                                    font-size: 16px;
-                                    margin-bottom: 20px;
-                                    color: rgba(0,0,0,.5);
-                                }
-                                .mega-menu ul li{
-                                    margin-bottom: 10px;
-                                }
-                                .mega-menu ul li a{
-                                    color: rgba(0,0,0,.7);
-                                }
-                                .mega-menu ul li a:hover{
-                                    color: rgba(0,0,0,.3);
-                                }
-                                @media only screen and (max-width: 991.98px){
-                                    .mega-menu{
-                                        background: transparent;
-                                        position: unset;
-                                        padding: 0;
-                                    }
-                                    .main-nav .mega-menu ul{
-                                        display: block;
-                                    }
-                                }
-                            </style>
-                            <li class="has-submenu">
-                                <a href="#"><i class="fas fa-plus"></i> Doctors</a>
+                            <li class="has-submenu has-magamenu">
+                                <a href="#" class="mobile-menu-btn"><i class="fas fa-plus"></i> Doctors</a>
                                 <div class="mega-menu">
                                     <div class="container">
                                         <div class="row">
@@ -173,22 +119,39 @@
                                                     <li><a href="doctor-register">Doctor Register</a></li>
                                                 </ul>
                                             </div>
+                                            <div class="col-lg-3">
+                                                <ul>
+                                                    <h6>Find Doctor By Specialist</h6>
+                                                    <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
+                                                    <li><a href="appointments">Appointments</a></li>
+                                                    <li><a href="schedule-timings">Schedule Timing</a></li>
+                                                    <li><a href="my-patients">Patients List</a></li>
+                                                    <li><a href="patient-profile">Patients Profile</a></li>
+                                                    <li><a href="chat-doctor">Chat</a></li>
+                                                    <li><a href="invoices">Invoices</a></li>
+                                                    <li><a href="doctor-profile-settings">Profile Settings</a></li>
+                                                    <li><a href="reviews">Reviews</a></li>
+                                                    <li><a href="doctor-register">Doctor Register</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <ul>
+                                                    <h6>Find Doctor By Specialist</h6>
+                                                    <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
+                                                    <li><a href="appointments">Appointments</a></li>
+                                                    <li><a href="schedule-timings">Schedule Timing</a></li>
+                                                    <li><a href="my-patients">Patients List</a></li>
+                                                    <li><a href="patient-profile">Patients Profile</a></li>
+                                                    <li><a href="chat-doctor">Chat</a></li>
+                                                    <li><a href="invoices">Invoices</a></li>
+                                                    <li><a href="doctor-profile-settings">Profile Settings</a></li>
+                                                    <li><a href="reviews">Reviews</a></li>
+                                                    <li><a href="doctor-register">Doctor Register</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- <ul class="submenu">
-                                    <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
-                                    <li><a href="appointments">Appointments</a></li>
-                                    <li><a href="schedule-timings">Schedule Timing</a></li>
-                                    <li><a href="my-patients">Patients List</a></li>
-                                    <li><a href="patient-profile">Patients Profile</a></li>
-                                    <li><a href="chat-doctor">Chat</a></li>
-                                    <li><a href="invoices">Invoices</a></li>
-                                    <li><a href="doctor-profile-settings">Profile Settings</a></li>
-                                    <li><a href="reviews">Reviews</a></li>
-                                    <li><a href="doctor-register">Doctor Register</a></li>
-                                </ul> -->
                             </li>
                             <li class="login-link">
                                 <a href="login">Login / Signup</a>

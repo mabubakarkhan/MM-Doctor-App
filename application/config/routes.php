@@ -56,6 +56,7 @@ $route["make-bookmark"] = 'Home/make_bookmark';
 $route["blog"] = 'Home/blog';
 $route["post/(.*)"] = 'Home/post/$1';
 $route["live-search"] = 'Home/live_search';
+$route["hospital/(.*)"] = 'Home/hospital/$1';
 
 
 $route["logout"] = 'Home/logout';

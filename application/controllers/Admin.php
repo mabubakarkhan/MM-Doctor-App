@@ -332,6 +332,24 @@ class Admin extends CI_Controller {
 		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
 		$this->template('admin/facilities', $data);
 	}
+	public function photos($type,$id)
+	{
+		$user = $this->check_login();
+		$data['page_title'] = $type." -> Photos";
+		$data['photos'] = $this->model->photos($type,$id);
+		$data['id'] = $id;
+		$data['type'] = $type;
+		$this->template('admin/photos',$data);
+	}
+	public function faqs($type,$id)
+	{
+		$user = $this->check_login();
+		$data['page_title'] = $type." -> FAQs";
+		$data['faqs'] = $this->model->faqs($type,$id);
+		$data['id'] = $id;
+		$data['type'] = $type;
+		$this->template('admin/faqs',$data);
+	}
 	public function cats($status = 'all')
 	{
 		$user = $this->check_login();
@@ -342,14 +360,6 @@ class Admin extends CI_Controller {
 		$data['msg_code'] = isset($_GET['msg']) && $_GET['msg'] != '' ? $_GET['msg'] : FALSE;
 		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
 		$this->template('admin/cats', $data);
-	}
-	public function photos($product)
-	{
-		$user = $this->check_login();
-		$data['product'] = $this->model->get_product_byid($product);
-		$data['page_title'] = $data['product']['title']." -> Photos";
-		$data['photos'] = $this->model->photos($product);
-		$this->template('admin/photos',$data);
 	}
 	public function offers()
 	{
@@ -474,6 +484,14 @@ class Admin extends CI_Controller {
 		$data['menu'] = 'add_facility';
 		$this->template('admin/add_facility', $data);
 	}
+	public function add_faq($type,$id)
+	{
+		$user = $this->check_login();
+		$data['page_title'] = 'Add Faq -> '.$type;
+		$data['id'] = $id;
+		$data['type'] = $type;
+		$this->template('admin/add_faq', $data);
+	}
 	public function add_blog()
 	{
 		$user = $this->check_login();
@@ -506,12 +524,13 @@ class Admin extends CI_Controller {
 	    	$resp = $this->load->library('upload', $config);
 	    	if ($resp) {
 	        	$this->upload->do_upload('file');
-				$insert['product_id'] = $_POST['product_id'];
+				$insert['id'] = $_POST['id'];
+				$insert['type'] = $_POST['type'];
 				$insert['img'] = $this->upload->data()['file_name'];
 				$this->db->insert("photo", $insert);
 	    	}
 		}
-		redirect("admin/photos/".$_POST['product_id']."/?msg=Photos Added!");
+		redirect("admin/photos/".$_POST['type']."/".$_POST['id']."/?msg=Photos Added!");
 	}
 	public function post_service()
 	{
@@ -574,6 +593,7 @@ class Admin extends CI_Controller {
 		$user = $this->check_login();
 		$_POST['doctor_id'] = 0;
 		$_POST['country_id'] = 166;
+		$_POST['admin_id'] = $user['admin_id'];
 		$resp = $this->db->insert("hospital", $_POST);
 		redirect("admin/hospitals/?msg=Hospital Post Added!");
 	}
@@ -608,6 +628,12 @@ class Admin extends CI_Controller {
 	    	}
 		}
 		redirect("admin/sliders/?msg=Slider Added!");
+	}
+	public function post_faq($type,$id)
+	{
+		$user = $this->check_login();
+		$resp = $this->db->insert("faq", $_POST);
+		redirect("admin/faqs/".$type."/".$id."/?msg=FAQ Added!");
 	}
 	public function post_review()
 	{
@@ -706,6 +732,24 @@ class Admin extends CI_Controller {
 			$data['mode'] = "edit";
 			$data['menu'] = 'hospitals';
 			$this->template('admin/add_hospital', $data);
+		}
+	}
+	public function edit_faq($type,$id)
+	{
+		$user = $this->check_login();
+		$new_id = isset($_GET['id']) ? $_GET['id'] : 0;
+		if($new_id < 1) 
+		{
+			echo ("Wrong FAQ ID has been passed");
+		}
+		else 
+		{
+			$data['q'] = $this->model->get_faq_byid($new_id,$type,$id);
+			$data['id'] = $id;
+			$data['type'] = $type;
+			$data['page_title'] = "Edit: FAQ -> ".$type;
+			$data['mode'] = "edit";
+			$this->template('admin/add_faq', $data);
 		}
 	}
 	public function edit_blog()
@@ -854,11 +898,27 @@ class Admin extends CI_Controller {
 		$data = $this->db->update("hospital", $_POST);
 		if($data)
 		{
-			redirect("admin/hospitals/?msg=Edited hospital Post");
+			redirect("admin/hospitals/?msg=Edited hospital");
 		}
 		else
 		{
-			redirect("admin/hospitals/?error=1&msg=Error occured while Editing hospital Post");
+			redirect("admin/hospitals/?error=1&msg=Error occured while Editing hospital");
+		}
+	}
+	public function update_faq($type,$id)
+	{
+		$user = $this->check_login();
+		$aid = $_POST['aid'];
+		unset($_POST['aid'], $_POST['mode'], $_POST['security']);
+		$this->db->where("faq_id",$aid);
+		$data = $this->db->update("faq", $_POST);
+		if($data)
+		{
+			redirect("admin/faqs/".$type."/".$id."/?msg=Edited FAQ");
+		}
+		else
+		{
+			redirect("admin/faqs/".$type."/".$id."/?error=1&msg=Error occured while Editing FAQ");
 		}
 	}
 	public function update_blog()
@@ -1028,6 +1088,40 @@ class Admin extends CI_Controller {
 			redirect("admin/newsletters/?error=1&msg=Email has failed to delete. Try Again!");
 		}
 	}
+	public function delete_photo($type,$id)
+	{
+		$user = $this->check_login();
+		$photo = $this->model->get_row("SELECT `img` FROM `photo` WHERE `photo_id` = '".$_GET['id']."' AND `type` = '$type' AND `id` = '$id';");
+		$this->db->where('photo_id', $_GET['id']);
+		$this->db->where('type', $type);
+		$this->db->where('id', $id);
+		$resp = $this->db->delete('photo');
+		if($resp)
+		{
+			unlink('uploads/'.$photo['img']);
+			redirect("admin/photos/".$type."/".$id."/?msg=".$type." Photo has Deleted");
+		}
+		else
+		{
+			redirect("admin/photos/".$type."/".$id."/?error=1&msg=".$type." Photo has failed to delete. Try Again!");
+		}
+	}
+	public function delete_faq($type,$id)
+	{
+		$user = $this->check_login();
+		$this->db->where('faq_id', $_GET['id']);
+		$this->db->where('type', $type);
+		$this->db->where('id', $id);
+		$resp = $this->db->delete('faq');
+		if($resp)
+		{
+			redirect("admin/faqs/".$type."/".$id."/?msg=".$type." Faq has Deleted");
+		}
+		else
+		{
+			redirect("admin/faqs/".$type."/".$id."/?error=1&msg=".$type." Faq has failed to delete. Try Again!");
+		}
+	}
 
 	/**
 	*
@@ -1194,7 +1288,117 @@ class Admin extends CI_Controller {
 			}
 		}
 	}
-
+	public function get_hospital_services()
+	{
+		$user = $this->check_login();
+		$services = $this->model->services();
+		$hospitalServices = $this->db->where('hospital_id',$_POST['id'])->from('hospital')->get()->row()->services;
+		if (empty($hospitalServices)) {
+			$hospitalServices = array();
+		}
+		else{
+			$hospitalServices = explode(',', $hospitalServices);
+		}
+		$html = '<form>';
+            $html .= '<input type="hidden" name="id" value="'.$_POST['id'].'">';
+			foreach ($services as $key => $q) {
+	            $html .= '<div class="form-group">';
+					if (in_array($q['service_id'],$hospitalServices)) {
+	                	$html .= '<input type="checkbox" name="service_id[]" value="'.$q['service_id'].'" checked> '.$q['title'];
+					}
+					else{
+	                	$html .= '<input type="checkbox" name="service_id[]" value="'.$q['service_id'].'"> '.$q['title'];
+					}
+	            $html .= '</div>';
+			}
+            $html .= '<div class="form-group">';
+                $html .= '<button class="btn btn-success" type="submit">Save</button>';
+            $html .= '</div>';
+        $html .= '</form>';
+        echo json_encode(array("html"=>$html));
+	}
+	public function submit_hospital_services()
+	{
+		$user = $this->check_login();
+		parse_str($_POST['data'],$post);
+		$services = implode(',',$post['service_id']);
+		$this->db->where('hospital_id',$post['id'])->set('services',$services)->update('hospital');
+		echo json_encode(array("status"=>true,"msg"=>"updated :)"));
+	}
+	public function get_hospital_facilities()
+	{
+		$user = $this->check_login();
+		$facilities = $this->model->facilities();
+		$hospitalFacilities = $this->db->where('hospital_id',$_POST['id'])->from('hospital')->get()->row()->facilities;
+		if (empty($hospitalFacilities)) {
+			$hospitalFacilities = array();
+		}
+		else{
+			$hospitalFacilities = explode(',', $hospitalFacilities);
+		}
+		$html = '<form>';
+            $html .= '<input type="hidden" name="id" value="'.$_POST['id'].'">';
+			foreach ($facilities as $key => $q) {
+	            $html .= '<div class="form-group">';
+					if (in_array($q['facility_id'],$hospitalFacilities)) {
+	                	$html .= '<input type="checkbox" name="facility_id[]" value="'.$q['facility_id'].'" checked> '.$q['title'];
+					}
+					else{
+	                	$html .= '<input type="checkbox" name="facility_id[]" value="'.$q['facility_id'].'"> '.$q['title'];
+					}
+	            $html .= '</div>';
+			}
+            $html .= '<div class="form-group">';
+                $html .= '<button class="btn btn-success" type="submit">Save</button>';
+            $html .= '</div>';
+        $html .= '</form>';
+        echo json_encode(array("html"=>$html));
+	}
+	public function submit_hospital_facilities()
+	{
+		$user = $this->check_login();
+		parse_str($_POST['data'],$post);
+		$facilities = implode(',',$post['facility_id']);
+		$this->db->where('hospital_id',$post['id'])->set('facilities',$facilities)->update('hospital');
+		echo json_encode(array("status"=>true,"msg"=>"updated :)"));
+	}
+	public function get_hospital_specialities()
+	{
+		$user = $this->check_login();
+		$specialities = $this->model->specializations();
+		$hospitalSpecialities = $this->db->where('hospital_id',$_POST['id'])->from('hospital')->get()->row()->specialities;
+		if (empty($hospitalSpecialities)) {
+			$hospitalSpecialities = array();
+		}
+		else{
+			$hospitalSpecialities = explode(',', $hospitalSpecialities);
+		}
+		$html = '<form>';
+            $html .= '<input type="hidden" name="id" value="'.$_POST['id'].'">';
+			foreach ($specialities as $key => $q) {
+	            $html .= '<div class="form-group">';
+					if (in_array($q['specialization_id'],$hospitalSpecialities)) {
+	                	$html .= '<input type="checkbox" name="speciality_id[]" value="'.$q['specialization_id'].'" checked> '.$q['title'];
+					}
+					else{
+	                	$html .= '<input type="checkbox" name="speciality_id[]" value="'.$q['specialization_id'].'"> '.$q['title'];
+					}
+	            $html .= '</div>';
+			}
+            $html .= '<div class="form-group">';
+                $html .= '<button class="btn btn-success" type="submit">Save</button>';
+            $html .= '</div>';
+        $html .= '</form>';
+        echo json_encode(array("html"=>$html));
+	}
+	public function submit_hospital_specialities()
+	{
+		$user = $this->check_login();
+		parse_str($_POST['data'],$post);
+		$specialities = implode(',',$post['speciality_id']);
+		$this->db->where('hospital_id',$post['id'])->set('specialities',$specialities)->update('hospital');
+		echo json_encode(array("status"=>true,"msg"=>"updated :)"));
+	}
 	/**
 	*
 

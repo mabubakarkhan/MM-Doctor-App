@@ -629,4 +629,16 @@ class Model_functions extends CI_Model {
 	{
 		return $this->get_row("SELECT * FROM `blog` WHERE `slug` = '$slug';");
 	}
+	public function photos($type, $id)
+	{
+		return $this->get_results("SELECT * FROM `photo` WHERE `type` = '$type' AND `id` = '$id' ORDER BY `photo_id` ASC;");
+	}
+	public function faqs($type, $id)
+	{
+		return $this->get_results("SELECT * FROM `faq` WHERE `type` = '$type' AND `id` = '$id' ORDER BY `faq_id` ASC;");
+	}
+	public function get_faq_byid($faq_id, $type, $id)
+	{
+		return $this->get_row("SELECT * FROM `faq` WHERE `faq_id` = '$faq_id' AND `type` = '$type' AND `id` = '$id';");
+	}
 }

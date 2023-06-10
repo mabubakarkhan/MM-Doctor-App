@@ -448,6 +448,20 @@ class Home extends CI_Controller {
 			echo json_encode(array("status"=>fasle,"msg"=>"not login, please login first."));
 		}
 	}
+	public function hospital($id)
+	{
+		$data['hospital'] = $this->model->hospital_byid($id);
+		$data['photos'] = $this->model->photos('hospital',$id);
+		$data['faqs'] = $this->model->faqs('hospital',$id);
+		$data['specialities'] = $this->model->get_results("SELECT `specialization_id`,`title`,`image` FROM `specialization` WHERE FIND_IN_SET(`specialization_id`, '".$data['hospital']['specialities']."'); ");
+		$data['services'] = $this->model->get_results("SELECT `service_id`,`title` FROM `service` WHERE FIND_IN_SET(`service_id`, '".$data['hospital']['services']."'); ");
+		$data['facilities'] = $this->model->get_results("SELECT `facility_id`,`title` FROM `facility` WHERE FIND_IN_SET(`facility_id`, '".$data['hospital']['facilities']."'); ");
+		$data['meta_title'] = $data['hospital']['name'];
+		$data['meta_key'] = $data['hospital']['name'];
+		$data['meta_desc'] = $data['hospital']['name'];
+		echo var_dump($data);die;
+		$this->template('hospital', $data);
+	}
 	/**
 
 

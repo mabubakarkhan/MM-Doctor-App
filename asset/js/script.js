@@ -29,7 +29,6 @@ Version      : 1.3
 			var $this = Sidemenu;
 			$('.main-nav a.mobile-menu-btn').on('click', function(e) {
 				var main = $(this).parent('li');
-				console.log($(main).find('ul'));
 				if($(this).parent().hasClass('has-submenu')) {
 					e.preventDefault();
 				}

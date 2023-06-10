@@ -120,6 +120,59 @@
 						</div><!-- /example-wrap -->
 	              	</div><!-- /12/form-horizontal -->
 
+	              	<div class="col-lg-3 form-horizontal">
+						<div class="form-group form-material">
+							<label class="col-lg-12 col-sm-3 control-label">Emergency Note</label>
+							<div class=" col-lg-12 col-sm-9">
+								<input type="text" class="form-control" name="emergency_note" placeholder="24 Hours Emergency" value="<?=$q['emergency_note']?>">
+							</div><!-- /12 -->
+						</div><!-- /form-group -->
+					</div><!-- /form-horizontal -->
+
+					<div class="col-lg-3 form-horizontal">
+						<div class="form-group form-material">
+							<label class="col-lg-12 col-sm-3 control-label">Phone</label>
+							<div class=" col-lg-12 col-sm-9">
+								<input type="text" class="form-control" name="phone" placeholder="042 31234567" value="<?=$q['phone']?>">
+							</div><!-- /12 -->
+						</div><!-- /form-group -->
+					</div><!-- /form-horizontal -->
+
+					<div class="col-lg-3 form-horizontal">
+						<div class="form-group form-material">
+							<label class="col-lg-12 col-sm-3 control-label">Call Note</label>
+							<div class=" col-lg-12 col-sm-9">
+								<input type="text" class="form-control" name="call_note" placeholder="Call Mon - Sun, 9am to 11pm" value="<?=$q['call_note']?>">
+							</div><!-- /12 -->
+						</div><!-- /form-group -->
+					</div><!-- /form-horizontal -->
+
+					<div class="col-lg-12 form-horizontal">
+						<div class="form-group form-material">
+							<label class="col-lg-12 col-sm-3 control-label">Google Map</label>
+							<div class=" col-lg-12 col-sm-9">
+								<textarea name="google_map" class="form-control" rows="5"><?=$q['google_map']?></textarea>
+							</div><!-- /12 -->
+						</div><!-- /form-group -->
+					</div><!-- /form-horizontal -->
+
+					<div class="col-lg-12 form-horizontal">
+						<div class="form-group form-material">
+							<label class="col-lg-12 col-sm-3 control-label">Featured</label>
+							<div class=" col-lg-12 col-sm-9">
+								<select name="featured" class="form-control" required>
+									<?php if ($q['featured'] == 'yes'): ?>
+										<option value="yes" selected>Yes</option>
+										<option value="no">No</option>
+									<?php else: ?>
+										<option value="yes">Yes</option>
+										<option value="no" selected>No</option>
+									<?php endif ?>
+								</select>
+							</div><!-- /12 -->
+						</div><!-- /form-group -->
+					</div><!-- /form-horizontal -->
+
 	              	<div class="form-group form-material col-lg-12 text-right padding-top-m">
 	                	<button type="submit" class="btn btn-primary" id="validateButton1">Submit</button>
 	              	</div><!-- /form-group -->

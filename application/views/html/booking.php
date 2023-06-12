@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-md-12">
 
-        <div class="card schedule-widget mb-0">
+        <div class="card schedule-widget mb-0 flex-wrap">
 
             <div class="schedule-header">
 
                 <div class="schedule-nav">
-                    <ul class="nav nav-tabs nav-justified">
+                    <ul class="nav nav-tabs nav-justified daily-solts">
                         <?php foreach ($full_dates as $key => $day): ?>
                             <li class="nav-item">
                                 <a class="nav-link bookingPageDaySelectTabBtn <?=($key == 0) ? 'active' : ''?>" data-date="<?=date('d F Y',strtotime($day))?>" data-day="<?=$days[$key]?>" data-bs-toggle="tab" href="#slot_<?=$day?>" style="font-weight: bold;">
@@ -29,7 +29,7 @@
                         </h4>
 
                         <div class="time-slot">
-                            <ul class="clearfix">
+                            <ul class="clearfix d-flex flex-wrap">
                                 <?php foreach ($slots as $key_ => $slot): ?>
                                     <?php if ($slot['day_name'] == $days[$key]): ?>
                                         <?php
@@ -68,3 +68,60 @@
 
     </div><!-- /12 -->
 </div><!-- /row -->
+
+
+<style>
+    .daily-solts .slick-prev, 
+    .daily-solts .slick-next{
+        top: -20px;
+        width: 20px;
+        height: 20px;
+        /*background: transparent;*/
+    }
+    .daily-solts .slick-prev{
+        /*right: unset;*/
+        /*left: -30px;*/
+    }
+    .daily-solts .slick-next{
+        /*right: 10px;*/
+    }
+    .daily-solts .slick-prev:hover, 
+    .daily-solts .slick-next:hover, 
+    .daily-solts .slick-prev:active, 
+    .daily-solts .slick-next:active, 
+    .daily-solts .slick-prev:focus, 
+    .daily-solts .slick-next:focus, 
+    .daily-solts .slick-prev:hover:before, 
+    .daily-solts .slick-next:hover:before{
+        color: #fff;
+        background-color: /*transparent*/;
+    }
+    @media only screen and (max-width: 575.98px){
+        .booking-schedule.schedule-widget > div {
+            width: 100%;
+        }
+    }
+    .booking-schedule.schedule-widget .schedule-header {
+        width: 100%;
+    }
+    @media only screen and (max-width: 768.98px){
+        .booking-schedule .time-slot li {
+            -ms-flex: 0 0 110px;
+            flex: 0 0 110px;
+            width: 110px;
+        }
+    }
+    @media only screen and (max-width: 575.98px){
+        .booking-schedule .time-slot li {
+            -ms-flex: 0 0 130px;
+            flex: 0 0 130px;
+            width: 130px;
+        }
+    }
+    .schedule-nav .nav-tabs li{
+        padding: 5px;
+    }
+    .schedule-nav .nav-tabs .nav-link{
+        border: 1px solid #0071DC !important
+    }
+</style>

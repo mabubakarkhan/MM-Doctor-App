@@ -31,6 +31,48 @@
 				$(".bookingPageSelectedDateHeading").text(resp.bookingPageSelectedDateHeading);
 				$(".bookingPageSelectedDayHeading").text(resp.bookingPageSelectedDayHeading);
 				$("#booking-schedule-section").html(resp.html);
+				//Daily Solts slider
+				if($('.daily-solts').length > 0) {
+					$('.daily-solts').slick({
+						dots: false,
+						autoplay:false,
+						infinite: false,
+						arrows: true,
+						slidesToShow: 6,
+						slidesToScroll: 1,
+						responsive: [{
+							breakpoint: 992,
+							settings: {
+								slidesToShow: 5
+							}
+						},
+						{
+							breakpoint: 800,
+							settings: {
+								slidesToShow: 4
+							}
+						},
+						{
+							breakpoint: 776,
+							settings: {
+								slidesToShow: 3
+							}
+						},
+						{
+							breakpoint: 567,
+							settings: {
+								slidesToShow: 2
+							}
+						},
+						{
+							breakpoint: 450,
+							settings: {
+								slidesToShow: 1
+							}
+						}
+						]
+					});
+				}
 			});
 		}
 

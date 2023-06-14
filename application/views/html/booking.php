@@ -6,7 +6,7 @@
             <div class="schedule-header">
 
                 <div class="schedule-nav">
-                    <ul class="nav nav-tabs nav-justified">
+                    <ul class="nav nav-tabs nav-justified custom-scrollbar-horizontal">
                         <?php foreach ($full_dates as $key => $day): ?>
                             <li class="nav-item">
                                 <a class="nav-link bookingPageDaySelectTabBtn <?=($key == 0) ? 'active' : ''?>" data-date="<?=date('d F Y',strtotime($day))?>" data-day="<?=$days[$key]?>" data-bs-toggle="tab" href="#slot_<?=$day?>" style="font-weight: bold;">
@@ -120,6 +120,14 @@
     }
     .schedule-nav .nav-tabs li{
         padding: 5px;
+    }
+    .schedule-nav{
+        width: 100%;
+        overflow: hidden;
+    }
+    .schedule-nav .nav-tabs{
+        flex-wrap: nowrap;
+        overflow-x: auto;
     }
     .schedule-nav .nav-tabs .nav-link{
         border: 1px solid #0071DC !important

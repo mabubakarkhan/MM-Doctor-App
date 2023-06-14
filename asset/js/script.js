@@ -454,6 +454,41 @@ Version      : 1.3
 		});
 	}
 
+	//pharmacy-product-images-gallery slider
+	if($('.pharmacy-product-images-gallery').length > 0) {
+		$('.pharmacy-product-images-gallery').slick({
+			dots: false,
+			autoplay:false,
+			infinite: true,
+			slidesToShow: 5,
+			slidesToScroll: 1,
+			responsive: [{
+				breakpoint: 992,
+				settings: {
+					slidesToShow: 7
+				}
+			},
+			{
+				breakpoint: 800,
+				settings: {
+					slidesToShow: 7
+				}
+			},
+			{
+				breakpoint: 776,
+				settings: {
+					slidesToShow: 7
+				}
+			},
+			{
+				breakpoint: 567,
+				settings: {
+					slidesToShow: 5
+				}
+			}]
+		});
+	}
+
 	//avalable features slider
 	if($('.aval-slider').length > 0) {
 		$('.aval-slider').slick({

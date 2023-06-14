@@ -111,22 +111,30 @@
 						<div class="card">
 							<div class="card-body product-description">
 								<div class="doctor-widget">
-									<div class="doc-info-left">
+									<div class="doc-info-left w-100">
 										<div class="doctor-img1">
-											<img src="<?=UPLOADS.$product['image']?>" class="img-fluid"
-												alt="<?=$product['title']?>">
+											<div>
+												<img src="<?=UPLOADS.$product['image']?>" class="img-fluid" alt="<?=$product['title']?>">
+											</div>
+											<div class="mt-4">
+												<div class="clinic-details">
+							                        <ul class="ps-0 clinic-gallery pharmacy-product-images-gallery">
+							                            <?php foreach ($photos as $key => $p): ?>
+							                                <li>
+							                                    <a href="<?=UPLOADS.$p['img']?>" data-fancybox="gallery">
+							                                        <img src="<?=UPLOADS.$p['img']?>" alt="<?=$product['title']?>">
+							                                    </a>
+							                                </li>
+							                                <li>
+							                                    <a href="<?=UPLOADS.$p['img']?>" data-fancybox="gallery">
+							                                        <img src="<?=UPLOADS.$p['img']?>" alt="<?=$product['title']?>">
+							                                    </a>
+							                                </li>
+							                            <?php endforeach ?>
+							                        </ul>
+							                    </div>
+											</div>
 										</div>
-										<!-- <div class="clinic-details">
-					                        <ul class="ps-0 clinic-gallery hospital-images-gallery">
-					                            <?php foreach ($photos as $key => $p): ?>
-					                                <li>
-					                                    <a href="<?=UPLOADS.$p['img']?>" data-fancybox="gallery">
-					                                        <img src="<?=UPLOADS.$p['img']?>" alt="<?=$product['title']?>">
-					                                    </a>
-					                                </li>
-					                            <?php endforeach ?>
-					                        </ul>
-					                    </div> -->
 										<div class="doc-info-cont">
 											<h4 class="doc-name"><?=$product['title']?></h4>
 											<p><span class="text-muted">Category </span> <a href="<?=BASEURL.'category/'.$product['categorySlug']?>"><?=$product['category']?></a></p>
@@ -161,3 +169,36 @@
 				</div>
 			</div>
 		</div>
+
+
+<style>
+
+    .clinic-details ul.pharmacy-product-images-gallery li a{
+    	width: 100%;
+    }
+    .clinic-details ul.pharmacy-product-images-gallery li a img{
+    	width: 100%;
+    	height: 50px;
+    	padding: 5px;
+    	border-radius: 10px;
+    } 
+    .pharmacy-product-images-gallery .slick-prev, 
+    .pharmacy-product-images-gallery .slick-next{
+        top: 16px;
+        width: 0;
+        height: 0;
+        background: transparent;
+    }
+    .pharmacy-product-images-gallery .slick-prev{
+        right: unset;
+        left: -10px;
+    }
+    .pharmacy-product-images-gallery .slick-next{
+        right: 0px;
+    }
+    .pharmacy-product-images-gallery .slick-prev:hover:before, 
+    .pharmacy-product-images-gallery .slick-next:hover:before{
+        color: #000;
+    }
+
+</style>

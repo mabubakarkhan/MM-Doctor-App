@@ -43,6 +43,7 @@ class Home extends CI_Controller {
 		if (isset($_SESSION['user'])) {
 			$data['userSession'] = unserialize($_SESSION['user']);
 		}
+		$data['cats'] = $this->model->cats('active');
 		$data['services'] = $this->model->services();
 		$data['specializations'] = $this->model->specializations();
 		$data['featured_hospitals'] = $this->model->featured_hospitals();
@@ -499,6 +500,26 @@ class Home extends CI_Controller {
 		$data['meta_desc'] = $data['page']['meta_desc'];
 		$this->template('page', $data);
 	}
+	public function medicine($slug)
+	{
+		$data['cat'] = $this->model->get_cat_byslug($slug);
+		$data['page_title'] = $data['cat']['title'];
+		$data['meta_title'] = $data['cat']['meta_title'];
+		$data['meta_key'] = $data['cat']['meta_key'];
+		$data['meta_desc'] = $data['cat']['meta_desc'];
+		$html['products'] = $this->model->get_products_by_cat($data['cat']['category_id']);
+		$data['products'] = $this->load->view('html/medicine_listing',$html, TRUE);
+		$data['productCounter'] = count($html['products']);
+		$this->template('medicine_listing',$data,true);
+	}
+	public function product($slug)
+	{
+		$slug = explode('-', $slug);
+		$id = $slug[count($slug)-1];
+		$data['product'] = $this->model->get_product($id);
+		$data['photos'] = $this->model->photos('product',$id);
+		$this->template('product',$data,true);
+	}
 	/**
 
 
@@ -705,7 +726,19 @@ class Home extends CI_Controller {
 			}
 		}
 		echo json_encode(array("status"=>$status,"html"=>$html));
-
+	}
+	public function get_products_by_ajax()
+	{
+		parse_str($_POST['data'],$post);
+		$sort = $_POST['sort'];
+		if (!(empty($post['category_id']))) {
+			$data['products'] = $this->model->get_products_by_cats(implode(',', $post['category_id']),$sort);
+		}
+		else{
+			$data['products'] = $this->model->get_products_by_cats(false,$sort);
+		}
+		$html = $this->load->view('html/medicine_listing',$data, TRUE);
+		echo json_encode(array("status"=>true,"html"=>$html));
 	}
 	/**
 

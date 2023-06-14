@@ -97,6 +97,23 @@
                                     </div>
                                 </div>
                             </li>
+                            <li class="has-submenu has-magamenu">
+                                <a href="#" class="mobile-menu-btn"><i class="fas fa-plus"></i> medicine</a>
+                                <div class="mega-menu">
+                                    <div class="container">
+                                        <div class="row">
+                                            <h6>Find Medicine By Category</h6>
+                                            <?php foreach ($cats as $key => $q): ?>
+                                                <div class="col-lg-3">
+                                                    <ul>
+                                                        <li><a href="<?=BASEURL.'category/'.$q['slug']?>"><?=$q['title']?></a></li>
+                                                    </ul>
+                                                </div>
+                                            <?php endforeach ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
                             <li class="login-link">
                                 <a href="login">Login / Signup</a>
                             </li>

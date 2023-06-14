@@ -666,4 +666,91 @@ class Model_functions extends CI_Model {
 	{
 		return $this->get_row("SELECT * FROM `page` WHERE `page_id` = '$id';");
 	}
+	public function cats($status)
+	{
+		if ($status == 'all') {
+			return $this->get_results("SELECT * FROM `category` ORDER BY `title` ASC;");
+		}
+		else{
+			return $this->get_results("SELECT * FROM `category` WHERE `status` = '$status' ORDER BY `title` ASC;");
+		}
+	}
+	public function get_cat_byid($id)
+	{
+		return $this->get_row("SELECT * FROM `category` WHERE `category_id` = '$id';");
+	}
+	public function get_cat_byslug($slug)
+	{
+		return $this->get_row("SELECT * FROM `category` WHERE `slug` = '$slug';");
+	}
+	public function get_products_by_cat($id)
+	{
+		return $this->get_results("
+			SELECT p.title, p.slug, p.product_id, p.image, p.price, p.old_price, p.new 
+			FROM `product` AS p 
+			WHERE p.status = 'active' AND p.category_id = '$id' 
+			ORDER BY p.product_id DESC;
+		");
+	}
+	public function get_products_by_cats($ids,$sort)
+	{
+		$sort = explode('-',$sort);
+		if ($sort[0] == 'title') {
+			$sortBy = " ORDER BY p.title ".$sort[1].";";
+		}
+		else{
+			$sortBy = " ORDER BY p.price ".$sort[1].";";
+		}
+		if ($ids == false) {
+			return $this->get_results("
+				SELECT p.title, p.slug, p.product_id, p.image, p.price, p.old_price, p.new 
+				FROM `product` AS p 
+				WHERE p.status = 'active' 
+				$sortBy;
+			");
+		}
+		return $this->get_results("
+			SELECT p.title, p.slug, p.product_id, p.image, p.price, p.old_price, p.new 
+			FROM `product` AS p 
+			WHERE p.status = 'active' AND p.category_id IN($ids) 
+			$sortBy;
+		");
+	}
+	public function products($status = 'all')
+	{
+		if ($status == 'all') {
+			return $this->get_results("
+				SELECT p.*, c.title AS category 
+				FROM `product` AS p 
+				INNER JOIN `category` AS c ON p.category_id = c.category_id 
+				ORDER BY p.product_id DESC;
+			");
+		}
+		else{
+			return $this->get_results("
+				SELECT p.*, c.title AS category 
+				FROM `product` AS p 
+				INNER JOIN `category` AS c ON p.category_id = c.category_id 
+				WHERE p.status = '$status' 
+				ORDER BY p.product_id DESC;
+			");
+		}
+	}
+	public function get_product_byid($id)
+	{
+		return $this->get_row("SELECT * FROM `product` WHERE `product_id` = '$id';");
+	}
+	public function get_product_byslug($slug)
+	{
+		return $this->get_row("SELECT * FROM `product` WHERE `slug` = '$slug';");
+	}
+	public function get_product($id)
+	{
+		return $this->get_row("
+			SELECT p.*, c.title AS category, c.slug AS categorySlug 
+			FROM `product` AS p 
+			INNER JOIN `category` AS c ON p.category_id = c.category_id 
+			WHERE p.product_id = '$id' 
+		");
+	}
 }

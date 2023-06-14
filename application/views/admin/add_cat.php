@@ -41,7 +41,7 @@
 
 	            <div class="row row-lg">
 					
-					<div class="col-lg-12 form-horizontal">
+					<div class="col-lg-6 form-horizontal">
 						<div class="form-group form-material">
 							<label class="col-lg-12 col-sm-3 control-label">Title
 								<span class="required">*</span>
@@ -52,7 +52,7 @@
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
 
-					<div class="col-lg-12 form-horizontal">
+					<div class="col-lg-6 form-horizontal">
 						<div class="form-group form-material">
 							<label class="col-lg-12 col-sm-3 control-label">URL Slug
 								<span class="required">*</span>
@@ -63,7 +63,7 @@
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
 
-					<div class="col-lg-12 form-horizontal">
+					<div class="col-lg-6 form-horizontal">
 						<div class="form-group form-material">
 							<label class="col-lg-12 col-sm-3 control-label">Meta Title
 								<span class="required">*</span>
@@ -74,7 +74,7 @@
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
 
-					<div class="col-lg-12 form-horizontal">
+					<div class="col-lg-6 form-horizontal">
 						<div class="form-group form-material">
 							<label class="col-lg-12 col-sm-3 control-label">Meta Keywords
 								<span class="required">*</span>

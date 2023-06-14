@@ -6,7 +6,7 @@
             <div class="schedule-header">
 
                 <div class="schedule-nav">
-                    <ul class="nav nav-tabs nav-justified daily-solts">
+                    <ul class="nav nav-tabs nav-justified">
                         <?php foreach ($full_dates as $key => $day): ?>
                             <li class="nav-item">
                                 <a class="nav-link bookingPageDaySelectTabBtn <?=($key == 0) ? 'active' : ''?>" data-date="<?=date('d F Y',strtotime($day))?>" data-day="<?=$days[$key]?>" data-bs-toggle="tab" href="#slot_<?=$day?>" style="font-weight: bold;">

@@ -522,40 +522,6 @@ Version      : 1.3
 			}]
 		});
 	}
-	//Daily Solts slider
-	if($('.daily-solts').length > 0) {
-		$('.daily-solts').slick({
-			dots: false,
-			autoplay:false,
-			infinite: true,
-			slidesToShow: 7,
-			slidesToScroll: 1,
-			responsive: [{
-				breakpoint: 992,
-				settings: {
-					slidesToShow: 7
-				}
-			},
-			{
-				breakpoint: 800,
-				settings: {
-					slidesToShow: 5
-				}
-			},
-			{
-				breakpoint: 776,
-				settings: {
-					slidesToShow: 5
-				}
-			},
-			{
-				breakpoint: 567,
-				settings: {
-					slidesToShow: 3
-				}
-			}]
-		});
-	}
 	//Home pharmacy slider
 	if($('.pharmacy-home-slider .swiper-container').length > 0) {
 		var swiper = new Swiper('.pharmacy-home-slider .swiper-container', {

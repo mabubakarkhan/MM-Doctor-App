@@ -141,7 +141,7 @@
       <div>
         <div>
           <ul class="site-menu">
-            <li class="site-menu-category">General</li>
+            <li class="site-menu-category">Main</li>
             <li class="site-menu-item">
                 <a class="animsition-link" href="<?=BASEURL?>admin">
                     <i class="site-menu-icon md-view-dashboard" aria-hidden="true"></i>
@@ -291,25 +291,8 @@
                 </li>
               </ul>
             </li>
-            <li rel="pages" class="site-menu-item">
-                <a class="animsition-link" href="<?=BASEURL?>admin/pages">
-                    <i class="site-menu-icon md-file" aria-hidden="true"></i>
-                    <span class="site-menu-title">Pages</span>
-                </a>
-            </li>
-            <li rel="blog" class="site-menu-item">
-                <a class="animsition-link" href="<?=BASEURL?>admin/blog">
-                    <i class="site-menu-icon md-file" aria-hidden="true"></i>
-                    <span class="site-menu-title">Blog</span>
-                </a>
-            </li>
-            <li rel="setting" class="site-menu-item">
-                <a class="animsition-link" href="<?=BASEURL?>admin/setting">
-                    <i class="site-menu-icon md-image" aria-hidden="true"></i>
-                    <span class="site-menu-title">Setting</span>
-                </a>
-            </li>
-            <?php if (1==2): ?>
+
+            <li class="site-menu-category">Medicine</li>
             <li class="site-menu-item has-sub">
               <a href="javascript:void(0)">
                 <i class="site-menu-icon md-view-compact" aria-hidden="true"></i>
@@ -319,26 +302,56 @@
               <ul class="site-menu-sub">
                 <li rel="all_cats" class="site-menu-item">
                     <a class="animsition-link" href="<?=BASEURL?>admin/cats/all">
-                        <span class="site-menu-title">All Categories</span>
+                        <span class="site-menu-title">All</span>
                     </a>
                 </li>
                 <li rel="active_cats" class="site-menu-item">
                     <a class="animsition-link" href="<?=BASEURL?>admin/cats/active">
-                        <span class="site-menu-title">Active Categories</span>
+                        <span class="site-menu-title">Active</span>
                     </a>
                 </li>
                 <li rel="inactive_cats" class="site-menu-item">
                     <a class="animsition-link" href="<?=BASEURL?>admin/cats/inactive">
-                        <span class="site-menu-title">Inactive Categories</span>
+                        <span class="site-menu-title">Inactive</span>
                     </a>
                 </li>
                 <li rel="add_cat" class="site-menu-item">
                     <a class="animsition-link" href="<?=BASEURL?>admin/add-cat/">
-                        <span class="site-menu-title">Add Category</span>
+                        <span class="site-menu-title">Add</span>
                     </a>
                 </li>
               </ul>
             </li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)">
+                <i class="site-menu-icon md-view-compact" aria-hidden="true"></i>
+                <span class="site-menu-title">Products</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li rel="all_products" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/products/all">
+                        <span class="site-menu-title">All</span>
+                    </a>
+                </li>
+                <li rel="active_products" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/products/active">
+                        <span class="site-menu-title">Active</span>
+                    </a>
+                </li>
+                <li rel="inactive_products" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/products/inactive">
+                        <span class="site-menu-title">Inactive</span>
+                    </a>
+                </li>
+                <li rel="add_product" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/add-product/">
+                        <span class="site-menu-title">Add</span>
+                    </a>
+                </li>
+              </ul>
+            </li>
+            <?php if (1==2): ?>
 
             <li class="site-menu-item has-sub">
               <a href="javascript:void(0)">
@@ -366,12 +379,6 @@
             </li>
 
             
-            <li rel="blog" class="site-menu-item">
-                <a class="animsition-link" href="<?=BASEURL?>admin/blog">
-                    <i class="site-menu-icon md-file" aria-hidden="true"></i>
-                    <span class="site-menu-title">Blog</span>
-                </a>
-            </li>
             <li rel="sliders" class="site-menu-item">
                 <a class="animsition-link" href="<?=BASEURL?>admin/sliders">
                     <i class="site-menu-icon md-image" aria-hidden="true"></i>
@@ -392,6 +399,25 @@
                 </a>
             </li>
             <?php endif ?>
+            <li class="site-menu-category">General</li>
+            <li rel="pages" class="site-menu-item">
+                <a class="animsition-link" href="<?=BASEURL?>admin/pages">
+                    <i class="site-menu-icon md-file" aria-hidden="true"></i>
+                    <span class="site-menu-title">Pages</span>
+                </a>
+            </li>
+            <li rel="blog" class="site-menu-item">
+                <a class="animsition-link" href="<?=BASEURL?>admin/blog">
+                    <i class="site-menu-icon md-file" aria-hidden="true"></i>
+                    <span class="site-menu-title">Blog</span>
+                </a>
+            </li>
+            <li rel="setting" class="site-menu-item">
+                <a class="animsition-link" href="<?=BASEURL?>admin/setting">
+                    <i class="site-menu-icon md-image" aria-hidden="true"></i>
+                    <span class="site-menu-title">Setting</span>
+                </a>
+            </li>
             <li rel="pass" class="site-menu-item">
                 <a class="animsition-link" href="<?=BASEURL?>admin/change-password">
                     <i class="site-menu-icon md-key" aria-hidden="true"></i>

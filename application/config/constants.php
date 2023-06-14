@@ -104,7 +104,7 @@ define('IMG', BASEURL.'asset/images/');
 define('UPLOADS', BASEURL.'uploads/');
 define('GLOBAL_', BASEURL.'asset/global/');
 
-define('CURRENCY', '$');
+define('CURRENCY', 'PKR');
 
 define('EMAIL_TITLE', 'InsertReveiw');
 define('EMAIL_SERVER', 'mail.smartcompare.pk');

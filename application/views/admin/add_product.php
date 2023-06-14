@@ -55,7 +55,7 @@
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
 					
-					<div class="col-lg-12 form-horizontal">
+					<div class="col-lg-4 form-horizontal">
 						<div class="form-group form-material">
 							<label class="col-lg-12 col-sm-3 control-label">Title
 								<span class="required">*</span>
@@ -65,6 +65,18 @@
 							</div><!-- /12 -->
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
+
+					<div class="col-lg-4 form-horizontal">
+						<div class="form-group form-material">
+							<label class="col-lg-12 col-sm-3 control-label">URL Slug
+								<span class="required">*</span>
+							</label>
+							<div class=" col-lg-12 col-sm-9">
+								<input type="text" class="form-control" name="slug" placeholder="Product URL Slug" required="" value="<?=$q['slug']?>">
+							</div><!-- /12 -->
+						</div><!-- /form-group -->
+					</div><!-- /form-horizontal -->
+
 
 					<div class="col-lg-12 form-horizontal">
 						<div class="form-group form-material">
@@ -77,29 +89,7 @@
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
 
-					<div class="col-lg-12 form-horizontal">
-						<div class="form-group form-material">
-							<label class="col-lg-12 col-sm-3 control-label">URL Slug
-								<span class="required">*</span>
-							</label>
-							<div class=" col-lg-12 col-sm-9">
-								<input type="text" class="form-control" name="slug" placeholder="Product URL Slug" required="" value="<?=$q['slug']?>">
-							</div><!-- /12 -->
-						</div><!-- /form-group -->
-					</div><!-- /form-horizontal -->
-
-					<div class="col-lg-12 form-horizontal">
-						<div class="form-group form-material">
-							<label class="col-lg-12 col-sm-3 control-label">Amazon Link
-								<span class="required">*</span>
-							</label>
-							<div class=" col-lg-12 col-sm-9">
-								<input type="text" class="form-control" name="link" placeholder="Amazon Link" value="<?=$q['link']?>">
-							</div><!-- /12 -->
-						</div><!-- /form-group -->
-					</div><!-- /form-horizontal -->
-
-					<div class="col-lg-12 form-horizontal">
+					<div class="col-lg-6 form-horizontal">
 						<div class="form-group form-material">
 							<label class="col-lg-12 col-sm-3 control-label">Price</label>
 							<div class=" col-lg-12 col-sm-9">
@@ -108,7 +98,7 @@
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
 
-					<div class="col-lg-12 form-horizontal">
+					<div class="col-lg-6 form-horizontal">
 						<div class="form-group form-material">
 							<label class="col-lg-12 col-sm-3 control-label">Old Price</label>
 							<div class=" col-lg-12 col-sm-9">
@@ -166,7 +156,7 @@
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
 
-					<div class="col-lg-12 form-horizontal">
+					<div class="col-lg-4 form-horizontal">
 						<div class="form-group form-material">
 							<label class="col-lg-12 col-sm-3 control-label">Meta Title
 								<span class="required">*</span>
@@ -177,7 +167,7 @@
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
 
-					<div class="col-lg-12 form-horizontal">
+					<div class="col-lg-4 form-horizontal">
 						<div class="form-group form-material">
 							<label class="col-lg-12 col-sm-3 control-label">Meta Keywords
 								<span class="required">*</span>
@@ -188,13 +178,13 @@
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->
 
-					<div class="col-lg-12 form-horizontal">
+					<div class="col-lg-4 form-horizontal">
 						<div class="form-group form-material">
 							<label class="col-lg-12 col-sm-3 control-label">Meta Description
 								<span class="required">*</span>
 							</label>
 							<div class=" col-lg-12 col-sm-9">
-								<textarea name="meta_desc" class="form-control" rows="5" required=""><?=$q['meta_desc']?></textarea>
+								<textarea name="meta_desc" class="form-control" rows="3" required=""><?=$q['meta_desc']?></textarea>
 							</div><!-- /12 -->
 						</div><!-- /form-group -->
 					</div><!-- /form-horizontal -->

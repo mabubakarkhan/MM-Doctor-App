@@ -220,7 +220,6 @@ class Admin extends CI_Controller {
 	}
 	public function appointment_cancel()
 	{
-		// error_reporting(E_ALL);
 		$user = $this->check_login();
 		parse_str($_POST['form'],$form);
 		$q = $this->model->get_appointment_by_id($form['id']);
@@ -361,6 +360,17 @@ class Admin extends CI_Controller {
 		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
 		$this->template('admin/cats', $data);
 	}
+	public function products($status)
+	{
+		$user = $this->check_login();
+		$data['title'] = "Admin Panel";
+		$data['page_title'] = $status.' products';
+		$data['menu'] = $status.'_products';
+		$data['products'] = $this->model->products($status);
+		$data['msg_code'] = isset($_GET['msg']) && $_GET['msg'] != '' ? $_GET['msg'] : FALSE;
+		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
+		$this->template('admin/products', $data);
+	}
 	public function offers()
 	{
 		$user = $this->check_login();
@@ -499,7 +509,30 @@ class Admin extends CI_Controller {
 		$data['menu'] = 'blog';
 		$this->template('admin/add_blog', $data);
 	}
+	public function add_cat()
+	{
+		$user = $this->check_login();
+		$data['page_title'] = 'Add Category';
+		$data['menu'] = 'add_cat';
+		$data['msg_code'] = isset($_GET['msg']) && $_GET['msg'] != '' ? $_GET['msg'] : FALSE;
+		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
+		$this->template('admin/add_cat', $data);
+	}
+	public function add_product()
+	{
+		$user = $this->check_login();
+		$data['page_title'] = 'Add Product';
+		$data['menu'] = 'add_product';
+		$data['signin'] = FALSE;
+		$data['username'] = $user['username'];
+		$data['password'] = $user['password'];
 
+		$data['cats'] = $this->model->cats('all');
+
+		$data['msg_code'] = isset($_GET['msg']) && $_GET['msg'] != '' ? $_GET['msg'] : FALSE;
+		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
+		$this->template('admin/add_product', $data);
+	}
 	/**********************************************
 	*	starting insert functions from here for:
 	*	company, News&Events, Home, Collection, Albums And Photo 	************************************************/
@@ -641,6 +674,18 @@ class Admin extends CI_Controller {
 		$resp = $this->db->insert("review", $_POST);
 		redirect("admin/reviews/?msg=Testimonial Added!");
 	}
+	public function post_cat()
+	{
+		$user = $this->check_login();
+		$resp = $this->db->insert("category", $_POST);
+		redirect("admin/cats/?msg=Category Added!");
+	}
+	public function post_product()
+	{
+		$user = $this->check_login();
+		$resp = $this->db->insert("product", $_POST);
+		redirect("admin/products/".$_POST['status']."/?msg=Property Added!");
+	}
 
 	/**********************************************
 	*	starting edit functions from here for:
@@ -650,7 +695,7 @@ class Admin extends CI_Controller {
 	{
 		$user = $this->check_login();
 		$new_id = isset($_GET['id']) ? $_GET['id'] : 0;
-		if($new_id < 1) 
+		if($new_id < 1)
 		{
 			echo ("Wrong Service ID has been passed");
 		}
@@ -787,7 +832,43 @@ class Admin extends CI_Controller {
 			$this->template('admin/add_page', $data);
 		}
 	}
-	
+	public function edit_cat()
+	{
+		$user = $this->check_login();
+		$new_id = isset($_GET['id']) ? $_GET['id'] : 0;
+		if($new_id < 1) 
+		{
+			echo ("Wrong Category ID has been passed");
+		}
+		else 
+		{
+			$data['q'] = $this->model->get_cat_byid($new_id);
+			$data['page_title'] = "Edit: Category";
+			$data['mode'] = "edit";
+			$data['signin'] = FALSE;
+			$data['menu'] = 'all_cats';
+			$this->template('admin/add_cat', $data);
+		}
+	}
+	public function edit_product()
+	{
+		$user = $this->check_login();
+		$new_id = isset($_GET['id']) ? $_GET['id'] : 0;
+		if($new_id < 1) 
+		{
+			echo ("Wrong Product ID has been passed");
+		}
+		else 
+		{
+			$data['q'] = $this->model->get_product_byid($new_id);
+			$data['cats'] = $this->model->cats('all');
+			$data['page_title'] = "Edit: Product";
+			$data['mode'] = "edit";
+			$data['signin'] = FALSE;
+			$data['menu'] = 'all_products';
+			$this->template('admin/add_product', $data);
+		}
+	}
 	/**********************************************
 	*	starting update functions from here for:
 	*	company, News&Events, Home, Collection, Albums And Photo 	
@@ -970,7 +1051,38 @@ class Admin extends CI_Controller {
 			redirect("admin/setting/?error=1&msg=Error occured while Editing Setting");
 		}
 	}
-	
+	public function update_cat()
+	{
+		$user = $this->check_login();
+		$aid = $_POST['aid'];
+		unset($_POST['aid'], $_POST['mode'], $_POST['security']);
+		$this->db->where("category_id",$aid);
+		$data = $this->db->update("category", $_POST);
+		if($data)
+		{
+			redirect("admin/cats/?msg=Edited Category");
+		}
+		else
+		{
+			redirect("admin/cats/?error=1&msg=Error occured while Editing Category");
+		}
+	}
+	public function update_product()
+	{
+		$user = $this->check_login();
+		$aid = $_POST['aid'];
+		unset($_POST['aid'], $_POST['mode'], $_POST['security']);
+		$this->db->where("product_id",$aid);
+		$data = $this->db->update("product", $_POST);
+		if($data)
+		{
+			redirect("admin/products/".$_POST['status']."?msg=Edited Product");
+		}
+		else
+		{
+			redirect("admin/products/".$_POST['status']."?error=1&msg=Error occured while Editing Product");
+		}
+	}
 
 	/**********************************************
 	*	starting delete functions from here for:

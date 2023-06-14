@@ -58,6 +58,14 @@ $route["post/(.*)"] = 'Home/post/$1';
 $route["live-search"] = 'Home/live_search';
 $route["hospital/(.*)"] = 'Home/hospital/$1';
 
+
+//medicine
+$route["medicine/(.*)"] = 'Home/medicine/$1';
+$route["category/(.*)"] = 'Home/medicine/$1';
+$route["get-products-by-cat"] = 'Home/get_products_by_ajax';
+$route["product/(.*)"] = 'Home/product/$1';
+
+
 //Pages
 $route["policy"] = 'Home/policy';
 $route["terms"] = 'Home/terms';

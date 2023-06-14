@@ -119,12 +119,12 @@
 											<div class="mt-4">
 												<div class="clinic-details">
 							                        <ul class="ps-0 clinic-gallery pharmacy-product-images-gallery">
+							                        	<li>
+						                                    <a href="<?=UPLOADS.$product['image']?>" data-fancybox="gallery">
+						                                        <img src="<?=UPLOADS.$product['image']?>" alt="<?=$product['title']?>">
+						                                    </a>
+						                                </li>
 							                            <?php foreach ($photos as $key => $p): ?>
-							                                <li>
-							                                    <a href="<?=UPLOADS.$p['img']?>" data-fancybox="gallery">
-							                                        <img src="<?=UPLOADS.$p['img']?>" alt="<?=$product['title']?>">
-							                                    </a>
-							                                </li>
 							                                <li>
 							                                    <a href="<?=UPLOADS.$p['img']?>" data-fancybox="gallery">
 							                                        <img src="<?=UPLOADS.$p['img']?>" alt="<?=$product['title']?>">

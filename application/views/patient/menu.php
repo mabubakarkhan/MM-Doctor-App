@@ -51,12 +51,12 @@
 							<i class="fas fa-file-invoice-dollar"></i>
 						</a>
 					</li>
-					<!-- <li>
-						<a href="orders-list.html">
+					<li class="<?=$orders_active?>">
+						<a href="orders">
 							<span>Orders</span>
 							<i class="feather-file-text"></i>
 						</a>
-					</li> -->
+					</li>
 					<li class="<?=$reviews_active?>">
 						<a href="reviews">
 							<span>Reviews</span>

@@ -520,6 +520,84 @@ class Home extends CI_Controller {
 		$data['photos'] = $this->model->photos('product',$id);
 		$this->template('product',$data,true);
 	}
+	public function cart()
+	{
+		$data['meta_title'] = 'Cart';
+		$this->template('cart',$data,true);
+	}
+	public function cart_checkout($id,$date)
+	{
+		$data['user'] = $this->check_login_patient(BASEURL.'cart-checkout/');
+		$data['states'] = $this->model->get_state_bycountry(166);
+		$data['cities'] = $this->model->get_pak_cities();
+		$this->template('cart_checkout',$data,true);
+	}
+	public function submit_cart_checkout()
+	{
+		$user  = $this->check_login_patient();
+		if ($user) {
+			parse_str($_POST['data'],$post);
+			$total = 0;
+			foreach ($_SESSION['cart'] as $key => $item) {
+				$total += $item['total'];
+			}
+			$items = $_SESSION['cart'];
+			$post['patient_id'] = $user['patient_id'];
+			$post['total'] = $total;
+			$post['sub_total'] = $total;
+			$post['items'] = count($_SESSION['cart']);
+			if ($post['payment_method'] == 'online') {
+				$stripeAmount = ($total+10)*100;
+				require_once('application/libraries/stripe-php/init.php');
+				\Stripe\Stripe::setApiKey($this->config->item('stripe_secret'));
+
+
+				$charge = \Stripe\Charge::create ([
+					"amount" => $stripeAmount,
+					"currency" => "pkr",
+					"source" => $post['stripe_token'],
+					"description" => "new medicine order"
+				]);
+				$status = $charge->status;
+				if ($status == 'succeeded') {
+					$post['strip_id'] = $charge->id;
+					$post['strip_balance_transaction'] = $charge->balance_transaction;
+				}
+				else{
+					echo json_encode(array("status"=>fasle,"msg"=>"payment process not completed, please try again or reload your web page."));
+					exit;
+				}
+			}
+			unset($post['stripe_token']);
+			$resp = $this->db->insert('order',$post);
+			$order_id = $this->db->insert_id();
+			if ($resp) {
+				foreach ($_SESSION['cart'] as $key => $q) {
+					$insert = $q;
+					$insert['order_id'] = $order_id;
+					$this->db->insert('order_item',$insert);
+				}
+				unset($_SESSION['cart']);
+				unset($_SESSION['cart_ids']);
+				/**
+				 * Email sending
+				*/
+				$emailData['order'] = $post;
+				$emailData['items'] = $items;
+				$emailData['patient'] = $user;
+				//patient
+				$this->send_mail('New Appointment Created',$this->load->view('email/patient_medicine_order',$emailData,true),$post['email'],false);
+
+				echo json_encode(array("status"=>true,"msg"=>"Order created"));
+			}
+			else{
+				echo json_encode(array("status"=>fasle,"msg"=>"Order not created, please try again or reload your webpage."));
+			}
+		}
+		else{
+			echo json_encode(array("status"=>fasle,"msg"=>"not login, please login first."));
+		}
+	}
 	/**
 
 
@@ -739,6 +817,61 @@ class Home extends CI_Controller {
 		}
 		$html = $this->load->view('html/medicine_listing',$data, TRUE);
 		echo json_encode(array("status"=>true,"html"=>$html));
+	}
+	public function add_to_cart()
+	{
+		$product = $this->model->get_product_byid($_POST['id']);
+		if ($_POST['key'] == 'false') {
+			$cart['product_id'] = $_POST['id'];
+			$cart['title'] = $product['title'];
+			$cart['image'] = $product['image'];
+			$cart['qty'] = $_POST['qty'];
+			$cart['price'] = $product['price'];
+			$cart['total'] = $product['price']*$_POST['qty'];
+			$_SESSION['cart'][] = $cart;
+			$key = $_SESSION['cart'][count($_SESSION['cart'])-1];
+			$msg = "product added to the cart successfully";
+		}
+		else{
+			$_SESSION['cart'][$_POST['key']]['qty'] = $_POST['qty'];
+			$_SESSION['cart'][$_POST['key']]['total'] = $product['price']*$_POST['qty'];
+			$key = $_POST['key'];
+			$msg = "Quantity Updated successfully";
+		}
+		$total = 0;
+		foreach ($_SESSION['cart'] as $k => $q) {
+			$total += $q['total'];
+			$_SESSION['cart_ids'][$k] = $q['product_id'];
+		}
+		echo json_encode(array("status"=>true,"total"=>$total,"key"=>$key,"msg"=>$msg,"type"=>"success","count"=>count($_SESSION['cart'])));
+	}
+	public function cart_quantity()
+	{
+		$_SESSION['cart'][$_POST['key']]['qty'] = $_POST['qty'];
+		$_SESSION['cart'][$_POST['key']]['total'] = $_SESSION['cart'][$_POST['key']]['price']*$_POST['qty'];
+		$msg = "Quantity Updated successfully";
+		$total = 0;
+		foreach ($_SESSION['cart'] as $k => $q) {
+			$total += $q['total'];
+			$_SESSION['cart_ids'][$k] = $q['product_id'];
+		}
+		echo json_encode(array("status"=>true,"total"=>$total,"msg"=>$msg,"type"=>"success","count"=>count($_SESSION['cart']),"itemTotal"=>number_format($_SESSION['cart'][$_POST['key']]['total'])));
+	}
+	public function delete_cart_item()
+	{
+		unset($_SESSION['cart'][$_POST['key']]['product_id']);
+		unset($_SESSION['cart'][$_POST['key']]['title']);
+		unset($_SESSION['cart'][$_POST['key']]['image']);
+		unset($_SESSION['cart'][$_POST['key']]['qty']);
+		unset($_SESSION['cart'][$_POST['key']]['price']);
+		unset($_SESSION['cart'][$_POST['key']]['total']);
+		unset($_SESSION['cart'][$_POST['key']]);
+		$total = 0;
+		foreach ($_SESSION['cart'] as $k => $q) {
+			$total += $q['total'];
+			$_SESSION['cart_ids'][$k] = $q['product_id'];
+		}
+		echo json_encode(array("status"=>true,"total"=>$total,"msg"=>'product deleted from cart.',"type"=>"success","count"=>count($_SESSION['cart'])));
 	}
 	/**
 

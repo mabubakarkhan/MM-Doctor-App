@@ -64,6 +64,12 @@ $route["medicine/(.*)"] = 'Home/medicine/$1';
 $route["category/(.*)"] = 'Home/medicine/$1';
 $route["get-products-by-cat"] = 'Home/get_products_by_ajax';
 $route["product/(.*)"] = 'Home/product/$1';
+$route["add-to-cart"] = 'Home/add_to_cart';
+$route["cart-quantity"] = 'Home/cart_quantity';
+$route["delete-cart-item"] = 'Home/delete_cart_item';
+$route["cart"] = 'Home/cart';
+$route["cart-checkout"] = 'Home/cart_checkout';
+$route["submit-cart-checkout"] = 'Home/submit_cart_checkout';
 
 
 //Pages
@@ -110,6 +116,8 @@ $route["patient/get-chat"] = 'patient/get_chat';
 $route["patient/post-message"] = 'patient/post_message';
 $route["patient/new-messages-auto"] = 'patient/new_messages_auto';
 $route["patient/groups-list-auto"] = 'patient/groups_list_auto';
+$route["patient/delete-order"] = 'patient/delete_order';
+$route["patient/get-order-detail"] = 'patient/get_order_detail';
 
 
 //Doctor

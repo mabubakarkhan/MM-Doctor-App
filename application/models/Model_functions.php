@@ -753,4 +753,30 @@ class Model_functions extends CI_Model {
 			WHERE p.product_id = '$id' 
 		");
 	}
+	public function get_orders_by_patient_id($patient_id)
+	{
+		return $this->get_results("
+			SELECT o.*, c.name AS cityName, s.name AS stateName 
+			FROM `order` AS o 
+			LEFT JOIN `state` AS s ON o.state_id = s.state_id 
+			LEFT JOIN `city` AS c ON o.city_id = c.city_id 
+			WHERE `patient_id` = '$patient_id' 
+			ORDER BY `order_id` DESC
+		;");
+	}
+	public function orders($status)
+	{
+		$where = '';
+		if ($status != 'all') {
+			$where = "WHERE `status` = '".$status."'";
+		}
+		return $this->get_results("
+			SELECT o.*, c.name AS cityName, s.name AS stateName 
+			FROM `order` AS o 
+			LEFT JOIN `state` AS s ON o.state_id = s.state_id 
+			LEFT JOIN `city` AS c ON o.city_id = c.city_id 
+			$where 
+			ORDER BY `order_id` DESC
+		;");
+	}
 }

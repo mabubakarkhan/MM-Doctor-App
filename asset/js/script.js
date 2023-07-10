@@ -606,7 +606,7 @@ Version      : 1.3
 	$('.quantity-left-minus').click(function(e){
 		e.preventDefault();
 		var quantity = parseInt($('#quantity').val());
-		if(quantity>0){
+		if(quantity>0 && quantity != 1){
 			$('#quantity').val(quantity - 1);
 		}
 	});

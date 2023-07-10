@@ -76,6 +76,12 @@ class Patient extends CI_Controller {
 	/*     TEMPLATE     */
 	public function template($page = '', $data = '', $jsScript = false)
 	{
+		$data['cats'] = $this->model->cats('active');
+		$data['services'] = $this->model->services();
+		$data['specializations'] = $this->model->specializations();
+		$data['featured_hospitals'] = $this->model->featured_hospitals();
+		$data['conditions_featured'] = $this->model->conditions_featured();
+		$data['setting'] = $this->model->setting(1);
 		$this->load->view('header',$data);
 		$this->load->view($page,$data);
 		$this->load->view('footer',$data);
@@ -411,6 +417,45 @@ class Patient extends CI_Controller {
 		else{
 			echo json_encode(array("status"=>false,"msg"=>"Something went wrong.","type"=>"error"));
 		}
+	}
+	public function orders()
+	{
+		$user = $this->check_login();
+		$data['page_title'] = 'Orders';
+		$data['orders_active'] = 'active';
+		$data['userSession'] = $user;
+		$data['orders'] = $this->model->get_orders_by_patient_id($user['patient_id']);
+		$this->template('patient/orders',$data, "orders");
+	}
+	public function delete_order()
+	{
+		$user = $this->check_login();
+		$this->db->set('status','cancelled')->where('order_id',$_POST['order'])->where('patient_id',$user['patient_id'])->update('order');
+		echo json_encode(array("status"=>true,"msg"=>"Order deleted.","type"=>"success"));
+	}
+	public function get_order_detail()
+	{
+		$user = $this->check_login();
+		$items = $this->db->where('order_id',$_POST['order'])->from('order_item')->get();
+		$html = '';
+		$total = 0;
+		if ($items->num_rows() > 0) {
+			foreach ($items->result_array() as $key => $q) {
+				$html .= '<tr>';
+					$html .= '<td><img src="'.UPLOADS.$q['image'].'" width="75"></td>';
+					$html .= '<td>'.$q['title'].'</td>';
+					$html .= '<td>'.$q['qty'].'</td>';
+					$html .= '<td>'.number_format($q['price']).'</td>';
+					$html .= '<td>'.number_format(($q['price']*$q['qty'])).'</td>';
+				$html .= '</tr>';
+				$total += ($q['price']*$q['qty']);
+			}
+			$html .= '<tr>';
+				$html .= '<td colspan="4"></td>';
+				$html .= '<td><strong>'.number_format($total).'</strong></td>';
+			$html .= '</tr>';
+		}
+		echo json_encode(array("status"=>true,"html"=>$html));
 	}
 	/**
 	*

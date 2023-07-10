@@ -349,6 +349,18 @@ class Admin extends CI_Controller {
 		$data['type'] = $type;
 		$this->template('admin/faqs',$data);
 	}
+	public function orders($status)
+	{
+		$user = $this->check_login();
+		$data['title'] = "Admin Panel";
+		$data['menu'] = str_replace('-', '_', $status).'_orders';
+		$status = str_replace('-', ' ', $status);
+		$data['page_title'] = $status.' orders';
+		$data['orders'] = $this->model->orders($status);
+		$data['msg_code'] = isset($_GET['msg']) && $_GET['msg'] != '' ? $_GET['msg'] : FALSE;
+		$data['error'] = isset($_GET['error']) && $_GET['error'] != '' ? 'error' : 'correct';
+		$this->template('admin/orders', $data);
+	}
 	public function cats($status = 'all')
 	{
 		$user = $this->check_login();
@@ -1372,6 +1384,20 @@ class Admin extends CI_Controller {
 			}
 		}
 	}
+	public function change_order_status()
+	{
+		if ($_POST) {
+			$user = $this->check_login();
+			$this->db->where('order_id',$_POST['id']);
+			$resp  = $this->db->update('order',array("status"=>$_POST['status']));
+			if ($resp) {
+				echo json_encode(array("msg"=>"Saved"));
+			}
+			else{
+				echo json_encode(array("msg"=>"Not Saved"));
+			}
+		}
+	}
 	public function change_cat_status()
 	{
 		if ($_POST) {
@@ -1510,6 +1536,30 @@ class Admin extends CI_Controller {
 		$specialities = implode(',',$post['speciality_id']);
 		$this->db->where('hospital_id',$post['id'])->set('specialities',$specialities)->update('hospital');
 		echo json_encode(array("status"=>true,"msg"=>"updated :)"));
+	}
+	public function get_order_detail()
+	{
+		$user = $this->check_login();
+		$items = $this->db->where('order_id',$_POST['order'])->from('order_item')->get();
+		$html = '';
+		$total = 0;
+		if ($items->num_rows() > 0) {
+			foreach ($items->result_array() as $key => $q) {
+				$html .= '<tr>';
+					$html .= '<td><img src="'.UPLOADS.$q['image'].'" width="75"></td>';
+					$html .= '<td>'.$q['title'].'</td>';
+					$html .= '<td>'.$q['qty'].'</td>';
+					$html .= '<td>'.number_format($q['price']).'</td>';
+					$html .= '<td>'.number_format(($q['price']*$q['qty'])).'</td>';
+				$html .= '</tr>';
+				$total += ($q['price']*$q['qty']);
+			}
+			$html .= '<tr>';
+				$html .= '<td colspan="4"></td>';
+				$html .= '<td><strong>'.number_format($total).'</strong></td>';
+			$html .= '</tr>';
+		}
+		echo json_encode(array("status"=>true,"html"=>$html));
 	}
 	/**
 	*

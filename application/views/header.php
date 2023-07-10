@@ -53,7 +53,7 @@
                             </a>
                         </div>
                         <ul class="main-nav">
-                            <li class="active">
+                            <li>
                                 <a href="<?=BASEURL?>">Home</a>
                             </li>
                             <li class="has-submenu has-magamenu">
@@ -114,9 +114,12 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="login-link">
-                                <a href="login">Login / Signup</a>
-                            </li>
+                            <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
+                                <li><a href="<?=BASEURL.'cart'?>" class="cartMenuLink"><i class="fa-solid fa-cart-plus" style="color:red;font-size: 15px;"></i> Cart</a></li>
+                            <?php else: ?>
+                                <li><a href="<?=BASEURL.'cart'?>" class="cartMenuLink"><i class="fa-solid fa-cart-shopping" style="font-size: 15px;"></i> Cart</a></li>
+                            <?php endif ?>
+                            <li></li>
                         </ul>
                     </div>
                     <?php if ($userSession): ?>

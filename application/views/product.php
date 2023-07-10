@@ -31,29 +31,70 @@
 									</h2>
 								</div>
 								<span class="badge success-status">In stock</span>
-								<div class="custom-increment pt-4">
-									<div class="input-group1">
-										<span class="input-group-btn float-start">
-											<button type="button" class="quantity-left-minus btn btn-danger btn-number"
-												data-type="minus" data-field="">
-												<span><i class="fas fa-minus"></i></span>
-											</button>
-										</span>
-										<input type="text" id="quantity" name="quantity" class=" input-number"
-											value="10">
-										<span class="input-group-btn float-end">
-											<button type="button" class="quantity-right-plus btn btn-success btn-number"
-												data-type="plus" data-field="">
-												<span><i class="fas fa-plus"></i></span>
-											</button>
-										</span>
+								<?php
+								$btnText = 'Add To Cart';
+								$key = 'false';
+								$item['qty'] = 1;
+								?>
+								<?php if (in_array($product['product_id'], $_SESSION['cart_ids'])): ?>
+									<?php
+									$btnText = 'Update Quantity';
+									?>
+									<?php foreach ($_SESSION['cart'] as $key => $item): ?>
+										<?php if ($item['product_id'] == $product['product_id']): ?>
+											<?php break; ?>
+										<?php endif ?>
+									<?php endforeach ?>
+									<input type="hidden" id="cartItemKey" value="<?=$key?>">
+									<div class="custom-increment pt-4">
+										<div class="input-group1">
+											<span class="input-group-btn float-start">
+												<button type="button" class="quantity-left-minus btn btn-danger btn-number"
+													data-type="minus" data-field="">
+													<span><i class="fas fa-minus"></i></span>
+												</button>
+											</span>
+											<input type="text" id="quantity" name="quantity" class=" input-number"
+												value="<?=$item['qty']?>">
+											<span class="input-group-btn float-end">
+												<button type="button" class="quantity-right-plus btn btn-success btn-number"
+													data-type="plus" data-field="">
+													<span><i class="fas fa-plus"></i></span>
+												</button>
+											</span>
+										</div>
 									</div>
-								</div>
-								<div class="clinic-details mt-4">
-									<div class="clinic-booking">
-										<a class="apt-btn" href="javascript://">Add To Cart</a>
+									<div class="clinic-details mt-4">
+										<div class="clinic-booking">
+											<a class="apt-btn add-to-cart-btn" href="javascript://" data-id="<?=$product['product_id']?>"><?=$btnText?></a>
+										</div>
 									</div>
-								</div>
+								<?php else: ?>
+									<input type="hidden" id="cartItemKey" value="<?=$key?>">
+									<div class="custom-increment pt-4">
+										<div class="input-group1">
+											<span class="input-group-btn float-start">
+												<button type="button" class="quantity-left-minus btn btn-danger btn-number"
+													data-type="minus" data-field="">
+													<span><i class="fas fa-minus"></i></span>
+												</button>
+											</span>
+											<input type="text" id="quantity" name="quantity" class=" input-number"
+												value="1">
+											<span class="input-group-btn float-end">
+												<button type="button" class="quantity-right-plus btn btn-success btn-number"
+													data-type="plus" data-field="">
+													<span><i class="fas fa-plus"></i></span>
+												</button>
+											</span>
+										</div>
+									</div>
+									<div class="clinic-details mt-4">
+										<div class="clinic-booking">
+											<a class="apt-btn add-to-cart-btn" href="javascript://" data-id="<?=$product['product_id']?>">Add To Cart</a>
+										</div>
+									</div>
+								<?php endif ?>
 								<!-- <div class="flex-fill mt-4 mb-0">
 									<ul class="list-group clinic-group">
 										<li class="list-group-item">SKU <span class="float-end">201902-0057</span></li>

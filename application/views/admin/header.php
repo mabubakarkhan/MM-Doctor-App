@@ -296,6 +296,50 @@
             <li class="site-menu-item has-sub">
               <a href="javascript:void(0)">
                 <i class="site-menu-icon md-view-compact" aria-hidden="true"></i>
+                <span class="site-menu-title">Orders</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li rel="all_orders" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/orders/all">
+                        <span class="site-menu-title">All</span>
+                    </a>
+                </li>
+                <li rel="pending_orders" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/orders/pending">
+                        <span class="site-menu-title">Pending</span>
+                    </a>
+                </li>
+                <li rel="in_process_orders" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/orders/in-process">
+                        <span class="site-menu-title">In Process</span>
+                    </a>
+                </li>
+                <li rel="on_way_orders" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/orders/on-way">
+                        <span class="site-menu-title">On Way</span>
+                    </a>
+                </li>
+                <li rel="delivered_orders" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/orders/delivered">
+                        <span class="site-menu-title">Delivered</span>
+                    </a>
+                </li>
+                <li rel="returned_orders" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/orders/returned">
+                        <span class="site-menu-title">Returned</span>
+                    </a>
+                </li>
+                <li rel="cancelled_orders" class="site-menu-item">
+                    <a class="animsition-link" href="<?=BASEURL?>admin/orders/cancelled">
+                        <span class="site-menu-title">Cancelled</span>
+                    </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)">
+                <i class="site-menu-icon md-view-compact" aria-hidden="true"></i>
                 <span class="site-menu-title">Categories</span>
                 <span class="site-menu-arrow"></span>
               </a>

@@ -26,7 +26,7 @@
 		<![endif]-->
 </head>
 
-<body>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
     <div class="main-wrapper">
         <header class="header min-header">
             <nav class="navbar navbar-expand-lg header-nav">
@@ -53,7 +53,7 @@
                             </a>
                         </div>
                         <ul class="main-nav">
-                            <li>
+                            <li class="active">
                                 <a href="<?=BASEURL?>">Home</a>
                             </li>
                             <li class="has-submenu has-magamenu">
@@ -114,12 +114,9 @@
                                     </div>
                                 </div>
                             </li>
-                            <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
-                                <li><a href="<?=BASEURL.'cart'?>" class="cartMenuLink"><i class="fa-solid fa-cart-plus" style="color:red;font-size: 15px;"></i> Cart</a></li>
-                            <?php else: ?>
-                                <li><a href="<?=BASEURL.'cart'?>" class="cartMenuLink"><i class="fa-solid fa-cart-shopping" style="font-size: 15px;"></i> Cart</a></li>
-                            <?php endif ?>
-                            <li></li>
+                            <li class="login-link">
+                                <a href="login">Login / Signup</a>
+                            </li>
                         </ul>
                     </div>
                     <?php if ($userSession): ?>

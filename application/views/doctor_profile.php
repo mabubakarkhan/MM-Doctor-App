@@ -120,6 +120,17 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
+                        <nav class="dr-nav">
+                            <ul class="nav">
+                                <li><a href="#Education">Education</a></li>
+                                <li><a href="#Work-Experience">Work & Experience</a></li>
+                                <li><a href="#awards">Awards</a></li>
+                                <li><a href="#Registrations">Registrations</a></li>
+                                <li><a href="#Memberships">Memberships</a></li>
+                                <li><a href="#Services">Services</a></li>
+                                <li><a href="#Specializations">Specializations</a></li>
+                            </ul>
+                        </nav>
                         <nav class="user-tabs mb-4">
                             <ul class="nav nav-tabs nav-tabs-bottom">
                                 <li class="nav-item">
@@ -136,6 +147,7 @@
                                 </li> -->
                             </ul>
                         </nav>
+                        
                         <div class="tab-content pt-0">
                             <div role="tabpanel" id="doc_overview" class="tab-pane fade show active">
                                 <div class="row">
@@ -149,9 +161,9 @@
                                         <?php endif ?>
                                     </div>
 
-                                    <div class="col-md-6 col-lg-6">
+                                    <div class="col-md-12 col-lg-12">
                                         <?php if ($educations): ?>
-                                            <div class="widget education-widget">
+                                            <div class="widget education-widget" id="Education">
                                                 <h4 class="widget-title">Education</h4>
                                                 <div class="experience-box">
                                                     <ul class="experience-list">
@@ -172,10 +184,11 @@
                                                     </ul>
                                                 </div>
                                             </div>
+                                            <hr>
                                         <?php endif ?>
 
                                         <?php if ($experiences): ?>
-                                            <div class="widget experience-widget">
+                                            <div class="widget experience-widget" id="Work-Experience">
                                                 <h4 class="widget-title">Work & Experience</h4>
                                                 <div class="experience-box">
                                                     <ul class="experience-list">
@@ -196,10 +209,11 @@
                                                     </ul>
                                                 </div>
                                             </div>
+                                            <hr>
                                         <?php endif ?>
 
                                         <?php if ($awards): ?>
-                                            <div class="widget awards-widget">
+                                            <div class="widget awards-widget" id="awards">
                                                 <h4 class="widget-title">Awards</h4>
                                                 <div class="experience-box">
                                                     <ul class="experience-list">
@@ -220,11 +234,12 @@
                                                     </ul>
                                                 </div>
                                             </div>
+                                            <hr>
                                         <?php endif ?>
                                     </div>
-                                    <div class="col-md-6 col-lg-6">
+                                    <div class="col-md-12 col-lg-12">
                                         <?php if ($registrations): ?>
-                                            <div class="widget awards-widget">
+                                            <div class="widget awards-widget" id="Registrations">
                                                 <h4 class="widget-title">Registrations</h4>
                                                 <div class="experience-box">
                                                     <ul class="experience-list">
@@ -245,10 +260,11 @@
                                                     </ul>
                                                 </div>
                                             </div>
+                                            <hr>
                                         <?php endif ?>
 
                                         <?php if ($memberships): ?>
-                                            <div class="widget awards-widget">
+                                            <div class="widget awards-widget" id="Memberships">
                                                 <h4 class="widget-title">Memberships</h4>
                                                 <div class="experience-box">
                                                     <ul class="experience-list">
@@ -268,14 +284,15 @@
                                                     </ul>
                                                 </div>
                                             </div>
+                                            <hr>
                                         <?php endif ?>
                                     </div>
-                                    <div class="col-md-6 col-lg-6">
+                                    <div class="col-md-12 col-lg-12">
                                         <?php
                                         $services = explode(',', $doctor['service_titles']);
                                         if ($services) {
                                             ?>
-                                            <div class="service-list">
+                                            <div class="service-list" id="Services">
                                                 <h4>Services</h4>
                                                 <ul class="clearfix">
                                                     <?php
@@ -289,12 +306,13 @@
                                         }
                                         ?>
                                     </div>
-                                    <div class="col-md-6 col-lg-6">
+                                    <hr>
+                                    <div class="col-md-12 col-lg-12">
                                         <?php
                                         $specializations = explode(',', $doctor['specialization_titles']);
                                         if ($specializations) {
                                             ?>
-                                            <div class="service-list">
+                                            <div class="service-list" id="Specializations">
                                                 <h4>Specializations</h4>
                                                 <ul class="clearfix">
                                                     <?php

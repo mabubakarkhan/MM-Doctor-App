@@ -162,3 +162,70 @@
         </div>
     </div><!-- #modal-appointment-info -->
 <?php endif ?>
+
+    <script>
+        $(window).scroll(function(){
+            if ($(this).scrollTop() > 100) {
+               $('.header').addClass('fixed-header');
+            } else {
+               $('.header').removeClass('fixed-header');
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+
+  var sectionIds = $('.dr-nav li a');
+
+    $(document).scroll(function(){
+        sectionIds.each(function(){
+
+            var container = $(this).attr('href');
+            var containerOffset = $(container).offset().top;
+            var containerHeight = $(container).outerHeight();
+            var containerBottom = containerOffset + containerHeight;
+            var scrollPosition = $(document).scrollTop();
+    
+            if(scrollPosition < containerBottom - 150 && scrollPosition >= containerOffset - 240){
+                $(this).addClass('active');
+            } else{
+                $(this).removeClass('active');
+            }
+        });
+    });
+});
+    </script>
+    <script>
+        var yourNavigation = $(".dr-nav .nav");
+        stickyDiv = "sticky";
+        yourHeader = $('.dr-nav').height();
+
+        $(window).scroll(function() {
+          if( $(this).scrollTop() > yourHeader ) {
+            yourNavigation.addClass(stickyDiv);
+          } else {
+            yourNavigation.removeClass(stickyDiv);
+          }
+        });
+    </script>
+    <script>
+        $(".dr-nav ul li a[href^='#']").on('click', function(e) {
+
+   // prevent default anchor click behavior
+   e.preventDefault();
+
+   // store hash
+   var hash = this.hash;
+
+   // animate
+   $('html, body').animate({
+       scrollTop: $(hash).offset().top-220
+     }, 1000, function(){
+
+       // when done, add hash to url
+       // (default click behaviour)
+      // window.location.hash = hash;
+     });
+
+});
+    </script>

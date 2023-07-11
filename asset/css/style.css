@@ -218,6 +218,10 @@ input[type=password] {
     margin-bottom: 1rem;
 }
 
+.breadcrumb-item + .breadcrumb-item::before{
+	content: "/" !important;
+}
+
 /*-----------------
 	2. Table
 -----------------------*/
@@ -1459,7 +1463,7 @@ button.bg-danger:hover {
 	margin-right: 10px;
 }
 .nav-tabs.nav-tabs-solid > li > a {
-	padding: 13px 30px;
+	padding: 8px 15px;
 }
 .nav-tabs.nav-tabs-solid > li > a:hover,
 .nav-tabs.nav-tabs-solid > li > a:focus {
@@ -2014,6 +2018,17 @@ button.bg-danger:hover {
 /*-----------------
 	11. Header
 -----------------------*/
+
+.fixed-header{
+	left: 0;
+	right: 0;
+	z-index: 999;
+	position: fixed;
+}
+.header{
+	transition: all .5s eas-in-out !important;
+	-webkit-transition: all .5s eas-in-out !important;
+}
 .nav-transparent{
 	background-color: transparent !important;
 	border-bottom: 0 !important;
@@ -2191,9 +2206,9 @@ button.bg-danger:hover {
     border: 1px solid #E5E5E5;
     background: #E5E5E5;
     border-radius: 8px;
-    padding: 13px 15px !important;
+    padding: 9px 15px !important;
 	width: 120px;
-	height: 50px;
+/*	height: 50px;*/
     text-align: center;
     font-size: 14px;
     color: #000;
@@ -4073,6 +4088,8 @@ html.menu-opened body {
 	margin-bottom: 30px;
 }
 .feature-box img {
+	height: 130px;
+	object-fit: cover;
     border-radius: 8px 8px 0px 0px;
 }
 .feature-content h3 {
@@ -6425,6 +6442,10 @@ body .multi-optn {
 	box-shadow: 0px 1px 0px #C5E5FF;
     padding: 15px 0;
 }
+.breadcrumb-bar .container-fluid{
+	max-widtH: 1240px;
+	margin: 0 auto;
+}
 .breadcrumb-bar .breadcrumb-title {
     color: #0071DC;
     font-size: 25px;
@@ -6757,14 +6778,14 @@ body .multi-optn {
 }
 .clinic-booking a {
     background-color: #fff;
-    border: 1px solid #E5F1FB;
+    border: 2px solid #0469c8;
 	border-radius: 8px;
     color: #0071DC;
     display: block;
     font-size: 13px;
     font-weight: 500;
     letter-spacing: 1px;
-    padding: 19px 29px;
+    padding: 12px 20px;
     text-align: center;
     text-transform: uppercase;
     width: 100%;
@@ -6846,13 +6867,13 @@ body .multi-optn {
 	border-radius: 8px;	
     color: #455A64;
     font-weight: 600;
-    padding: 15px 25px;
+    padding: 10px 10px;
 	text-align: center;
-    width: 275px;
-    height: 60px;
+    width: 170px;
+/*    height: 60px;*/
 	margin-right: 18px;
 	font-weight: 500;
-	font-size: 18px;
+	font-size: 16px;
 	margin-bottom: 5px;
 }
 .user-tabs .nav-tabs.nav-tabs-bottom > li > a.active, 
@@ -6887,10 +6908,14 @@ body .multi-optn {
 .experience-box {
 	position: relative;
 }
+#doc_overview hr{
+	margin: 50px 0;
+}
 .experience-list {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	display: flex;
 	position: relative;
 }
 .experience-list::before {
@@ -6901,9 +6926,11 @@ body .multi-optn {
 	position: absolute;
 	top: 8px;
 	width: 2px;
+	display: none;
 }
 .experience-list > li {
 	position: relative;
+	width: 50%;
 }
 .experience-list > li:last-child .experience-content {
 	margin-bottom: 0;
@@ -6923,10 +6950,11 @@ body .multi-optn {
 	position: absolute;
 	top: 4px;
 	width: 10px;
+	display: none;
 }
 .experience-list > li .experience-content {
 	background-color: #fff;
-	margin: 0 0 20px 40px;
+	margin: 0;
 	padding: 0;
 	position: relative;
 }
@@ -10727,6 +10755,8 @@ body .multi-optn {
 }
 .blog.grid-blog.grid-box .blog-image, .blog-image > a, .blog-image img {
 	border-radius: 8px;
+	height: 222px;
+	object-fit: cover;
 }
 .blog.grid-blog .blog-image img {
 	border-radius: 8px 8px 0 0;
@@ -11622,6 +11652,37 @@ ul.benifits-col li i{
 	border: none;
 	height: 400px;
 }
+.dr-nav{
+	top: 100px;
+	z-index: 99;
+	position: sticky;
+	padding: 20px 0 0;
+	background-color: #fff;
+}
+.dr-nav ul{
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+
+}
+.dr-nav ul li{
+	margin-bottom: 20px;
+}
+.dr-nav ul li a{
+	padding: 10px;
+	display: block;
+	font-size: 14px;
+	font-weight: 500;
+	border-radius: 5px;
+	margin-bottom: 5px;
+	border: 1px solid #455A64
+}
+.dr-nav ul li a:hover,
+.dr-nav ul li a.active{
+	color: #fff;
+	background-color: #0071DC;
+	border-color: #0071DC;
+}
 
 /*-----------------
 	49. Responsive
@@ -11649,7 +11710,7 @@ ul.benifits-col li i{
 }
 @media (min-width: 992px) {	
 	.container {
-		max-width: 1440px;
+		max-width: 1240px;
 	}
 	.main-nav > li {
 		margin-right: 15px;

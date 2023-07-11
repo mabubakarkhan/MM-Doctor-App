@@ -203,7 +203,7 @@
         </div>
         <div class="row blog-grid-row">
             <?php foreach ($blogs as $key => $blog): ?>
-                <div class="col-md-6 col-lg-3 col-sm-12">
+                <div class="col-md-6 col-lg-4 col-sm-12">
                     <div class="blog grid-blog">
                         <div class="blog-image">
                             <a href="<?=BASEURL.'post/'.$blog['slug']?>"><img class="img-fluid" src="<?=UPLOADS.$blog['image']?>" alt="<?=$blog['title']?>"></a>

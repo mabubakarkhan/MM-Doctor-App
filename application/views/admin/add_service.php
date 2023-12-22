@@ -27,7 +27,7 @@
 	        <div class="panel-body">
 	          <form id="exampleFullForm" autocomplete="off" enctype="multipart/form-data" method="post" action="
 	          	<?php
-		  		if($mode != edit)echo BASEURL."admin/post-service";
+		  		if($mode != 'edit')echo BASEURL."admin/post-service";
 			  	else echo BASEURL."admin/update-service";
 		  		?>">
 		  		<?php

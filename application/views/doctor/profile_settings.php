@@ -212,6 +212,7 @@
 							<div class="row form-row">
 								<div class="col-md-9">
 									<div class="form-group">
+										<?php var_dump($hospitals); ?>
 										<label>Clinic</label>
 										<select name="hospital_id" class="form-control select22" required>
 											<?php if ($hospitals): ?>

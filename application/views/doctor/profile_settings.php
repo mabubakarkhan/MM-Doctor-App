@@ -214,12 +214,16 @@
 									<div class="form-group">
 										<label>Clinic</label>
 										<select name="hospital_id" class="form-control select22" required>
-											<option value="">Select Clinic</option>
-											<?php foreach ($hospitals as $key => $hospital): ?>
-												<?php if (!(in_array($hospital['hospital_id'], $hospital_ids))): ?>
-													<option value="<?=$hospital['hospital_id']?>"><?=$hospital['name']?></option>
-												<?php endif ?>
-											<?php endforeach ?>
+											<?php if ($hospitals): ?>
+												<option value="">Select Clinic</option>
+												<?php foreach ($hospitals as $key => $hospital): ?>
+													<?php if (!(in_array($hospital['hospital_id'], $hospital_ids))): ?>
+														<option value="<?=$hospital['hospital_id']?>"><?=$hospital['name']?></option>
+													<?php endif ?>
+												<?php endforeach ?>
+											<?php else: ?>
+												<option value="">No Clinic Found</option>
+											<?php endif ?>
 										</select>
 									</div>
 								</div>

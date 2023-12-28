@@ -3,7 +3,6 @@ $(document).on('submit', '.register-doctor-form', function(event) {
 	event.preventDefault();
 	let form = $(this);
 	ajaxBtnLoader(form.find(".doctor-register-form-btn"));
-	return false;
 	ajaxFormSubmit(form, function(resp) {	
 		if(resp){
 			form.find(".doctor-register-form-btn").html('redirecting...');

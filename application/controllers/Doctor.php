@@ -172,7 +172,7 @@ class Doctor extends CI_Controller {
 	}
 	public function profile_settings()
 	{
-		error_reporting(E_ALL);
+		// error_reporting(E_ALL);
 		$user = $this->check_login();
 		// $data['meta_title'] = 'Dashboard';
 		$data['page_title'] = 'Profile Setting';

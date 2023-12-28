@@ -212,13 +212,12 @@
 							<div class="row form-row">
 								<div class="col-md-9">
 									<div class="form-group">
-										<?php var_dump($hospitals); ?>
 										<label>Clinic</label>
 										<select name="hospital_id" class="form-control select22" required>
 											<?php if ($hospitals): ?>
 												<option value="">Select Clinic</option>
 												<?php foreach ($hospitals as $key => $hospital): ?>
-													<?php if (!(in_array($hospital['hospital_id'], $hospital_ids))): ?>
+													<?php if ($hospital_ids && !(in_array($hospital['hospital_id'], $hospital_ids))): ?>
 														<option value="<?=$hospital['hospital_id']?>"><?=$hospital['name']?></option>
 													<?php endif ?>
 												<?php endforeach ?>

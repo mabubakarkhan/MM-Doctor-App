@@ -16,7 +16,7 @@
         <div class="page-header-actions">
             <a class="btn btn-sm btn-success btn-round" href='<?=BASEURL."admin/add-faq/".$type."/".$id?>'>
                 <i class="icon md-plus" aria-hidden="true"></i>
-                <span class="hidden-xs">Add News</span>
+                <span class="hidden-xs">Add FAQs</span>
             </a>
 
             <a class="btn btn-sm btn-primary btn-round" href="<?=BASEURL?>" target="_blank">

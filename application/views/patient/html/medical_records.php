@@ -30,6 +30,7 @@
                                             <th>#</th>
                                             <th>Appointment #</th>
                                             <th>Dated</th>
+                                            <th>Doctor</th>
                                             <th>Description</th>
                                             <th>Attachment</th>
                                             <th>View</th>
@@ -42,6 +43,7 @@
                                                     <td><?=$key+1?></td>
                                                     <td><?=$q['appointment_id']?></td>
                                                     <td><?=date('d M Y',strtotime($q['dated']))?></td>
+                                                    <td><?=$q['doctorFname'].' '.$q['doctorLname']?></td>
                                                     <td><?=$q['detail']?></td>
                                                     <td>
                                                         <a href="<?=UPLOADS.$q['file']?>" title="Download attachment" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-download"></i></a>

@@ -2,6 +2,7 @@
 $(".select2").select2();
 $(document).on('submit', 'form.medical-records-form', function(event) {
     event.preventDefault();
+    $("#medicalRecordsSearchResultsTable tbody").html('');
     let form = $(this);
     ajaxBtnLoader(form.find(".doctor-submit-btn"));
 
@@ -22,13 +23,11 @@ $(document).on('submit', 'form.medical-records-form', function(event) {
             })
         },
         error: function(xhr, status, error) {
-            errorCallback(error);
+            // errorCallback(error);
+            console.log(error);
         }
     });//ajax
 
 });
-
-
-
 
 </script>

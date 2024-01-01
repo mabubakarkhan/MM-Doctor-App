@@ -58,7 +58,7 @@
                     </tfoot>
                     <tbody>
                         <?php
-                        if (count($faqs) > 0) {
+                        if ($faqs && count($faqs) > 0) {
                             foreach ($faqs as $q): ?>
                                 <tr>
                                     <td><?=$q['faq_id']?></td>

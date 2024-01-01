@@ -1,4 +1,4 @@
-<?php if ($appointment): ?>
+<?php if ($records): ?>
     <div class="card">
         <div class="card-header">
 
@@ -24,12 +24,12 @@
                     <div class="border-top card-table mb-0">
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-hover table-center mb-0 records">
+                                <table class="table table-hover table-center mb-0 records" id="medicalRecordsSearchResultsTable">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Name</th>
                                             <th>Doctor</th>
+                                            <th>AT</th>
                                             <th>Description</th>
                                             <th>Attachment</th>
                                             <!-- <th>Action</th> -->
@@ -59,54 +59,6 @@
                         </div>
                     </div>
                 </div>
-
-
-                <!-- <div class="tab-pane fade" id="pat_prescription">
-                    <div class="border-top card-table mb-0">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-center mb-0 prescriptions">
-                                    <thead>
-                                        <tr>
-                                            <th>Date </th>
-                                            <th>Name</th>
-                                            <th>Prescription</th>
-                                            <th>Created by </th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><?=date('d M, Y',strtotime($appointment['appointment_date']))?></td>
-                                            <td><?=$appointment['prescription_title']?></td>
-                                            <td><?=$appointment['prescription']?></td>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <a href="javascript://"
-                                                        class="avatar avatar-sm me-2">
-                                                        <img class="avatar-img rounded-circle"
-                                                            src="<?=UPLOADS.$appointment['patientImg']?>"
-                                                            alt="User Image">
-                                                    </a>
-                                                    <a href="<?=BASEURL.'doctor-profile/'?><?=(strlen($appointment['username']) > 1) ? $appointment['username'] : $appointment['doctor_id']?>"><?=$appointment['doctorFname'].' '.$appointment['doctorLname']?></a>
-                                                </h2>
-                                            </td>
-                                            <td>
-                                                <div class="table-action">
-                                                    <a href="javascript:void(0);"
-                                                        class="btn btn-sm bg-info-light get-appointment-info" data-id="<?=$appointment['appointment_id']?>">
-                                                        <i class="far fa-eye"></i> View
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
 
             </div>
 

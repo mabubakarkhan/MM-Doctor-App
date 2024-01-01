@@ -275,6 +275,7 @@ class Patient extends CI_Controller {
 		$data['search_medical_records_active'] = 'active';
 		$data['userSession'] = $user;
 		$data['appointments'] = $this->model->appointments_by_patient($user['patient_id']);
+		$data['doctors'] = $this->model->get_doctors_by_patient($user['patient_id']);
 		if ($_SESSION['medical_records']['status'] == true) {
 			$resp['appointment'] = $this->model->get_appointment_by_id($_SESSION['medical_records']['appointment_id']);
 			$resp['records'] = $this->model->get_medical_records($_SESSION['medical_records']['appointment_id']);
@@ -289,9 +290,10 @@ class Patient extends CI_Controller {
 	public function get_medical_records()
 	{
 		$user = $this->check_login();
-		$resp['appointment'] = $this->model->get_appointment_by_id($_POST['appointment_id']);
-		$resp['records'] = $this->model->get_medical_records($_POST['appointment_id']);
-		if ($resp['appointment']) {
+		//$resp['appointment'] = $this->model->get_appointment_by_id($_POST['appointment_id']);
+		$_POST['patient_id'] = $user['patient_id'];
+		$resp['records'] = $this->model->get_medical_records_for_search($_POST);
+		if ($resp['records']) {
 			$html = $this->load->view('patient/html/search_medical_records',$resp, TRUE);
 			echo json_encode(array("status"=>true,"msg"=>"Appointment record loaded.","type"=>"success","html"=>$html));
 		}

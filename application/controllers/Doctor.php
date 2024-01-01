@@ -490,6 +490,7 @@ class Doctor extends CI_Controller {
 			}
 		}
 		else{
+			$timing_note = $_POST['timing_note'];unset($_POST['timing_note']);
 			$fee = $_POST['fee'];unset($_POST['fee']);
 			$_POST['doctor_id'] = $user['doctor_id'];
 			$this->db->insert('hospital',$_POST);
@@ -497,6 +498,7 @@ class Doctor extends CI_Controller {
 			$insert['hospital_id'] = $hospitalId;
 			$insert['doctor_id'] = $user['doctor_id'];
 			$insert['fee'] = $fee;
+			$insert['timing_note'] = $timing_note;
 			$this->db->insert('doctor_hospital',$insert);
 			$resp = $this->model->get_doctor_hospital_by_ids($user['doctor_id'],$hospitalId);
 			$hospitalChk = 'new';

@@ -88,7 +88,7 @@
                             <ul class="booking-total-list">
                                 <li>
                                     <span>Total</span>
-                                    <span class="total-cost">$<?=$doctorFee+10?></span>
+                                    <span class="total-cost"><?=CURRENCY?><?=$doctorFee+10?></span>
                                 </li>
                             </ul>
                         </div>

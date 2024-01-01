@@ -63,7 +63,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>First Name <span class="text-danger">*</span></label>
-										<input type="text" name="lname" value="<?=$userSession['lname']?>" class="form-control" required>
+										<input type="text" name="fname" value="<?=$userSession['fname']?>" class="form-control" required>
 									</div>
 								</div>
 								<div class="col-md-6">

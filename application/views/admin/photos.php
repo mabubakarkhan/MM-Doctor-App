@@ -54,7 +54,7 @@
                     </tfoot>
                     <tbody>
                         <?php
-                        if (count($photos) > 0) {
+                        if ($photos && count($photos) > 0) {
                             foreach ($photos as $q): ?>
                                 <tr>
                                     <td><img src="<?=UPLOADS.$q['img']?>" width="100"></td>

@@ -35,11 +35,22 @@
                             <div class="row form-row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="control-label">Appointment <span class="text-danger">*</span></label>
-                                        <select name="appointment_id" class="form-control select2" required>
+                                        <label class="control-label">Appointment</label>
+                                        <select name="appointment_id" class="form-control select2">
                                             <option value="">Select Appointment</option>
                                             <?php foreach ($appointments as $key => $appointmentQ): ?>
                                                 <option value="<?=$appointmentQ['appointment_id']?>" <?=($appointment['appointment_id'] == $appointmentQ['appointment_id']) ? 'selected' : ''?> ><?=$appointmentQ['appointment_id']?></option>
+                                            <?php endforeach ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Doctor</label>
+                                        <select name="doctor_id" class="form-control select2">
+                                            <option value="">Select Doctor</option>
+                                            <?php foreach ($doctors as $key => $doctor): ?>
+                                                <option value="<?=$doctor['doctor_id']?>"><?=$doctor['fname'].' '.$doctor['lname']?></option>
                                             <?php endforeach ?>
                                         </select>
                                     </div>

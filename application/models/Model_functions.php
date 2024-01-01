@@ -150,6 +150,16 @@ class Model_functions extends CI_Model {
 			ORDER BY d.ratting ASC
 		");
 	}
+	public function get_doctors_by_patient($patient)
+	{
+		return $this->get_results("
+			SELECT DISTINCT(mr.doctor_id) , d.fname, d.lname 
+			FROM  `medical_record` AS mr 
+			INNER JOIN  `doctor` AS d ON d.doctor_id = mr.doctor_id 
+			WHERE mr.patient_id = '$patient' 
+			ORDER BY d.fname, d.lname ASC
+		;");
+	}
 
 	public function countries()
 	{
@@ -526,6 +536,32 @@ class Model_functions extends CI_Model {
 			WHERE m.appointment_id = '$appointment' 
 			ORDER BY m.medical_record_id DESC
 		");
+	}
+	public function get_medical_records_for_search($post)
+	{
+		$chk = false;
+		$where = " m.patient_id = '".$post['patient_id']."'";
+		if (!(empty($post['appointment_id']))) {
+			$where .= " AND m.appointment_id = '".$post['appointment_id']."'";
+			$chk = true;
+		}
+		if (!(empty($post['doctor_id']))) {
+			$where .= " AND m.doctor_id = '".$post['doctor_id']."'";
+			$chk = true;
+		}
+		if ($chk) {
+			return $this->get_results("
+				SELECT m.*, p.fname AS 'patientFname', p.lname AS 'patientLname', d.fname AS 'doctorFname', d.lname AS 'doctorLname' 
+				FROM `medical_record` AS m 
+				INNER JOIN `patient` AS p ON m.patient_id = p.patient_id 
+				INNER JOIN `doctor` AS d ON m.doctor_id = d.doctor_id 
+				WHERE $where 
+				ORDER BY m.medical_record_id DESC
+			");
+		}
+		elsE{
+			return false;
+		}
 	}
 	public function get_medical_records_by_patient($patient)
 	{
